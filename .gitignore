@@ -1,0 +1,31 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Env secrets
+.env
+serving/.env
+frontend/.env.local
+frontend/.env.production
+
+# Node
+node_modules/
+.next/
+frontend/node_modules/
+
+# Data - too large for git
+ml/data/raw/
+ml/data/processed/
+
+# Model artifacts - keep small ones, exclude if too large
+# (joblib/json files are usually fine size-wise for this project, 
+#  but exclude if xgboost_model.joblib is large)
+
+# OS
+.DS_Store
+
+# Wandb/logs if any
+wandb/
+*.log
