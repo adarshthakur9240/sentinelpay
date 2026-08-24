@@ -9,36 +9,36 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Floating Soft Clay Sculptures along Z-Spine (Strict Dual Pastel Palette) ───
+// ─── Floating Soft Clay Sculptures Flanking Wide Flight Path (Strict Dual Pastel Palette) ───
 function SoftClayCorridor() {
   const groupRef = useRef<THREE.Group>(null!);
 
-  // Sculptures flanking the winding flight path across the corridor (Z = +10 to -145)
+  // Sculptures flanking the wide winding flight corridor (Z = +10 to -150)
   const sculptures = useMemo(() => {
     return [
       // Hero Viewport (Z = +8 to -12)
-      { type: "smooth-torus", pos: [7.5, 2.5, 0], scale: 1.5, color: "#F2B8C6", rot: [0.6, 0.4, 0.2] },
-      { type: "matte-sphere", pos: [-7.8, -2.2, -4], scale: 2.3, color: "#121218", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [8.5, -3.5, -8], scale: 1.3, color: "#A8B5E0", rot: [0.8, -0.4, 0.6] },
-      { type: "clay-pebble", pos: [-6.8, 3.8, -12], scale: 1.7, color: "#A8B5E0", rot: [0.3, 0.8, -0.2] },
+      { type: "smooth-torus", pos: [14.5, 3.0, 0], scale: 1.8, color: "#F2B8C6", rot: [0.6, 0.4, 0.2] },
+      { type: "matte-sphere", pos: [-15.0, -2.5, -4], scale: 2.6, color: "#121218", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [15.5, -4.0, -8], scale: 1.5, color: "#A8B5E0", rot: [0.8, -0.4, 0.6] },
+      { type: "clay-pebble", pos: [-13.5, 4.0, -12], scale: 2.0, color: "#A8B5E0", rot: [0.3, 0.8, -0.2] },
 
-      // Insight Viewport (Z = -20 to -50)
-      { type: "smooth-torus", pos: [-10.5, 2.0, -24], scale: 2.0, color: "#161620", rot: [0.2, 0.9, 0.4] },
-      { type: "matte-sphere", pos: [12.0, -2.8, -30], scale: 2.6, color: "#F2B8C6", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [-9.5, -3.2, -38], scale: 1.6, color: "#A8B5E0", rot: [-0.5, 0.3, 0.8] },
-      { type: "clay-pebble", pos: [11.5, 3.2, -45], scale: 1.8, color: "#F2B8C6", rot: [0.7, -0.6, 0.1] },
+      // Insight Viewport (Z = -20 to -52)
+      { type: "smooth-torus", pos: [-18.5, 2.5, -24], scale: 2.3, color: "#161620", rot: [0.2, 0.9, 0.4] },
+      { type: "matte-sphere", pos: [19.0, -3.0, -32], scale: 3.0, color: "#F2B8C6", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [-17.0, -3.5, -40], scale: 1.9, color: "#A8B5E0", rot: [-0.5, 0.3, 0.8] },
+      { type: "clay-pebble", pos: [18.0, 3.5, -48], scale: 2.2, color: "#F2B8C6", rot: [0.7, -0.6, 0.1] },
 
-      // Metrics & Architecture Viewport (Z = -55 to -95)
-      { type: "smooth-torus", pos: [12.5, 2.0, -60], scale: 2.3, color: "#F2B8C6", rot: [0.9, 0.2, -0.5] },
-      { type: "matte-sphere", pos: [-12.0, -2.2, -68], scale: 2.8, color: "#121218", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [10.5, -3.5, -78], scale: 1.7, color: "#A8B5E0", rot: [0.4, 0.8, -0.3] },
-      { type: "clay-pebble", pos: [-11.5, 3.5, -88], scale: 2.1, color: "#F2B8C6", rot: [-0.4, 0.5, 0.6] },
+      // Metrics & Architecture Viewport (Z = -58 to -95)
+      { type: "smooth-torus", pos: [19.5, 2.5, -62], scale: 2.6, color: "#F2B8C6", rot: [0.9, 0.2, -0.5] },
+      { type: "matte-sphere", pos: [-19.0, -2.5, -72], scale: 3.2, color: "#121218", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [17.5, -4.0, -82], scale: 2.0, color: "#A8B5E0", rot: [0.4, 0.8, -0.3] },
+      { type: "clay-pebble", pos: [-18.0, 3.8, -92], scale: 2.4, color: "#F2B8C6", rot: [-0.4, 0.5, 0.6] },
 
-      // CTA & Final Destination Viewport (Z = -100 to -145)
-      { type: "smooth-torus", pos: [-11.0, 2.2, -105], scale: 2.2, color: "#F2B8C6", rot: [0.3, -0.7, 0.5] },
-      { type: "matte-sphere", pos: [11.5, -1.8, -118], scale: 3.0, color: "#161620", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [-9.0, -3.5, -130], scale: 1.9, color: "#A8B5E0", rot: [0.6, 0.2, -0.8] },
-      { type: "clay-pebble", pos: [9.5, 2.8, -140], scale: 2.3, color: "#A8B5E0", rot: [0.5, 0.7, -0.4] },
+      // CTA & Final Destination Viewport (Z = -100 to -150)
+      { type: "smooth-torus", pos: [-17.0, 2.5, -108], scale: 2.5, color: "#F2B8C6", rot: [0.3, -0.7, 0.5] },
+      { type: "matte-sphere", pos: [17.5, -2.2, -120], scale: 3.4, color: "#161620", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [-15.0, -3.8, -132], scale: 2.1, color: "#A8B5E0", rot: [0.6, 0.2, -0.8] },
+      { type: "clay-pebble", pos: [14.5, 3.0, -145], scale: 2.5, color: "#A8B5E0", rot: [0.5, 0.7, -0.4] },
     ];
   }, []);
 
@@ -126,12 +126,12 @@ function DelicateEnergyArcs() {
   // Define 6 discrete energy connection paths bridging neighboring corridor sculptures
   const arcConfigs = useMemo(() => {
     return [
-      { start: [7.5, 2.5, 0], end: [-7.8, -2.2, -4], color: "#F2B8C6", interval: 3.2, offset: 0 },
-      { start: [-7.8, -2.2, -4], end: [8.5, -3.5, -8], color: "#A8B5E0", interval: 3.8, offset: 1.2 },
-      { start: [-10.5, 2.0, -24], end: [12.0, -2.8, -30], color: "#F2B8C6", interval: 4.1, offset: 2.1 },
-      { start: [12.0, -2.8, -30], end: [-9.5, -3.2, -38], color: "#A8B5E0", interval: 3.6, offset: 0.8 },
-      { start: [12.5, 2.0, -60], end: [-12.0, -2.2, -68], color: "#A8B5E0", interval: 4.5, offset: 1.8 },
-      { start: [-11.0, 2.2, -105], end: [11.5, -1.8, -118], color: "#F2B8C6", interval: 4.0, offset: 2.9 },
+      { start: [14.5, 3.0, 0], end: [-15.0, -2.5, -4], color: "#F2B8C6", interval: 3.2, offset: 0 },
+      { start: [-15.0, -2.5, -4], end: [15.5, -4.0, -8], color: "#A8B5E0", interval: 3.8, offset: 1.2 },
+      { start: [-18.5, 2.5, -24], end: [19.0, -3.0, -32], color: "#F2B8C6", interval: 4.1, offset: 2.1 },
+      { start: [19.0, -3.0, -32], end: [-17.0, -3.5, -40], color: "#A8B5E0", interval: 3.6, offset: 0.8 },
+      { start: [19.5, 2.5, -62], end: [-19.0, -2.5, -72], color: "#A8B5E0", interval: 4.5, offset: 1.8 },
+      { start: [-17.0, 2.5, -108], end: [17.5, -2.2, -120], color: "#F2B8C6", interval: 4.0, offset: 2.9 },
     ];
   }, []);
 
@@ -147,7 +147,7 @@ function DelicateEnergyArcs() {
         const t = i / segments;
         const pt = new THREE.Vector3().lerpVectors(pStart, pEnd, t);
         if (i > 0 && i < segments) {
-          const jitterAmp = 0.85;
+          const jitterAmp = 1.1;
           pt.x += (Math.random() - 0.5) * jitterAmp;
           pt.y += (Math.random() - 0.5) * jitterAmp;
           pt.z += (Math.random() - 0.5) * jitterAmp;
@@ -180,7 +180,7 @@ function DelicateEnergyArcs() {
       // Flash pulse for 0.4s during each cycle
       if (cycleTime < 0.4) {
         const pulse = Math.sin((cycleTime / 0.4) * Math.PI);
-        mat.opacity = pulse * 0.52;
+        mat.opacity = pulse * 0.55;
       } else {
         mat.opacity = 0;
       }
@@ -196,8 +196,14 @@ function DelicateEnergyArcs() {
   );
 }
 
-// ─── Soft Ambient Matte Particle Cloud ─────────────────────────────────────────
-function SoftClayDust({ count }: { count: number }) {
+// ─── Soft Ambient Particle Cloud with Dynamic Scroll Response ─────────────────
+function DynamicClayDust({
+  count,
+  velocityRef,
+}: {
+  count: number;
+  velocityRef: React.MutableRefObject<number>;
+}) {
   const pointsRef = useRef<THREE.Points>(null!);
 
   const [positions, colors] = useMemo(() => {
@@ -205,9 +211,9 @@ function SoftClayDust({ count }: { count: number }) {
     const col = new Float32Array(count * 3);
 
     for (let i = 0; i < count; i++) {
-      const radius = 3.0 + Math.random() * 12.0;
+      const radius = 3.0 + Math.random() * 18.0;
       const angle = Math.random() * Math.PI * 2;
-      const z = -Math.random() * 160 + 15;
+      const z = -Math.random() * 170 + 15;
 
       pos[i * 3] = Math.cos(angle) * radius;
       pos[i * 3 + 1] = Math.sin(angle) * radius;
@@ -232,8 +238,17 @@ function SoftClayDust({ count }: { count: number }) {
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
+    const vel = Math.abs(velocityRef.current);
+
     if (pointsRef.current) {
       pointsRef.current.rotation.z = t * 0.012;
+
+      // Subtle dynamic particle scale & opacity modulation during fast travel
+      const mat = pointsRef.current.material as THREE.PointsMaterial;
+      if (mat) {
+        mat.size = 0.08 + Math.min(0.06, vel * 0.00004);
+        mat.opacity = 0.42 + Math.min(0.22, vel * 0.00008);
+      }
     }
   });
 
@@ -261,46 +276,54 @@ function StudioLights() {
     <>
       <ambientLight intensity={0.48} />
       {/* Warm Key Light */}
-      <directionalLight position={[8, 12, 10]} intensity={2.2} color="#F7F6F3" />
+      <directionalLight position={[10, 14, 10]} intensity={2.2} color="#F7F6F3" />
       {/* Soft Rose Fill Light */}
-      <directionalLight position={[-8, -6, 5]} intensity={1.6} color="#F2B8C6" />
+      <directionalLight position={[-12, -6, 5]} intensity={1.6} color="#F2B8C6" />
       {/* Soft Periwinkle Rim Light */}
       <directionalLight position={[0, -10, -20]} intensity={1.4} color="#A8B5E0" />
       {/* Mid-Tunnel Soft Periwinkle Light */}
-      <pointLight position={[5, 4, -60]} intensity={2.2} color="#A8B5E0" />
+      <pointLight position={[8, 4, -60]} intensity={2.4} color="#A8B5E0" />
       {/* Deep-Tunnel Destination Rose Light */}
-      <pointLight position={[-5, -4, -110]} intensity={2.4} color="#F2B8C6" />
+      <pointLight position={[-8, -4, -110]} intensity={2.6} color="#F2B8C6" />
     </>
   );
 }
 
-// ─── Substantially Amplified S-Curve Flight Trajectory with Catmull-Rom Spline & Banking ───
-function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
+// ─── Unified High-Amplitude 3D Catmull-Rom Flight Controller with Dynamic Banking ───
+function FullPageCameraController({
+  isMobile,
+  velocityRef,
+}: {
+  isMobile: boolean;
+  velocityRef: React.MutableRefObject<number>;
+}) {
   const { camera } = useThree();
 
-  // Deliberate 3D S-curve spline flight path through explicit waypoints (2-3x amplitude)
+  // Unified single parametric 3D flight spline in X-Y-Z space with substantial amplitude
   const flightSpline = useMemo(() => {
     const waypoints = [
-      new THREE.Vector3(0, 0, 10),          // 0% - Start centered
-      new THREE.Vector3(7.2, 1.4, -28.75),   // 25% - Sweeps right
-      new THREE.Vector3(-7.5, -1.0, -67.5),  // 50% - Sweeps left
-      new THREE.Vector3(5.5, 0.8, -106.25),  // 75% - Sweeps right
-      new THREE.Vector3(0, 0, -145),         // 100% - Settles centered
+      new THREE.Vector3(0, 0, 10),           // 0.00: Hero (Start Centered)
+      new THREE.Vector3(12.5, 1.8, -25.0),    // 0.20: The 0.17% Challenge (Sweeps deep Right)
+      new THREE.Vector3(-13.5, -1.5, -60.0),  // 0.42: Empirical Metrics (Curves deep Left)
+      new THREE.Vector3(11.0, 1.2, -95.0),   // 0.68: Architecture Grid (Sweeps back Right)
+      new THREE.Vector3(-6.5, -0.8, -125.0),  // 0.85: Pre-CTA Approach (Gentle counter curve)
+      new THREE.Vector3(0, 0, -150.0),       // 1.00: Concluding Destination (Settles Centered)
     ];
     return new THREE.CatmullRomCurve3(waypoints, false, "catmullrom", 0.5);
   }, []);
 
   useEffect(() => {
     const perspCam = camera as THREE.PerspectiveCamera;
+    const baseFov = isMobile ? 80 : 62;
     perspCam.position.set(0, 0, 10);
-    perspCam.fov = isMobile ? 80 : 62;
+    perspCam.fov = baseFov;
     perspCam.updateProjectionMatrix();
 
     if (isMobile) {
       // Gentle floating animation on mobile with subtle weave
       const tween = gsap.to(perspCam.position, {
         z: -30,
-        x: 2.5,
+        x: 3.5,
         duration: 8,
         ease: "sine.inOut",
         yoyo: true,
@@ -311,7 +334,7 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
       };
     }
 
-    // Continuous GSAP ScrollTrigger driving Catmull-Rom 3D flight trajectory + natural banking
+    // Continuous GSAP ScrollTrigger driving unified Catmull-Rom 3D flight trajectory + banking
     const st = ScrollTrigger.create({
       trigger: typeof document !== "undefined" ? document.body : undefined,
       start: "top top",
@@ -322,24 +345,31 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
         const point = flightSpline.getPointAt(progress);
         const tangent = flightSpline.getTangentAt(progress).normalize();
 
+        // 1. Move camera position exactly along the 3D parametric curve
         perspCam.position.copy(point);
 
-        // Yaw: Look along flight trajectory direction
-        const yaw = Math.atan2(-tangent.x, -tangent.z);
-        perspCam.rotation.y = yaw;
+        // 2. Orient camera forward along the flight trajectory via look-ahead
+        const lookAheadProgress = Math.min(1, progress + 0.045);
+        const lookTarget = flightSpline.getPointAt(lookAheadProgress);
+        perspCam.lookAt(lookTarget);
 
-        // Roll: Natural banking tilt on turns (proportional to lateral velocity/tangent.x)
-        perspCam.rotation.z = -tangent.x * 0.16;
+        // 3. Apply natural banking roll into curves proportional to lateral curvature (tangent.x)
+        const bankingRoll = -tangent.x * 0.28;
+        perspCam.rotation.z += bankingRoll;
 
-        // Pitch: Subtle tilt with elevation contour
-        perspCam.rotation.x = tangent.y * 0.12;
+        // 4. Subtle FOV dilation during rapid scroll for cinematic travel feel
+        const velocity = self.getVelocity();
+        velocityRef.current = velocity;
+        const targetFov = baseFov + Math.min(6, Math.abs(velocity) * 0.002);
+        perspCam.fov = targetFov;
+        perspCam.updateProjectionMatrix();
       },
     });
 
     return () => {
       st.kill();
     };
-  }, [camera, isMobile, flightSpline]);
+  }, [camera, isMobile, flightSpline, velocityRef]);
 
   return null;
 }
@@ -347,6 +377,7 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
 // ─── Main HeroTunnel Component ─────────────────────────────────────────────────
 export default function HeroTunnel() {
   const [isMobile, setIsMobile] = useState(false);
+  const velocityRef = useRef<number>(0);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -355,7 +386,7 @@ export default function HeroTunnel() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const particleCount = isMobile ? 400 : 1100;
+  const particleCount = isMobile ? 400 : 1200;
 
   return (
     <Canvas
@@ -370,10 +401,10 @@ export default function HeroTunnel() {
       frameloop="always"
     >
       <StudioLights />
-      <FullPageCameraController isMobile={isMobile} />
+      <FullPageCameraController isMobile={isMobile} velocityRef={velocityRef} />
       <SoftClayCorridor />
       <DelicateEnergyArcs />
-      <SoftClayDust count={particleCount} />
+      <DynamicClayDust count={particleCount} velocityRef={velocityRef} />
       <Preload all />
     </Canvas>
   );
