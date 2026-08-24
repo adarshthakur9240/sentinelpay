@@ -164,7 +164,7 @@ export default function RiskConsolePage() {
   }, [activeThresholdRow]);
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#F7F6F3] px-4 py-10 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="relative min-h-screen bg-[#050505] text-[#F7F6F3] px-4 pt-28 sm:pt-32 pb-16 sm:px-6 lg:px-8 overflow-hidden">
       {/* 3D Ambient Clay Background Canvas */}
       <AmbientClayBackground />
 

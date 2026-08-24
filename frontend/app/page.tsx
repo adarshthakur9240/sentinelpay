@@ -308,7 +308,7 @@ export default function HomePage() {
       />
 
       {/* ── SECTION 1: Hero (Landmark 1) ─────────────────────────────────── */}
-      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-16 pb-24 text-center">
+      <section className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 pt-28 sm:pt-36 pb-24 text-center">
         {/* Soft Product Badge */}
         <motion.div
           initial={{ opacity: 0, y: -16 }}
