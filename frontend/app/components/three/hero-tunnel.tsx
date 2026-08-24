@@ -13,33 +13,32 @@ gsap.registerPlugin(ScrollTrigger);
 function SoftClayCorridor() {
   const groupRef = useRef<THREE.Group>(null!);
 
-  // Collection of soft clay sculptures along the Z-axis corridor (Z = +10 to -140)
-  // Strictly dual pastel accents: soft rose (#F2B8C6) and soft periwinkle (#A8B5E0)
+  // Sculptures flanking the winding flight path across the corridor (Z = +10 to -145)
   const sculptures = useMemo(() => {
     return [
-      // Hero Viewport (Z = +8 to -10)
-      { type: "smooth-torus", pos: [4.5, 2.2, 0], scale: 1.4, color: "#F2B8C6", rot: [0.6, 0.4, 0.2] },
-      { type: "matte-sphere", pos: [-5.2, -1.8, -4], scale: 2.1, color: "#121218", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [5.8, -3.2, -8], scale: 1.2, color: "#A8B5E0", rot: [0.8, -0.4, 0.6] },
-      { type: "clay-pebble", pos: [-3.8, 3.5, -12], scale: 1.6, color: "#A8B5E0", rot: [0.3, 0.8, -0.2] },
+      // Hero Viewport (Z = +8 to -12)
+      { type: "smooth-torus", pos: [7.5, 2.5, 0], scale: 1.5, color: "#F2B8C6", rot: [0.6, 0.4, 0.2] },
+      { type: "matte-sphere", pos: [-7.8, -2.2, -4], scale: 2.3, color: "#121218", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [8.5, -3.5, -8], scale: 1.3, color: "#A8B5E0", rot: [0.8, -0.4, 0.6] },
+      { type: "clay-pebble", pos: [-6.8, 3.8, -12], scale: 1.7, color: "#A8B5E0", rot: [0.3, 0.8, -0.2] },
 
       // Insight Viewport (Z = -20 to -50)
-      { type: "smooth-torus", pos: [-4.8, 1.5, -24], scale: 1.8, color: "#161620", rot: [0.2, 0.9, 0.4] },
-      { type: "matte-sphere", pos: [5.0, -2.5, -30], scale: 2.4, color: "#F2B8C6", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [-4.2, -3.0, -38], scale: 1.5, color: "#A8B5E0", rot: [-0.5, 0.3, 0.8] },
-      { type: "clay-pebble", pos: [4.5, 3.0, -45], scale: 1.7, color: "#F2B8C6", rot: [0.7, -0.6, 0.1] },
+      { type: "smooth-torus", pos: [-10.5, 2.0, -24], scale: 2.0, color: "#161620", rot: [0.2, 0.9, 0.4] },
+      { type: "matte-sphere", pos: [12.0, -2.8, -30], scale: 2.6, color: "#F2B8C6", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [-9.5, -3.2, -38], scale: 1.6, color: "#A8B5E0", rot: [-0.5, 0.3, 0.8] },
+      { type: "clay-pebble", pos: [11.5, 3.2, -45], scale: 1.8, color: "#F2B8C6", rot: [0.7, -0.6, 0.1] },
 
       // Metrics & Architecture Viewport (Z = -55 to -95)
-      { type: "smooth-torus", pos: [5.5, 1.8, -60], scale: 2.2, color: "#F2B8C6", rot: [0.9, 0.2, -0.5] },
-      { type: "matte-sphere", pos: [-5.5, -2.0, -68], scale: 2.6, color: "#121218", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [4.0, -3.5, -78], scale: 1.6, color: "#A8B5E0", rot: [0.4, 0.8, -0.3] },
-      { type: "clay-pebble", pos: [-4.5, 3.2, -88], scale: 2.0, color: "#F2B8C6", rot: [-0.4, 0.5, 0.6] },
+      { type: "smooth-torus", pos: [12.5, 2.0, -60], scale: 2.3, color: "#F2B8C6", rot: [0.9, 0.2, -0.5] },
+      { type: "matte-sphere", pos: [-12.0, -2.2, -68], scale: 2.8, color: "#121218", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [10.5, -3.5, -78], scale: 1.7, color: "#A8B5E0", rot: [0.4, 0.8, -0.3] },
+      { type: "clay-pebble", pos: [-11.5, 3.5, -88], scale: 2.1, color: "#F2B8C6", rot: [-0.4, 0.5, 0.6] },
 
       // CTA & Final Destination Viewport (Z = -100 to -145)
-      { type: "smooth-torus", pos: [-4.2, 2.0, -105], scale: 2.0, color: "#F2B8C6", rot: [0.3, -0.7, 0.5] },
-      { type: "matte-sphere", pos: [5.2, -1.5, -118], scale: 2.8, color: "#161620", rot: [0, 0, 0] },
-      { type: "pill-capsule", pos: [-3.5, -3.2, -130], scale: 1.8, color: "#A8B5E0", rot: [0.6, 0.2, -0.8] },
-      { type: "clay-pebble", pos: [4.2, 2.5, -140], scale: 2.2, color: "#A8B5E0", rot: [0.5, 0.7, -0.4] },
+      { type: "smooth-torus", pos: [-11.0, 2.2, -105], scale: 2.2, color: "#F2B8C6", rot: [0.3, -0.7, 0.5] },
+      { type: "matte-sphere", pos: [11.5, -1.8, -118], scale: 3.0, color: "#161620", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [-9.0, -3.5, -130], scale: 1.9, color: "#A8B5E0", rot: [0.6, 0.2, -0.8] },
+      { type: "clay-pebble", pos: [9.5, 2.8, -140], scale: 2.3, color: "#A8B5E0", rot: [0.5, 0.7, -0.4] },
     ];
   }, []);
 
@@ -124,15 +123,15 @@ function SoftClayCorridor() {
 function DelicateEnergyArcs() {
   const groupRef = useRef<THREE.Group>(null!);
 
-  // Define 6 discrete energy connection paths between neighboring corridor regions
+  // Define 6 discrete energy connection paths bridging neighboring corridor sculptures
   const arcConfigs = useMemo(() => {
     return [
-      { start: [4.5, 2.2, 0], end: [-5.2, -1.8, -4], color: "#F2B8C6", interval: 3.2, offset: 0 },
-      { start: [-5.2, -1.8, -4], end: [5.8, -3.2, -8], color: "#A8B5E0", interval: 3.8, offset: 1.2 },
-      { start: [-4.8, 1.5, -24], end: [5.0, -2.5, -30], color: "#F2B8C6", interval: 4.1, offset: 2.1 },
-      { start: [5.0, -2.5, -30], end: [-4.2, -3.0, -38], color: "#A8B5E0", interval: 3.6, offset: 0.8 },
-      { start: [5.5, 1.8, -60], end: [-5.5, -2.0, -68], color: "#A8B5E0", interval: 4.5, offset: 1.8 },
-      { start: [-4.2, 2.0, -105], end: [5.2, -1.5, -118], color: "#F2B8C6", interval: 4.0, offset: 2.9 },
+      { start: [7.5, 2.5, 0], end: [-7.8, -2.2, -4], color: "#F2B8C6", interval: 3.2, offset: 0 },
+      { start: [-7.8, -2.2, -4], end: [8.5, -3.5, -8], color: "#A8B5E0", interval: 3.8, offset: 1.2 },
+      { start: [-10.5, 2.0, -24], end: [12.0, -2.8, -30], color: "#F2B8C6", interval: 4.1, offset: 2.1 },
+      { start: [12.0, -2.8, -30], end: [-9.5, -3.2, -38], color: "#A8B5E0", interval: 3.6, offset: 0.8 },
+      { start: [12.5, 2.0, -60], end: [-12.0, -2.2, -68], color: "#A8B5E0", interval: 4.5, offset: 1.8 },
+      { start: [-11.0, 2.2, -105], end: [11.5, -1.8, -118], color: "#F2B8C6", interval: 4.0, offset: 2.9 },
     ];
   }, []);
 
@@ -148,7 +147,7 @@ function DelicateEnergyArcs() {
         const t = i / segments;
         const pt = new THREE.Vector3().lerpVectors(pStart, pEnd, t);
         if (i > 0 && i < segments) {
-          const jitterAmp = 0.65;
+          const jitterAmp = 0.85;
           pt.x += (Math.random() - 0.5) * jitterAmp;
           pt.y += (Math.random() - 0.5) * jitterAmp;
           pt.z += (Math.random() - 0.5) * jitterAmp;
@@ -181,7 +180,7 @@ function DelicateEnergyArcs() {
       // Flash pulse for 0.4s during each cycle
       if (cycleTime < 0.4) {
         const pulse = Math.sin((cycleTime / 0.4) * Math.PI);
-        mat.opacity = pulse * 0.48;
+        mat.opacity = pulse * 0.52;
       } else {
         mat.opacity = 0;
       }
@@ -206,7 +205,7 @@ function SoftClayDust({ count }: { count: number }) {
     const col = new Float32Array(count * 3);
 
     for (let i = 0; i < count; i++) {
-      const radius = 2.5 + Math.random() * 8.5;
+      const radius = 3.0 + Math.random() * 12.0;
       const angle = Math.random() * Math.PI * 2;
       const z = -Math.random() * 160 + 15;
 
@@ -275,9 +274,21 @@ function StudioLights() {
   );
 }
 
-// ─── Combined X + Z Camera Motion (Winding Corridor Journey) ────────────────────
+// ─── Substantially Amplified S-Curve Flight Trajectory with Catmull-Rom Spline & Banking ───
 function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
   const { camera } = useThree();
+
+  // Deliberate 3D S-curve spline flight path through explicit waypoints (2-3x amplitude)
+  const flightSpline = useMemo(() => {
+    const waypoints = [
+      new THREE.Vector3(0, 0, 10),          // 0% - Start centered
+      new THREE.Vector3(7.2, 1.4, -28.75),   // 25% - Sweeps right
+      new THREE.Vector3(-7.5, -1.0, -67.5),  // 50% - Sweeps left
+      new THREE.Vector3(5.5, 0.8, -106.25),  // 75% - Sweeps right
+      new THREE.Vector3(0, 0, -145),         // 100% - Settles centered
+    ];
+    return new THREE.CatmullRomCurve3(waypoints, false, "catmullrom", 0.5);
+  }, []);
 
   useEffect(() => {
     const perspCam = camera as THREE.PerspectiveCamera;
@@ -286,10 +297,10 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
     perspCam.updateProjectionMatrix();
 
     if (isMobile) {
-      // Gentle floating animation on mobile with subtle X/Z weave
+      // Gentle floating animation on mobile with subtle weave
       const tween = gsap.to(perspCam.position, {
         z: -30,
-        x: 1.5,
+        x: 2.5,
         duration: 8,
         ease: "sine.inOut",
         yoyo: true,
@@ -300,37 +311,35 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
       };
     }
 
-    // Continuous GSAP ScrollTrigger driving combined X+Z winding trajectory
+    // Continuous GSAP ScrollTrigger driving Catmull-Rom 3D flight trajectory + natural banking
     const st = ScrollTrigger.create({
       trigger: typeof document !== "undefined" ? document.body : undefined,
       start: "top top",
       end: "bottom bottom",
       scrub: 1.2,
       onUpdate: (self) => {
-        const progress = self.progress; // 0.0 -> 1.0
+        const progress = THREE.MathUtils.clamp(self.progress, 0, 1);
+        const point = flightSpline.getPointAt(progress);
+        const tangent = flightSpline.getTangentAt(progress).normalize();
 
-        // Forward Z travel along the corridor (+10 down to -145)
-        perspCam.position.z = 10 - progress * 155;
+        perspCam.position.copy(point);
 
-        // Elegant winding S-curve lateral drift (X-axis) tied to scroll
-        const dampingFactor = 1 - Math.pow(progress, 3) * 0.45;
-        const driftX = Math.sin(progress * Math.PI * 3.5) * 2.8 * dampingFactor;
-        perspCam.position.x = driftX;
+        // Yaw: Look along flight trajectory direction
+        const yaw = Math.atan2(-tangent.x, -tangent.z);
+        perspCam.rotation.y = yaw;
 
-        // Subtle vertical elevation contour (Y-axis)
-        const driftY = Math.cos(progress * Math.PI * 2.5) * 1.1 * dampingFactor;
-        perspCam.position.y = driftY;
+        // Roll: Natural banking tilt on turns (proportional to lateral velocity/tangent.x)
+        perspCam.rotation.z = -tangent.x * 0.16;
 
-        // Subtle natural camera roll and banking on curves
-        perspCam.rotation.z = -Math.cos(progress * Math.PI * 3.5) * 0.032 * dampingFactor;
-        perspCam.rotation.y = -Math.cos(progress * Math.PI * 3.5) * 0.04 * dampingFactor;
+        // Pitch: Subtle tilt with elevation contour
+        perspCam.rotation.x = tangent.y * 0.12;
       },
     });
 
     return () => {
       st.kill();
     };
-  }, [camera, isMobile]);
+  }, [camera, isMobile, flightSpline]);
 
   return null;
 }
