@@ -14,7 +14,6 @@ function SoftClayCorridor() {
   const groupRef = useRef<THREE.Group>(null!);
 
   // Collection of soft clay sculptures along the Z-axis corridor (Z = +10 to -140)
-  // Shifted to soft pastel blush rose, lavender, sage, and neutral slate
   const sculptures = useMemo(() => {
     return [
       // Hero Viewport (Z = +8 to -10)
@@ -120,6 +119,83 @@ function SoftClayCorridor() {
   );
 }
 
+// ─── Delicate Pastel Energy Arcs / Lightning Visual Accent ─────────────────────
+function DelicateEnergyArcs() {
+  const groupRef = useRef<THREE.Group>(null!);
+
+  // Define 6 discrete energy connection paths between neighboring corridor regions
+  const arcConfigs = useMemo(() => {
+    return [
+      { start: [4.5, 2.2, 0], end: [-5.2, -1.8, -4], color: "#F2B8C6", interval: 3.2, offset: 0 },
+      { start: [-5.2, -1.8, -4], end: [5.8, -3.2, -8], color: "#D4C8EB", interval: 3.8, offset: 1.2 },
+      { start: [-4.8, 1.5, -24], end: [5.0, -2.5, -30], color: "#F2B8C6", interval: 4.1, offset: 2.1 },
+      { start: [5.0, -2.5, -30], end: [-4.2, -3.0, -38], color: "#B5D8C5", interval: 3.6, offset: 0.8 },
+      { start: [5.5, 1.8, -60], end: [-5.5, -2.0, -68], color: "#D4C8EB", interval: 4.5, offset: 1.8 },
+      { start: [-4.2, 2.0, -105], end: [5.2, -1.5, -118], color: "#F2B8C6", interval: 4.0, offset: 2.9 },
+    ];
+  }, []);
+
+  // Pre-generate Three.js Line objects with jagged vertices
+  const arcLines = useMemo(() => {
+    return arcConfigs.map((config) => {
+      const pStart = new THREE.Vector3(...(config.start as [number, number, number]));
+      const pEnd = new THREE.Vector3(...(config.end as [number, number, number]));
+      const points: THREE.Vector3[] = [];
+      const segments = 8;
+
+      for (let i = 0; i <= segments; i++) {
+        const t = i / segments;
+        const pt = new THREE.Vector3().lerpVectors(pStart, pEnd, t);
+        if (i > 0 && i < segments) {
+          const jitterAmp = 0.65;
+          pt.x += (Math.random() - 0.5) * jitterAmp;
+          pt.y += (Math.random() - 0.5) * jitterAmp;
+          pt.z += (Math.random() - 0.5) * jitterAmp;
+        }
+        points.push(pt);
+      }
+
+      const geom = new THREE.BufferGeometry().setFromPoints(points);
+      const mat = new THREE.LineBasicMaterial({
+        color: new THREE.Color(config.color),
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+      });
+
+      return new THREE.Line(geom, mat);
+    });
+  }, [arcConfigs]);
+
+  // Subtle pulsing animation for each arc
+  useFrame((state) => {
+    const time = state.clock.elapsedTime;
+    arcLines.forEach((line, i) => {
+      const config = arcConfigs[i];
+      if (!config) return;
+
+      const mat = line.material as THREE.LineBasicMaterial;
+      const cycleTime = (time + config.offset) % config.interval;
+
+      // Flash pulse for 0.4s during each cycle
+      if (cycleTime < 0.4) {
+        const pulse = Math.sin((cycleTime / 0.4) * Math.PI);
+        mat.opacity = pulse * 0.48;
+      } else {
+        mat.opacity = 0;
+      }
+    });
+  });
+
+  return (
+    <group ref={groupRef}>
+      {arcLines.map((line, idx) => (
+        <primitive key={idx} object={line} />
+      ))}
+    </group>
+  );
+}
+
 // ─── Soft Ambient Matte Particle Cloud ─────────────────────────────────────────
 function SoftClayDust({ count }: { count: number }) {
   const pointsRef = useRef<THREE.Points>(null!);
@@ -198,7 +274,7 @@ function StudioLights() {
   );
 }
 
-// ─── Single Full-Page Camera Controller ────────────────────────────────────────
+// ─── Combined X + Z Camera Motion (Winding Corridor Journey) ────────────────────
 function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
   const { camera } = useThree();
 
@@ -209,9 +285,10 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
     perspCam.updateProjectionMatrix();
 
     if (isMobile) {
-      // Gentle floating animation on mobile
+      // Gentle floating animation on mobile with subtle X/Z weave
       const tween = gsap.to(perspCam.position, {
         z: -30,
+        x: 1.5,
         duration: 8,
         ease: "sine.inOut",
         yoyo: true,
@@ -222,7 +299,7 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
       };
     }
 
-    // Single continuous GSAP ScrollTrigger spanning the whole document height
+    // Continuous GSAP ScrollTrigger driving combined X+Z winding trajectory
     const st = ScrollTrigger.create({
       trigger: typeof document !== "undefined" ? document.body : undefined,
       start: "top top",
@@ -230,12 +307,23 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
       scrub: 1.2,
       onUpdate: (self) => {
         const progress = self.progress; // 0.0 -> 1.0
-        // Move camera smoothly along Z from +10 down to -145
+
+        // Forward Z travel along the corridor (+10 down to -145)
         perspCam.position.z = 10 - progress * 155;
-        // Organic subtle lateral drift that settles calmly at the destination
-        const driftFactor = 1 - Math.pow(progress, 3) * 0.5;
-        perspCam.position.x = Math.sin(progress * Math.PI * 2) * 0.8 * driftFactor;
-        perspCam.position.y = Math.cos(progress * Math.PI * 2) * -0.5 * driftFactor;
+
+        // Elegant winding S-curve lateral drift (X-axis) tied to scroll
+        // Uses a multi-wave harmonic that settles smoothly at destination
+        const dampingFactor = 1 - Math.pow(progress, 3) * 0.45;
+        const driftX = Math.sin(progress * Math.PI * 3.5) * 2.8 * dampingFactor;
+        perspCam.position.x = driftX;
+
+        // Subtle vertical elevation contour (Y-axis)
+        const driftY = Math.cos(progress * Math.PI * 2.5) * 1.1 * dampingFactor;
+        perspCam.position.y = driftY;
+
+        // Subtle natural camera roll and banking on curves
+        perspCam.rotation.z = -Math.cos(progress * Math.PI * 3.5) * 0.032 * dampingFactor;
+        perspCam.rotation.y = -Math.cos(progress * Math.PI * 3.5) * 0.04 * dampingFactor;
       },
     });
 
@@ -258,7 +346,7 @@ export default function HeroTunnel() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const particleCount = isMobile ? 400 : 1200;
+  const particleCount = isMobile ? 400 : 1100;
 
   return (
     <Canvas
@@ -275,6 +363,7 @@ export default function HeroTunnel() {
       <StudioLights />
       <FullPageCameraController isMobile={isMobile} />
       <SoftClayCorridor />
+      <DelicateEnergyArcs />
       <SoftClayDust count={particleCount} />
       <Preload all />
     </Canvas>
