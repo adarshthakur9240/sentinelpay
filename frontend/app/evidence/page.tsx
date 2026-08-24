@@ -65,16 +65,23 @@ export default function EvidencePage() {
   const handleGenerateExplanation = async () => {
     setIsLoading(true);
     const t0 = performance.now();
+    const activeTx = currentTx || SAMPLE_TRANSACTIONS.confirmed_fraud || {
+      id: "TXN-TEST-00404",
+      label: "Real Fraud Attack (Test Set #404)",
+      ground_truth: "FRAUD (Class 1)",
+      amount_usd: 122.21,
+      features: {},
+    };
 
     try {
       const response = await fetch("http://localhost:8000/explain", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          transaction_id: currentTx.id,
+          transaction_id: activeTx.id,
           merchant_id: "MERCH-DEMO-01",
-          amount_usd: currentTx.amount_usd,
-          features: currentTx.features,
+          amount_usd: activeTx.amount_usd,
+          features: activeTx.features,
           top_k: 5,
           threshold_override: 0.10,
         }),
@@ -88,7 +95,7 @@ export default function EvidencePage() {
       setExplainData(data);
     } catch (err: unknown) {
       const elapsed = performance.now() - t0;
-      const isFraud = selectedTxKey.includes("fraud");
+      const isFraud = String(selectedTxKey).includes("fraud");
       const fallbackRisk = isFraud ? 0.9998 : 0.0012;
       const isFlagged = fallbackRisk >= 0.10;
 
@@ -179,14 +186,14 @@ export default function EvidencePage() {
           ];
 
       setExplainData({
-        transaction_id: currentTx.id,
+        transaction_id: activeTx.id,
         risk_score: fallbackRisk,
         is_flagged: isFlagged,
         decision: isFlagged ? "FLAGGED_FOR_REVIEW" : "APPROVED",
         threshold_applied: 0.10,
         base_value: 2.1915,
         top_features: fallbackTopFeatures,
-        evidence_summary: `### SentinelPay Automated Fraud Evidence & Chargeback Dossier\n**Transaction ID:** ${currentTx.id} | **Amount:** $${currentTx.amount_usd.toFixed(2)} | **Risk Score:** ${(fallbackRisk * 100).toFixed(1)}%\n\n**Verdict:** ${isFlagged ? "This transaction was flagged due to multi-dimensional statistical divergence in core behavioral factors, contributing to over 70% of the risk score." : "This transaction matched typical cardholder purchase behavior and is cleared for straight-through approval."}`,
+        evidence_summary: `### SentinelPay Automated Fraud Evidence & Chargeback Dossier\n**Transaction ID:** ${activeTx.id} | **Amount:** $${activeTx.amount_usd.toFixed(2)} | **Risk Score:** ${(fallbackRisk * 100).toFixed(1)}%\n\n**Verdict:** ${isFlagged ? "This transaction was flagged due to multi-dimensional statistical divergence in core behavioral factors, contributing to over 70% of the risk score." : "This transaction matched typical cardholder purchase behavior and is cleared for straight-through approval."}`,
         latency_ms: Number(elapsed.toFixed(2)),
       });
     } finally {

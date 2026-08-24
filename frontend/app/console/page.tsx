@@ -111,15 +111,22 @@ export default function RiskConsolePage() {
   const handleRunScoring = async () => {
     setIsScoring(true);
     const t0 = performance.now();
+    const activeTx = currentSample || SAMPLE_TRANSACTIONS.confirmed_fraud || {
+      id: "TXN-TEST-00404",
+      label: "Real Fraud Attack (Test Set #404)",
+      ground_truth: "FRAUD (Class 1)",
+      amount_usd: 122.21,
+      features: {},
+    };
 
     try {
       const response = await fetch("http://localhost:8000/score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          transaction_id: currentSample.id,
+          transaction_id: activeTx.id,
           merchant_id: "MERCH-DEMO-01",
-          features: currentSample.features,
+          features: activeTx.features,
           threshold_override: selectedThreshold,
         }),
       });
@@ -132,7 +139,7 @@ export default function RiskConsolePage() {
       setScoreResult(data);
     } catch (err: unknown) {
       const elapsed = performance.now() - t0;
-      const isFraud = selectedTxKey.includes("fraud");
+      const isFraud = String(selectedTxKey).includes("fraud");
       const fallbackScore = isFraud ? 0.9998 : 0.0012;
       const isFlagged = fallbackScore >= selectedThreshold;
       const errorMessage = err instanceof Error ? err.message : "Live API offline";
