@@ -11,6 +11,7 @@ import {
   ArrowDown,
   ArrowRight,
   Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 
 interface StepConfig {
@@ -18,7 +19,7 @@ interface StepConfig {
   route: string;
   title: string;
   message: string;
-  pointerDirection?: "down" | "right" | "up";
+  pointerDirection?: "down" | "right" | "up" | "none";
   mood: "happy" | "analyzing" | "pointing";
   ctaText?: string;
   targetRoute?: string;
@@ -28,8 +29,9 @@ const ONBOARDING_STEPS: StepConfig[] = [
   {
     id: 1,
     route: "/",
-    title: "Welcome to SentinelPay",
-    message: "This is SentinelPay — scroll down to see how it works ↓",
+    title: "Class Imbalance Architecture",
+    message:
+      "Fraud is only 0.17% of transactions — a naive model achieves 99.83% accuracy by catching zero fraud, which is why we evaluate directly on Precision-Recall AUC (0.8424) instead of accuracy.",
     pointerDirection: "down",
     mood: "happy",
     ctaText: "Next Step",
@@ -37,8 +39,9 @@ const ONBOARDING_STEPS: StepConfig[] = [
   {
     id: 2,
     route: "/",
-    title: "Real-Time Risk Console",
-    message: "Ready to see it in action? Click here to open the Risk Console →",
+    title: "Real Inference & Benchmarks",
+    message:
+      "Every prediction comes from a live FastAPI call against held-out ml/data/processed/test.csv samples, benchmarked against classical Logistic Regression and SMOTE baselines.",
     pointerDirection: "right",
     mood: "pointing",
     ctaText: "Open Risk Console →",
@@ -47,17 +50,19 @@ const ONBOARDING_STEPS: StepConfig[] = [
   {
     id: 3,
     route: "/console",
-    title: "Execute Live Scoring",
-    message: "Pick a transaction below, then hit 'Score Selected Transaction' to see a real fraud score",
+    title: "Live Sub-10ms Scoring",
+    message:
+      "Select a genuine test transaction below, then hit 'Score Selected Transaction' to run sub-10ms tree inference with live probability calculation.",
     pointerDirection: "down",
     mood: "analyzing",
-    ctaText: "Next: Threshold Sweep",
+    ctaText: "Next: Cost Optimization",
   },
   {
     id: 4,
     route: "/console",
-    title: "Optimize Operating Cutoff",
-    message: "Try dragging this slider — watch how catching more fraud trades off against false alarms",
+    title: "Asymmetric Cost Optimization",
+    message:
+      "Moving this slider balances fraud recall against false alarms — t=0.10 was chosen because it minimizes total financial cost ($5 FP vs $122.21 FN), not as an arbitrary default.",
     pointerDirection: "up",
     mood: "pointing",
     ctaText: "Next: Evidence Dossier",
@@ -66,11 +71,22 @@ const ONBOARDING_STEPS: StepConfig[] = [
   {
     id: 5,
     route: "/evidence",
-    title: "SHAP Dispute Dossier",
-    message: "Curious why a transaction was flagged? Check the Evidence Dossier to see exact game-theoretic attributions →",
+    title: "Exact SHAP Decomposition",
+    message:
+      "Our dispute dossier computes exact Shapley values via shap.TreeExplainer, intentionally reporting pure statistical contributions without inventing speculative business meanings for anonymized PCA features (V1–V28).",
     pointerDirection: "right",
+    mood: "analyzing",
+    ctaText: "Next: Compliance & Governance",
+  },
+  {
+    id: 6,
+    route: "/evidence",
+    title: "Strictly Defense-Only Posture",
+    message:
+      "SentinelPay is engineered as a strictly defense-only intelligence system — scoring risk and generating verifiable audit evidence without taking autonomous blocking actions, respecting track criteria.",
+    pointerDirection: "none",
     mood: "happy",
-    ctaText: "Finish Tour",
+    ctaText: "Finish Tour ✓",
   },
 ];
 
@@ -165,7 +181,7 @@ export default function OnboardingGuide() {
           whileTap={{ scale: 0.94 }}
           onClick={handleRestartTour}
           className="clay-card-interactive flex h-11 w-11 items-center justify-center rounded-2xl text-[#F2B8C6] shadow-xl border border-white/10 cursor-pointer group bg-[#0C0C10]"
-          title="Restart Guided Onboarding Tour"
+          title="Restart Guided Architecture Tour"
         >
           <HelpCircle className="h-5 w-5 group-hover:text-[#F7F6F3] transition-colors" />
         </motion.button>
@@ -174,7 +190,7 @@ export default function OnboardingGuide() {
       {/* ── FLOATING ONBOARDING OVERLAY WIDGET (Non-Blocking) ─────────────── */}
       <AnimatePresence>
         {isVisible && (
-          <div className="fixed bottom-20 right-6 sm:bottom-22 sm:right-8 z-50 pointer-events-none max-w-sm w-[90vw] sm:w-[360px]">
+          <div className="fixed bottom-20 right-6 sm:bottom-22 sm:right-8 z-50 pointer-events-none max-w-sm w-[92vw] sm:w-[380px]">
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.92 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -188,7 +204,7 @@ export default function OnboardingGuide() {
                   <ShieldMascot size={32} mood={currentStep.mood} />
                   <div>
                     <span className="text-[10px] font-mono uppercase font-bold text-[#F2B8C6] tracking-wider block">
-                      Guide · Step {currentStep.id} of {ONBOARDING_STEPS.length}
+                      Architecture Tour · Step {currentStep.id} of {ONBOARDING_STEPS.length}
                     </span>
                     <h4 className="font-heading font-bold text-xs text-[#F7F6F3]">
                       {currentStep.title}
@@ -229,7 +245,7 @@ export default function OnboardingGuide() {
                         className="flex items-center gap-1"
                       >
                         <ArrowDown className="h-3.5 w-3.5" />
-                        <span>Interactive action below</span>
+                        <span>Interactive component below</span>
                       </motion.div>
                     )}
                     {currentStep.pointerDirection === "right" && (
@@ -251,6 +267,12 @@ export default function OnboardingGuide() {
                         <Sparkles className="h-3.5 w-3.5" />
                         <span>Adjust threshold slider above</span>
                       </motion.div>
+                    )}
+                    {currentStep.pointerDirection === "none" && (
+                      <div className="flex items-center gap-1 text-[#F2B8C6]">
+                        <ShieldCheck className="h-3.5 w-3.5" />
+                        <span>Defense-only compliance verified</span>
+                      </div>
                     )}
                   </div>
                 </motion.div>
