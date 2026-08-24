@@ -11,7 +11,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16.3-black?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://docker.com)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)](https://sentinelpay-seven.vercel.app)
-[![Railway](https://img.shields.io/badge/Railway-Inference_Service-0B0D0E?logo=railway&logoColor=white)](https://railway.app)
+[![Render](https://img.shields.io/badge/Render-Inference_Service-46E3B7?logo=render&logoColor=white)](https://render.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
@@ -419,7 +419,7 @@ This transaction was flagged with a **99.98% estimated fraud risk score** exceed
 ### ☁️ Infrastructure & Deployment
 - **Docker**: Containerized multi-stage Python serving images.
 - **Vercel**: Edge-optimized serverless frontend hosting.
-- **Railway & Render**: Managed cloud container hosting with automated health checks.
+- **Render**: Managed cloud container hosting with automated health checks and cold-start telemetry overlay.
 
 ---
 
