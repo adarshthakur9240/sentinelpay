@@ -606,7 +606,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* ── SECTION 4: INTERACTIVE CONTROL PANEL HUD ASSEMBLED CTA (Landmark 4) ─── */}
+      {/* ── SECTION 4: Interactive Control Panel & Two Paths Forward (Landmark 4) ─── */}
       <section
         ref={ctaPanelRef}
         className="relative z-10 py-32 px-4 max-w-5xl mx-auto"
@@ -617,24 +617,18 @@ export default function HomePage() {
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           className="clay-card p-8 sm:p-12 relative overflow-hidden border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.9),0_0_35px_rgba(242,184,198,0.12)] bg-[#0A0A0D]"
         >
-          {/* Futuristic HUD Corner Accents */}
-          <div className="absolute top-4 left-4 h-4 w-4 border-t-2 border-l-2 border-[#F2B8C6]/50 pointer-events-none"></div>
-          <div className="absolute top-4 right-4 h-4 w-4 border-t-2 border-r-2 border-[#F2B8C6]/50 pointer-events-none"></div>
-          <div className="absolute bottom-4 left-4 h-4 w-4 border-b-2 border-l-2 border-[#F2B8C6]/50 pointer-events-none"></div>
-          <div className="absolute bottom-4 right-4 h-4 w-4 border-b-2 border-r-2 border-[#F2B8C6]/50 pointer-events-none"></div>
-
-          {/* Top HUD Telemetry Banner */}
+          {/* Top Architecture Status Banner */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#1E1E23]/70">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F2B8C6]/10 border border-[#F2B8C6]/30 text-[#F2B8C6]">
                 <NeumorphicSpikeIcon size={22} />
               </div>
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#F2B8C6] font-bold block">
-                  SYSTEM READY · OPERATIONAL HUD
+                <span className="text-xs font-heading font-bold text-[#F7F6F3]">
+                  Verified Architecture &amp; Live Interfaces
                 </span>
-                <span className="text-xs font-mono text-[#8E8E98]">
-                  Cost-Sensitive Inference Deck & Auto-Responder
+                <span className="text-[11px] text-[#8E8E98] block">
+                  Real-time scoring engine and automated dispute dossier
                 </span>
               </div>
             </div>
@@ -642,12 +636,12 @@ export default function HomePage() {
             <div className="flex items-center gap-2 text-xs font-mono">
               <span className="clay-badge-periwinkle px-3 py-1 flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#A8B5E0] animate-pulse"></span>
-                <span>STATUS: ARMED</span>
+                <span>FastAPI Service Online</span>
               </span>
             </div>
           </div>
 
-          {/* Headline & Subtext with Mask Wipe Entrance */}
+          {/* Headline & Subtext */}
           <div className="mt-8 text-center space-y-4">
             <motion.h2
               initial={{ opacity: 0, y: 24, clipPath: "inset(0% 0% 100% 0%)" }}
@@ -655,9 +649,9 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="font-heading font-black text-3xl sm:text-5xl md:text-6xl text-[#F7F6F3] tracking-tight"
             >
-              See the Engine Catch Fraud
+              Experience the Engine
               <br />
-              <span className="text-pastel-gradient">in Real Time.</span>
+              <span className="text-pastel-gradient">in Action.</span>
             </motion.h2>
 
             <motion.p
@@ -666,12 +660,11 @@ export default function HomePage() {
               transition={{ duration: 0.7, delay: 0.25 }}
               className="text-sm sm:text-base text-[#8E8E98] max-w-xl mx-auto font-normal leading-relaxed"
             >
-              Test live FastAPI scoring on genuine Kaggle test-set transactions. Sweep the
-              operating threshold slider or deconstruct multi-dimensional Shapley game-theoretic evidence.
+              Explore live payment scoring on genuine test transactions, or inspect exact game-theoretic dispute evidence.
             </motion.p>
           </div>
 
-          {/* ── ASSEMBLED TECH SPEC MODULE GRID (Flying in from Multi-Vectors) ── */}
+          {/* ── ASSEMBLED TECH SPEC MODULE GRID ── */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             {hudModules.map((mod) => {
               const Icon = mod.icon;
@@ -706,49 +699,102 @@ export default function HomePage() {
             })}
           </div>
 
-          {/* ── ACTIVATION TRIGGER CTA BUTTONS (Glow Pulse Effect) ──────────── */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/console" className="w-full sm:w-auto">
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.97, y: 1 }}
-                className="w-full sm:w-auto clay-btn-rose inline-flex items-center justify-center gap-3 px-9 py-4 text-sm font-heading font-bold text-[#050505] tracking-wide cursor-pointer relative group overflow-hidden"
+          {/* ── TWO DISTINCT 3D-TILTED DESTINATION CARDS ("Two Paths Forward") ── */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
+            {/* Destination 1: See it score in real time (Soft Rose Accent) */}
+            <Link href="/console" className="group block h-full">
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="clay-card p-6 sm:p-7 relative overflow-hidden transition-all duration-300 border border-white/8 hover:border-[#F2B8C6]/40 bg-[#0E0E12] flex flex-col justify-between h-full"
               >
-                {/* Subtle Ambient Rhythmic Pulse Glow */}
-                <motion.span
-                  animate={{
-                    opacity: [0.3, 0.75, 0.3],
-                    scale: [0.98, 1.02, 0.98],
-                  }}
-                  transition={{
-                    duration: 2.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.8,
-                  }}
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FCE2E9] to-[#F2B8C6] blur-md -z-10"
-                />
-                <NeumorphicSpikeIcon size={20} />
-                <span>Launch Operational Console</span>
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
+                {/* Ambient Rose Hover Glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#F2B8C6]/10 rounded-full blur-3xl group-hover:bg-[#F2B8C6]/20 transition-all pointer-events-none" />
+
+                <div>
+                  <div className="flex items-center justify-between pb-4 border-b border-[#1E1E23]/60">
+                    <span className="text-[10px] font-mono uppercase font-bold text-[#F2B8C6] tracking-wider flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-[#F2B8C6] animate-pulse"></span>
+                      LIVE RISK SCORING
+                    </span>
+                    <span className="text-xs font-mono text-[#8E8E98]">&lt;10ms Engine</span>
+                  </div>
+
+                  <h3 className="mt-4 font-heading font-black text-xl text-[#F7F6F3] group-hover:text-[#F2B8C6] transition-colors">
+                    See it score in real time
+                  </h3>
+                  <p className="mt-1.5 text-xs text-[#8E8E98] leading-relaxed">
+                    Test live probability scoring on genuine transactions and sweep the operating threshold slider.
+                  </p>
+
+                  {/* Micro-Preview: Live Ticking Score */}
+                  <div className="mt-5 p-3.5 rounded-2xl bg-[#060608] border border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <NeumorphicSpikeIcon size={20} />
+                      <div className="text-xs font-mono text-[#8E8E98]">
+                        Risk Score: <strong className="text-[#F2B8C6]">99.98%</strong>
+                      </div>
+                    </div>
+                    <span className="clay-badge-rose text-[9px] font-bold px-2 py-0.5">
+                      FLAGGED
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center gap-2 text-xs font-heading font-bold text-[#F2B8C6] group-hover:translate-x-1 transition-transform">
+                  <span>Open Risk Console</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </div>
+              </motion.div>
             </Link>
 
-            <Link href="/evidence" className="w-full sm:w-auto">
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.97, y: 1 }}
-                className="w-full sm:w-auto clay-btn-surface inline-flex items-center justify-center gap-3 px-9 py-4 text-sm font-heading font-bold text-[#F7F6F3] cursor-pointer"
+            {/* Destination 2: See why it flagged something (Soft Periwinkle Accent) */}
+            <Link href="/evidence" className="group block h-full">
+              <motion.div
+                whileHover={{ y: -4, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="clay-card p-6 sm:p-7 relative overflow-hidden transition-all duration-300 border border-white/8 hover:border-[#A8B5E0]/40 bg-[#0E0E12] flex flex-col justify-between h-full"
               >
-                <NeumorphicTreeIcon size={20} />
-                <span>Deconstruct SHAP Dossier</span>
-              </motion.button>
+                {/* Ambient Periwinkle Hover Glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#A8B5E0]/10 rounded-full blur-3xl group-hover:bg-[#A8B5E0]/20 transition-all pointer-events-none" />
+
+                <div>
+                  <div className="flex items-center justify-between pb-4 border-b border-[#1E1E23]/60">
+                    <span className="text-[10px] font-mono uppercase font-bold text-[#A8B5E0] tracking-wider flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-[#A8B5E0] animate-pulse"></span>
+                      SHAP DISPUTE DOSSIER
+                    </span>
+                    <span className="text-xs font-mono text-[#8E8E98]">Exact Shapley</span>
+                  </div>
+
+                  <h3 className="mt-4 font-heading font-black text-xl text-[#F7F6F3] group-hover:text-[#A8B5E0] transition-colors">
+                    See why it flagged something
+                  </h3>
+                  <p className="mt-1.5 text-xs text-[#8E8E98] leading-relaxed">
+                    Deconstruct exact game-theoretic feature contributions and generate audit-ready dispute summaries.
+                  </p>
+
+                  {/* Micro-Preview: Animated SHAP Bar */}
+                  <div className="mt-5 p-3.5 rounded-2xl bg-[#060608] border border-white/5 space-y-1.5 font-mono text-[10px]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#8E8E98]">Primary Factor V14</span>
+                      <span className="text-[#F2B8C6] font-bold">+52.2% Weight</span>
+                    </div>
+                    <div className="w-full h-1.5 rounded-full bg-[#1A1A22] overflow-hidden">
+                      <motion.div
+                        animate={{ width: ["45%", "75%", "45%"] }}
+                        transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                        className="h-full bg-gradient-to-r from-[#F2B8C6] to-[#A8B5E0] rounded-full"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center gap-2 text-xs font-heading font-bold text-[#A8B5E0] group-hover:translate-x-1 transition-transform">
+                  <span>Inspect Dispute Evidence</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </div>
+              </motion.div>
             </Link>
           </div>
         </motion.div>
