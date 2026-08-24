@@ -253,3 +253,19 @@ def test_graph_network_payload_endpoint(client):
     assert "target" in first_link
     assert "link_type" in first_link
 
+
+def test_stream_recent_endpoint(client):
+    """Test GET /stream/recent returns streaming ring buffer list."""
+    response = client.get("/stream/recent")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+
+def test_websocket_live_feed_endpoint(client):
+    """Test WebSocket /ws/live-feed accepts connection and responds to ping."""
+    with client.websocket_connect("/ws/live-feed") as ws:
+        ws.send_text("ping")
+        resp = ws.receive_text()
+        assert "pong" in resp
+
+

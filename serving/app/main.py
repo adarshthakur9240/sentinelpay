@@ -17,6 +17,7 @@ from serving.app.core.graph_engine import graph_engine
 from serving.app.api.routes_score import router as score_router
 from serving.app.api.routes_explain import router as explain_router
 from serving.app.api.routes_graph import router as graph_router
+from serving.app.api.routes_stream import router as stream_router
 from serving.app.schemas.transaction import HealthResponse, ModelMetricsResponse
 
 # Setup logging
@@ -65,6 +66,7 @@ app.add_middleware(
 app.include_router(score_router)
 app.include_router(explain_router)
 app.include_router(graph_router)
+app.include_router(stream_router)
 
 
 @app.get(
