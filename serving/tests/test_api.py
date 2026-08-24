@@ -191,3 +191,65 @@ def test_explain_endpoint(client, test_data):
     assert "TXN-TEST-DISPUTE-001" in narrative
     assert "389.50" in narrative
     assert "SHAP" in narrative
+
+
+def test_graph_rings_endpoint(client):
+    """Test GET /graph/rings returns detected rings and simulation disclaimer."""
+    response = client.get("/graph/rings")
+    assert response.status_code == 200
+    data = response.json()
+
+    assert "disclaimer" in data
+    assert "simulated" in data["disclaimer"].lower()
+    assert data["total_rings"] >= 1
+    assert len(data["rings"]) >= 1
+
+    first_ring = data["rings"][0]
+    assert "ring_id" in first_ring
+    assert "cluster_size" in first_ring
+    assert first_ring["cluster_size"] >= 3
+    assert len(first_ring["members"]) == first_ring["cluster_size"]
+    assert "linkage_mechanisms" in first_ring
+
+
+def test_graph_account_risk_endpoint(client):
+    """Test GET /graph/account/{account_id}/risk returns propagated ring risk."""
+    # Test on known simulated ring member
+    response = client.get("/graph/account/ACC-100000/risk")
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["account_id"] == "ACC-100000"
+    assert "simulated" in data["disclaimer"].lower()
+    assert "device_id" in data
+    assert "ip_subnet" in data
+    assert 0.0 <= data["individual_xgb_score"] <= 1.0
+    assert 0.0 <= data["propagated_ring_risk_score"] <= 1.0
+    assert data["connected_accounts_count"] >= 1
+    assert len(data["connected_accounts"]) >= 1
+
+    # Test non-existent account returns 404
+    non_existent = client.get("/graph/account/NON-EXISTENT-ACCOUNT-99999/risk")
+    assert non_existent.status_code == 404
+
+
+def test_graph_network_payload_endpoint(client):
+    """Test GET /graph/network returns nodes and links for UI force graph."""
+    response = client.get("/graph/network")
+    assert response.status_code == 200
+    data = response.json()
+
+    assert "disclaimer" in data
+    assert len(data["nodes"]) >= 1
+    assert len(data["links"]) >= 1
+
+    first_node = data["nodes"][0]
+    assert "id" in first_node
+    assert "role" in first_node
+    assert "color" in first_node
+
+    first_link = data["links"][0]
+    assert "source" in first_link
+    assert "target" in first_link
+    assert "link_type" in first_link
+

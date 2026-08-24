@@ -88,6 +88,14 @@ export default function Navbar() {
       icon: NeumorphicTreeIcon,
       accent: "#A8B5E0",
     },
+    {
+      id: "network",
+      name: "Ring Network",
+      shortName: "Network",
+      href: "/network",
+      icon: NeumorphicShieldCheckIcon,
+      accent: "#F2B8C6",
+    },
   ];
 
   // Resting state is ALWAYS compact/minimal. ONLY expands on active cursor hover.

@@ -13,8 +13,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from serving.app.core.config import settings
 from serving.app.core.engine import engine
+from serving.app.core.graph_engine import graph_engine
 from serving.app.api.routes_score import router as score_router
 from serving.app.api.routes_explain import router as explain_router
+from serving.app.api.routes_graph import router as graph_router
 from serving.app.schemas.transaction import HealthResponse, ModelMetricsResponse
 
 # Setup logging
@@ -30,12 +32,13 @@ logger = logging.getLogger("sentinelpay.serving")
 async def lifespan(app: FastAPI):
     """
     Application lifespan handler.
-    Ensures model and TreeExplainer are loaded and pre-warmed ONCE at startup,
+    Ensures model, TreeExplainer, and GraphEngine are loaded and pre-warmed ONCE at startup,
     eliminating per-request overhead and latency spikes.
     """
     logger.info("Starting up SentinelPay Serving Service...")
     engine.initialize()
-    logger.info("Model and TreeExplainer pre-warmed and ready for traffic.")
+    graph_engine.initialize()
+    logger.info("Model, TreeExplainer, and GraphEngine pre-warmed and ready for traffic.")
     yield
     logger.info("Shutting down SentinelPay Serving Service...")
 
@@ -43,7 +46,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.app_name,
     version=settings.version,
-    description="Real-time XGBoost fraud detection, batch scoring, SHAP explainability, and chargeback dispute evidence generation API.",
+    description="Real-time XGBoost fraud detection, batch scoring, SHAP explainability, graph fraud-ring detection, and chargeback dispute evidence generation API.",
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -61,6 +64,7 @@ app.add_middleware(
 # Register API routers
 app.include_router(score_router)
 app.include_router(explain_router)
+app.include_router(graph_router)
 
 
 @app.get(
