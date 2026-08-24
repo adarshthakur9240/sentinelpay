@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
 import {
   ResponsiveContainer,
   LineChart,
@@ -14,38 +16,26 @@ import {
   CartesianGrid,
 } from "recharts";
 import {
-  RadarSweepIcon,
-  BiometricShieldIcon,
-  TelemetrySpikeIcon,
-  CostMatrixIcon,
-} from "@/components/icons/CustomIcons";
+  NeumorphicRadarIcon,
+  NeumorphicSliderScaleIcon,
+  NeumorphicShieldCheckIcon,
+  NeumorphicShieldAlertIcon,
+  NeumorphicSpikeIcon,
+  NeumorphicTreeIcon,
+} from "@/components/icons/NeumorphicIcons";
 import {
-  Sliders,
   Clock,
   Play,
   RotateCcw,
-  Sparkles,
   Target,
-  ShieldCheck,
-  ShieldAlert,
+  DollarSign,
+  AlertTriangle,
+  TrendingUp,
+  ChevronDown,
+  ChevronUp,
+  SlidersHorizontal,
+  Layers,
 } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   THRESHOLD_DATA,
   PR_CURVE_DATA,
@@ -53,9 +43,19 @@ import {
   type ThresholdPoint,
 } from "../data/metricsData";
 
+// Lazy-load the ambient 3D clay background
+const AmbientClayBackground = dynamic(
+  () => import("../components/three/ambient-clay-orb"),
+  { ssr: false, loading: () => null }
+);
+
 export default function RiskConsolePage() {
   // State for threshold slider
   const [selectedThreshold, setSelectedThreshold] = useState<number>(0.10);
+
+  // Progressive disclosure states (collapsed by default)
+  const [isFeaturesExpanded, setIsFeaturesExpanded] = useState<boolean>(false);
+  const [isCostTableExpanded, setIsCostTableExpanded] = useState<boolean>(false);
 
   // State for transaction selection and live scoring
   const [selectedTxKey, setSelectedTxKey] = useState<keyof typeof SAMPLE_TRANSACTIONS>("confirmed_fraud");
@@ -77,6 +77,40 @@ export default function RiskConsolePage() {
 
   // Current sample transaction
   const currentSample = SAMPLE_TRANSACTIONS[selectedTxKey];
+
+  // ─── Smooth Number Animation for Threshold Transitions ───────────────────
+  const [displayMetrics, setDisplayMetrics] = useState({
+    recall: activeThresholdRow.recall,
+    precision: activeThresholdRow.precision,
+    fp_count: activeThresholdRow.fp_count,
+    fp_per_10k: activeThresholdRow.fp_per_10k,
+    total_cost: activeThresholdRow.total_cost,
+    fraud_losses: activeThresholdRow.fraud_losses,
+    friction_costs: activeThresholdRow.friction_costs,
+  });
+
+  const tweenProxyRef = useRef({ ...displayMetrics });
+
+  useEffect(() => {
+    const tween = gsap.to(tweenProxyRef.current, {
+      recall: activeThresholdRow.recall,
+      precision: activeThresholdRow.precision,
+      fp_count: activeThresholdRow.fp_count,
+      fp_per_10k: activeThresholdRow.fp_per_10k,
+      total_cost: activeThresholdRow.total_cost,
+      fraud_losses: activeThresholdRow.fraud_losses,
+      friction_costs: activeThresholdRow.friction_costs,
+      duration: 0.38,
+      ease: "power2.out",
+      onUpdate: () => {
+        setDisplayMetrics({ ...tweenProxyRef.current });
+      },
+    });
+
+    return () => {
+      tween.kill();
+    };
+  }, [activeThresholdRow]);
 
   // Live scoring caller
   const handleRunScoring = async () => {
@@ -131,547 +165,571 @@ export default function RiskConsolePage() {
   }, [activeThresholdRow]);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] text-[#F5F1E8] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <div className="relative min-h-screen bg-[#0A0A0A] text-[#F7F6F3] px-4 py-10 sm:px-6 lg:px-8 overflow-hidden">
+      {/* 3D Ambient Clay Background Canvas */}
+      <AmbientClayBackground />
+
+      <div className="relative z-10 mx-auto max-w-7xl space-y-10">
         {/* Header Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#242436] pb-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#26262B]/60 pb-6">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-[#C9A24D]"></span>
-              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#E6C875]">
-                Operational Risk & Scoring Console
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-2 w-2 rounded-full bg-[#F2B8C6] shadow-[0_0_8px_#F2B8C6]"></span>
+              <span className="text-xs font-mono font-medium uppercase tracking-wider text-[#F2B8C6]">
+                Operational Risk Console
               </span>
             </div>
-            <h1 className="mt-1 font-heading font-black text-2xl sm:text-3xl text-[#F5F1E8] tracking-tight">
+            <h1 className="mt-1 font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#F7F6F3] tracking-tight">
               Real-Time Inference & Operating Threshold Optimizer
             </h1>
-            <p className="mt-1 text-xs text-[#8E8E9E]">
-              Direct FastAPI scoring layer connected to cost-sensitive XGBoost (<code className="text-[#E6C875] font-mono">scale_pos_weight=578.55</code>).
+            <p className="mt-1 text-xs sm:text-sm text-[#9A9AA4]">
+              Cost-sensitive XGBoost (<code className="text-[#F2B8C6] font-mono">scale_pos_weight=578.55</code>) with parametric cost optimization.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="border-[#C9A24D]/35 bg-[#C9A24D]/10 text-[#E6C875] font-mono text-xs px-3 py-1.5">
-              Production Operating Point: <strong className="ml-1 text-[#F5F1E8]">t = 0.10</strong>
-            </Badge>
+          <div className="flex items-center gap-3">
+            <div className="clay-badge-rose px-4 py-1.5 text-xs font-mono flex items-center gap-2">
+              <span className="text-[#9A9AA4]">Operating Point:</span>
+              <strong className="text-[#F7F6F3]">t = 0.10</strong>
+            </div>
           </div>
         </div>
 
-        {/* Main Grid */}
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* LEFT COLUMN: Live Scoring Demo (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            {/* Playground Card */}
-            <Card className="border-[#242436] bg-[#12121A]/85 shadow-xl backdrop-blur-sm">
-              <CardHeader className="border-b border-[#242436] pb-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <TelemetrySpikeIcon size={16} />
-                    <CardTitle className="font-heading font-bold text-sm text-[#F5F1E8] uppercase tracking-wider">
-                      1. Live Scoring Playground
-                    </CardTitle>
-                  </div>
-                  <Badge variant="secondary" className="font-mono text-[10px] text-[#8E8E9E] bg-[#181824] border-[#242436]">
-                    POST /score
-                  </Badge>
-                </div>
-                <CardDescription className="text-xs text-[#8E8E9E] mt-1">
-                  Select a test-set transaction to execute real-time model inference.
-                </CardDescription>
-              </CardHeader>
+        {/* ── SECTION 1: SPACIOUS THRESHOLD OPTIMIZER & PR CURVE ─────────── */}
+        <motion.div
+          whileHover={{ y: -2 }}
+          transition={{ duration: 0.2 }}
+          className="clay-card p-7 sm:p-9 space-y-8"
+        >
+          {/* Section Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#26262B]/60">
+            <div className="flex items-center gap-3.5">
+              <NeumorphicSliderScaleIcon size={32} />
+              <div>
+                <h2 className="font-heading font-bold text-base sm:text-lg text-[#F7F6F3] tracking-tight">
+                  Operating Threshold Sweep & Net Cost Response
+                </h2>
+                <p className="text-xs text-[#9A9AA4] font-mono">
+                  Drag slider to sweep operating point across the Precision-Recall curve
+                </p>
+              </div>
+            </div>
 
-              <CardContent className="pt-4">
-                {/* Sample Selector */}
-                <div>
-                  <label className="text-xs font-mono text-[#8E8E9E] block mb-2">
-                    Test Split Fixtures (Held-Out 15% Split):
-                  </label>
-                  <div className="grid grid-cols-1 gap-2">
-                    {(Object.keys(SAMPLE_TRANSACTIONS) as Array<keyof typeof SAMPLE_TRANSACTIONS>).map((key) => {
-                      const tx = SAMPLE_TRANSACTIONS[key];
-                      const isSelected = selectedTxKey === key;
-                      const isFraud = key.includes("fraud");
-                      return (
-                        <button
-                          key={key}
-                          onClick={() => {
-                            setSelectedTxKey(key);
-                            setScoreResult(null);
-                          }}
-                          className={`flex items-center justify-between rounded-xl p-3 text-left text-xs transition-all border ${
-                            isSelected
-                              ? "border-[#C9A24D]/60 bg-[#C9A24D]/10 text-[#F5F1E8] shadow-sm ring-1 ring-[#C9A24D]/30"
-                              : "border-[#242436] bg-[#0A0A0F]/60 text-[#8E8E9E] hover:border-[#383850] hover:text-[#F5F1E8]"
-                          }`}
-                        >
-                          <div>
-                            <div className="font-medium text-[#F5F1E8]">{tx.label}</div>
-                            <div className="text-[11px] font-mono text-[#8E8E9E]">
-                              ID: {tx.id} • Amount: ${tx.amount_usd.toFixed(2)}
-                            </div>
-                          </div>
-                          <Badge
-                            variant="outline"
-                            className={`font-mono text-[10px] font-bold ${
-                              isFraud
-                                ? "bg-[#C4707A]/15 text-[#C4707A] border-[#C4707A]/30"
-                                : "bg-[#4EAD8A]/15 text-[#4EAD8A] border-[#4EAD8A]/30"
-                            }`}
-                          >
-                            {isFraud ? "FRAUD (1)" : "LEGIT (0)"}
-                          </Badge>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Execute Button */}
-                <div className="mt-5">
-                  <Button
-                    onClick={handleRunScoring}
-                    disabled={isScoring}
-                    className="w-full flex items-center justify-center gap-2 bg-[#C9A24D] hover:bg-[#E6C875] text-[#0A0A0F] font-heading font-bold text-xs py-3 shadow-lg shadow-[#C9A24D]/20 transition-all rounded-xl"
-                  >
-                    {isScoring ? (
-                      <>
-                        <RotateCcw className="h-3.5 w-3.5 animate-spin" />
-                        Scoring Payload...
-                      </>
-                    ) : (
-                      <>
-                        <Play className="h-3.5 w-3.5 fill-current" />
-                        Execute Live /score API Call
-                      </>
-                    )}
-                  </Button>
-                </div>
-
-                {/* Score Output Panel */}
-                <AnimatePresence mode="wait">
-                  {scoreResult && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.25 }}
-                      className="mt-5 rounded-xl border border-[#242436] bg-[#0A0A0F]/90 p-4 font-mono"
-                    >
-                      <div className="flex items-center justify-between pb-2.5 border-b border-[#242436]">
-                        <span className="text-xs text-[#8E8E9E]">Inference Telemetry</span>
-                        <div className="flex items-center gap-1.5 text-[11px] text-[#E6C875]">
-                          <Clock className="h-3 w-3" />
-                          <span>{scoreResult.latency_ms} ms latency</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-3 flex items-center justify-between">
-                        <div>
-                          <div className="text-[11px] text-[#8E8E9E]">Model Fraud Probability</div>
-                          <div className="text-2xl font-heading font-black text-[#F5F1E8]">
-                            {(scoreResult.risk_score * 100).toFixed(2)}%
-                          </div>
-                        </div>
-
-                        <div>
-                          {scoreResult.is_flagged ? (
-                            <Badge className="bg-[#C4707A]/20 hover:bg-[#C4707A]/20 text-[#C4707A] border border-[#C4707A]/40 text-xs px-3 py-1 font-bold flex items-center gap-1.5">
-                              <ShieldAlert className="h-3.5 w-3.5" />
-                              FLAGGED FOR REVIEW
-                            </Badge>
-                          ) : (
-                            <Badge className="bg-[#4EAD8A]/20 hover:bg-[#4EAD8A]/20 text-[#4EAD8A] border border-[#4EAD8A]/40 text-xs px-3 py-1 font-bold flex items-center gap-1.5">
-                              <ShieldCheck className="h-3.5 w-3.5" />
-                              APPROVED (PASS)
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Visual Probability Bar */}
-                      <div className="mt-3">
-                        <div className="relative h-2.5 w-full rounded-full bg-[#181824] overflow-hidden">
-                          <div
-                            className={`h-full transition-all duration-500 ${
-                              scoreResult.is_flagged ? "bg-[#C4707A]" : "bg-[#4EAD8A]"
-                            }`}
-                            style={{
-                              width: `${Math.min(Math.max(scoreResult.risk_score * 100, 2), 100)}%`,
-                            }}
-                          ></div>
-                          {/* Cutoff Marker */}
-                          <div
-                            className="absolute top-0 bottom-0 w-0.5 bg-[#C9A24D] z-10"
-                            style={{ left: `${scoreResult.threshold_applied * 100}%` }}
-                            title={`Threshold: ${scoreResult.threshold_applied}`}
-                          ></div>
-                        </div>
-                        <div className="mt-1.5 flex justify-between text-[10px] text-[#8E8E9E]">
-                          <span>0%</span>
-                          <span className="text-[#E6C875] font-bold">
-                            Active Cutoff: t = {scoreResult.threshold_applied.toFixed(2)}
-                          </span>
-                          <span>100%</span>
-                        </div>
-                      </div>
-
-                      {scoreResult.error && (
-                        <div className="mt-2.5 text-[10px] text-[#E6C875] bg-[#C9A24D]/10 p-2 rounded border border-[#C9A24D]/25">
-                          {scoreResult.error}
-                        </div>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </CardContent>
-            </Card>
-
-            {/* Feature Inspector */}
-            <Card className="border-[#242436] bg-[#12121A]/70 shadow-md">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="font-heading font-bold text-xs text-[#F5F1E8]">
-                    Feature Inspector ({currentSample.id})
-                  </CardTitle>
-                  <span className="text-[10px] font-mono text-[#8E8E9E]">30 PCA Projections</span>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-2 text-[11px] font-mono max-h-36 overflow-y-auto pr-1">
-                  <div className="bg-[#0A0A0F] p-2 rounded-lg border border-[#242436]">
-                    <span className="text-[#8E8E9E] block text-[10px]">Amount ($)</span>
-                    <span className="text-[#F5F1E8] font-semibold">${currentSample.amount_usd.toFixed(2)}</span>
-                  </div>
-                  <div className="bg-[#0A0A0F] p-2 rounded-lg border border-[#242436]">
-                    <span className="text-[#8E8E9E] block text-[10px]">V14 (Anom Factor)</span>
-                    <span className="text-[#E6C875] font-semibold">{(currentSample.features.V14 as number).toFixed(3)}</span>
-                  </div>
-                  <div className="bg-[#0A0A0F] p-2 rounded-lg border border-[#242436]">
-                    <span className="text-[#8E8E9E] block text-[10px]">V10 (Anom Factor)</span>
-                    <span className="text-[#E6C875] font-semibold">{(currentSample.features.V10 as number).toFixed(3)}</span>
-                  </div>
-                  <div className="bg-[#0A0A0F] p-2 rounded-lg border border-[#242436]">
-                    <span className="text-[#8E8E9E] block text-[10px]">V4</span>
-                    <span className="text-[#F5F1E8] font-semibold">{(currentSample.features.V4 as number).toFixed(3)}</span>
-                  </div>
-                  <div className="bg-[#0A0A0F] p-2 rounded-lg border border-[#242436]">
-                    <span className="text-[#8E8E9E] block text-[10px]">V12</span>
-                    <span className="text-[#F5F1E8] font-semibold">{(currentSample.features.V12 as number).toFixed(3)}</span>
-                  </div>
-                  <div className="bg-[#0A0A0F] p-2 rounded-lg border border-[#242436]">
-                    <span className="text-[#8E8E9E] block text-[10px]">V17</span>
-                    <span className="text-[#F5F1E8] font-semibold">{(currentSample.features.V17 as number).toFixed(3)}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="text-[#9A9AA4]">Selected Cutoff:</span>
+              <span className="clay-badge-rose px-3.5 py-1 font-bold text-xs">
+                t = {selectedThreshold.toFixed(2)}
+              </span>
+            </div>
           </div>
 
-          {/* RIGHT COLUMN: Interactive Threshold Optimizer & PR Curve (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col gap-6">
-            {/* Threshold Slider Card */}
-            <Card className="border-[#242436] bg-[#12121A]/85 shadow-xl backdrop-blur-sm">
-              <CardHeader className="border-b border-[#242436] pb-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Sliders className="h-4 w-4 text-[#C9A24D]" />
-                    <CardTitle className="font-heading font-bold text-sm text-[#F5F1E8] uppercase tracking-wider">
-                      2. Operating Threshold Slider
-                    </CardTitle>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs font-mono">
-                    <span className="text-[#8E8E9E]">Selected Cutoff:</span>
-                    <Badge variant="outline" className="border-[#C9A24D]/40 bg-[#C9A24D]/10 text-[#E6C875] font-bold px-2 py-0.5">
-                      t = {selectedThreshold.toFixed(2)}
-                    </Badge>
-                  </div>
-                </div>
-                <CardDescription className="text-xs text-[#8E8E9E] mt-1">
-                  Drag the cutoff to balance false positive friction ($5.00) vs fraud losses ($122.21).
-                </CardDescription>
-              </CardHeader>
+          {/* Threshold Slider Component */}
+          <div className="space-y-3 px-1">
+            <div className="flex justify-between text-xs font-mono text-[#9A9AA4]">
+              <span className="text-[#F2B8C6] font-medium">High Recall (t=0.10)</span>
+              <span className="text-[#B5D8C5] font-semibold flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#B5D8C5]"></span>
+                Cost-Optimal ($1,424.31 @ t=0.10)
+              </span>
+              <span className="text-[#9A9AA4] font-medium">High Precision (t=0.90)</span>
+            </div>
 
-              <CardContent className="pt-5">
-                {/* Slider Component */}
-                <div className="px-1">
-                  <div className="flex justify-between text-xs font-mono text-[#8E8E9E] mb-2">
-                    <span className="text-[#E6C875] font-semibold">High Recall (t=0.10)</span>
-                    <span className="text-[#4EAD8A] font-bold">★ Cost-Optimal ($1,424.31)</span>
-                    <span className="text-[#8E8E9E] font-semibold">High Precision (t=0.90)</span>
-                  </div>
+            <div className="clay-card-inset p-3 rounded-2xl">
+              <input
+                type="range"
+                min="0.10"
+                max="0.90"
+                step="0.10"
+                value={selectedThreshold}
+                onChange={(e) => {
+                  const val = Number(parseFloat(e.target.value).toFixed(2));
+                  setSelectedThreshold(val);
+                  setScoreResult(null);
+                }}
+                className="w-full h-3 bg-transparent rounded-lg appearance-none cursor-pointer accent-[#F2B8C6]"
+              />
+            </div>
 
-                  <input
-                    type="range"
-                    min="0.10"
-                    max="0.90"
-                    step="0.10"
-                    value={selectedThreshold}
-                    onChange={(e) => {
-                      const val = Number(parseFloat(e.target.value).toFixed(2));
-                      setSelectedThreshold(val);
+            <div className="flex justify-between text-xs font-mono text-[#9A9AA4] pt-1">
+              {[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => {
+                    setSelectedThreshold(t);
+                    setScoreResult(null);
+                  }}
+                  className={`px-2.5 py-1 rounded-xl transition-all cursor-pointer ${
+                    Math.abs(t - selectedThreshold) < 0.01
+                      ? "clay-card-selected text-[#F7F6F3] font-bold"
+                      : "hover:text-[#F7F6F3]"
+                  }`}
+                >
+                  {t.toFixed(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Spacious Metric Summary Strip (Clean & Readable) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-2">
+            {/* Metric 1: Recall */}
+            <div className="clay-card-sm p-5 sm:p-6 flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[#9A9AA4]">
+                <span className="text-xs font-mono uppercase font-semibold">Recall @ Cutoff</span>
+                <Target className="h-4 w-4 text-[#B5D8C5]" />
+              </div>
+              <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#B5D8C5] tabular-nums">
+                {displayMetrics.recall.toFixed(1)}%
+              </div>
+              <span className="text-xs font-mono text-[#9A9AA4]">
+                {Math.round(displayMetrics.recall * 0.74)} of 74 fraud caught
+              </span>
+            </div>
+
+            {/* Metric 2: Precision */}
+            <div className="clay-card-sm p-5 sm:p-6 flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[#9A9AA4]">
+                <span className="text-xs font-mono uppercase font-semibold">Precision</span>
+                <TrendingUp className="h-4 w-4 text-[#F2B8C6]" />
+              </div>
+              <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#F2B8C6] tabular-nums">
+                {displayMetrics.precision.toFixed(1)}%
+              </div>
+              <span className="text-xs font-mono text-[#9A9AA4]">
+                {displayMetrics.fp_per_10k.toFixed(1)} false alarms / 10k
+              </span>
+            </div>
+
+            {/* Metric 3: False Positives */}
+            <div className="clay-card-sm p-5 sm:p-6 flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[#9A9AA4]">
+                <span className="text-xs font-mono uppercase font-semibold">False Alarms</span>
+                <AlertTriangle className="h-4 w-4 text-[#D4C8EB]" />
+              </div>
+              <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#F7F6F3] tabular-nums">
+                {Math.round(displayMetrics.fp_count)}
+              </div>
+              <span className="text-xs font-mono text-[#9A9AA4]">
+                ${Math.round(displayMetrics.friction_costs)} user friction
+              </span>
+            </div>
+
+            {/* Metric 4: Total Expected Cost */}
+            <div className="clay-card-rose p-5 sm:p-6 flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[#F2B8C6]">
+                <span className="text-xs font-mono uppercase font-bold">Total Net Cost</span>
+                <DollarSign className="h-4 w-4 text-[#F2B8C6]" />
+              </div>
+              <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#F7F6F3] tabular-nums">
+                ${displayMetrics.total_cost.toFixed(2)}
+              </div>
+              <span className="text-xs font-mono text-[#9A9AA4]">
+                FN: ${Math.round(displayMetrics.fraud_losses)} | FP: ${Math.round(displayMetrics.friction_costs)}
+              </span>
+            </div>
+          </div>
+
+          {/* PR Curve Chart with Spacious Layout */}
+          <div className="pt-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <NeumorphicSpikeIcon size={22} />
+                <span className="text-xs font-heading font-bold text-[#F7F6F3] uppercase tracking-wider">
+                  Precision-Recall Operating Curve (PR-AUC 0.8424)
+                </span>
+              </div>
+              <span className="text-xs font-mono text-[#9A9AA4]">
+                Active operating marker tracks t = {selectedThreshold.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="h-64 sm:h-72 w-full pt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={PR_CURVE_DATA} margin={{ top: 10, right: 15, left: -15, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1E" opacity={0.6} />
+                  <XAxis
+                    dataKey="recall"
+                    type="number"
+                    domain={[0, 1]}
+                    tickCount={6}
+                    tick={{ fill: "#9A9AA4", fontSize: 11, fontFamily: "monospace" }}
+                    label={{ value: "Recall", position: "insideBottomRight", offset: -5, fill: "#9A9AA4", fontSize: 11 }}
+                  />
+                  <YAxis
+                    domain={[0, 100]}
+                    tick={{ fill: "#9A9AA4", fontSize: 11, fontFamily: "monospace" }}
+                    label={{ value: "Precision (%)", angle: -90, position: "insideLeft", offset: 20, fill: "#9A9AA4", fontSize: 11 }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#121216",
+                      borderColor: "#26262B",
+                      borderRadius: "16px",
+                      fontSize: "12px",
+                      fontFamily: "monospace",
+                      color: "#F7F6F3",
+                      boxShadow: "0 12px 30px rgba(0,0,0,0.6)",
+                    }}
+                    // @ts-expect-error recharts formatter typing
+                    formatter={(val: number) => [`${val.toFixed(2)}%`, ""]}
+                  />
+                  <Legend
+                    wrapperStyle={{ fontSize: "11px", fontFamily: "monospace", paddingTop: "12px" }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="xgb_precision"
+                    name="XGBoost Production Engine (0.8424)"
+                    stroke="#F2B8C6"
+                    strokeWidth={2.5}
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="baseline_precision"
+                    name="Logistic Regression Baseline (0.7904)"
+                    stroke="#5A5A68"
+                    strokeWidth={1.5}
+                    strokeDasharray="4 4"
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="no_skill"
+                    name="No-Skill Baseline (0.17%)"
+                    stroke="#7E5265"
+                    strokeWidth={1}
+                    strokeDasharray="2 2"
+                    dot={false}
+                  />
+                  {/* Active operating point indicator */}
+                  <ReferenceDot
+                    x={activePRPoint.recall}
+                    y={activePRPoint.precision}
+                    r={7}
+                    fill="#F2B8C6"
+                    stroke="#FFFFFF"
+                    strokeWidth={2.5}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* PROGRESSIVE DISCLOSURE: Full Cost Matrix Sweep (Collapsed by Default) */}
+          <div className="pt-2 border-t border-[#26262B]/50">
+            <button
+              type="button"
+              onClick={() => setIsCostTableExpanded(!isCostTableExpanded)}
+              className="w-full flex items-center justify-between py-2 text-xs font-mono text-[#9A9AA4] hover:text-[#F7F6F3] transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4 text-[#F2B8C6]" />
+                <span>
+                  {isCostTableExpanded
+                    ? "Hide 9-Threshold Cost Parametric Table"
+                    : `View Full 9-Threshold Parametric Cost Matrix (Active: t=${selectedThreshold.toFixed(2)}, Net Cost: $${displayMetrics.total_cost.toFixed(2)})`}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-[11px] text-[#F2B8C6]">
+                <span>{isCostTableExpanded ? "Collapse" : "Expand Table"}</span>
+                {isCostTableExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+              </div>
+            </button>
+
+            <AnimatePresence>
+              {isCostTableExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden pt-4"
+                >
+                  <div className="clay-card-inset p-5 overflow-x-auto">
+                    <table className="w-full text-left text-xs font-mono">
+                      <thead>
+                        <tr className="border-b border-[#26262B] text-[#9A9AA4]">
+                          <th className="pb-2.5">Threshold</th>
+                          <th className="pb-2.5">Recall</th>
+                          <th className="pb-2.5">Precision</th>
+                          <th className="pb-2.5">FP Count</th>
+                          <th className="pb-2.5">FN Count</th>
+                          <th className="pb-2.5 text-right">Total Net Cost</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#26262B]/30">
+                        {THRESHOLD_DATA.map((row) => {
+                          const isActive = Math.abs(row.threshold - selectedThreshold) < 0.001;
+                          return (
+                            <tr
+                              key={row.threshold}
+                              onClick={() => setSelectedThreshold(row.threshold)}
+                              className={`cursor-pointer transition-colors ${
+                                isActive
+                                  ? "bg-[#F2B8C6]/15 text-[#F2B8C6] font-bold"
+                                  : "text-[#9A9AA4] hover:bg-[#18181D]/60 hover:text-[#F7F6F3]"
+                              }`}
+                            >
+                              <td className="py-2.5 pl-1.5">
+                                {row.threshold.toFixed(2)}{" "}
+                                {row.is_optimal && (
+                                  <span className="clay-badge-sage text-[9px] px-2 py-0.5 font-bold ml-1">
+                                    OPTIMAL
+                                  </span>
+                                )}
+                              </td>
+                              <td className="py-2.5 text-[#B5D8C5]">{row.recall.toFixed(1)}%</td>
+                              <td className="py-2.5 text-[#F2B8C6]">{row.precision.toFixed(1)}%</td>
+                              <td className="py-2.5">{row.fp_count}</td>
+                              <td className="py-2.5">{row.fn_count}</td>
+                              <td className="py-2.5 pr-1.5 text-right text-[#F7F6F3] font-semibold">
+                                ${row.total_cost.toFixed(2)}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+
+        {/* ── SECTION 2: LIVE SCORING PLAYGROUND ─────────────────────────── */}
+        <motion.div
+          whileHover={{ y: -2 }}
+          transition={{ duration: 0.2 }}
+          className="clay-card p-7 sm:p-9 space-y-6"
+        >
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#26262B]/60 pb-5">
+            <div className="flex items-center gap-3.5">
+              <NeumorphicRadarIcon size={30} />
+              <div>
+                <h2 className="font-heading font-bold text-base sm:text-lg text-[#F7F6F3] tracking-tight">
+                  Live Test Split Scoring Demo
+                </h2>
+                <p className="text-xs text-[#9A9AA4] font-mono">
+                  Executes live FastAPI /score call using genuine Kaggle test transactions
+                </p>
+              </div>
+            </div>
+            <span className="clay-pill px-3.5 py-1 font-mono text-xs text-[#9A9AA4]">
+              POST /score (Latency &lt;10ms)
+            </span>
+          </div>
+
+          {/* Sample Selectors */}
+          <div className="space-y-3">
+            <label className="text-xs font-mono text-[#9A9AA4] block">
+              Choose Test Transaction:
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {(Object.keys(SAMPLE_TRANSACTIONS) as Array<keyof typeof SAMPLE_TRANSACTIONS>).map((key) => {
+                const tx = SAMPLE_TRANSACTIONS[key];
+                const isSelected = selectedTxKey === key;
+                const isFraud = key.includes("fraud");
+                return (
+                  <motion.button
+                    key={key}
+                    type="button"
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => {
+                      setSelectedTxKey(key);
                       setScoreResult(null);
                     }}
-                    className="w-full h-2.5 bg-[#181824] rounded-lg appearance-none cursor-pointer accent-[#C9A24D] transition-all"
-                  />
-
-                  <div className="flex justify-between text-[11px] font-mono text-[#8E8E9E] mt-2 px-0.5">
-                    {[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((t) => (
-                      <span
-                        key={t}
-                        className={`cursor-pointer transition-colors ${
-                          Math.abs(t - selectedThreshold) < 0.01
-                            ? "text-[#E6C875] font-bold"
-                            : "hover:text-[#F5F1E8]"
-                        }`}
-                        onClick={() => {
-                          setSelectedThreshold(t);
-                          setScoreResult(null);
-                        }}
-                      >
-                        {t.toFixed(1)}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Metric Readouts with Framer Motion */}
-                <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
-                  {/* Recall */}
-                  <motion.div
-                    key={`recall-${selectedThreshold}`}
-                    initial={{ opacity: 0.6, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-xl border border-[#242436] bg-[#0A0A0F] p-3.5 flex flex-col justify-between"
+                    className={`flex items-center justify-between p-4 text-left transition-all cursor-pointer ${
+                      isSelected ? "clay-card-selected" : "clay-card-interactive"
+                    }`}
                   >
-                    <div className="flex items-center justify-between text-[#8E8E9E]">
-                      <span className="text-[10px] uppercase font-semibold">Recall</span>
-                      <Target className="h-3.5 w-3.5 text-[#4EAD8A]" />
+                    <div>
+                      <div className="font-heading font-bold text-sm text-[#F7F6F3]">{tx.label}</div>
+                      <div className="text-xs font-mono text-[#9A9AA4] mt-0.5">
+                        ID: <span className="text-[#F7F6F3]">{tx.id}</span> · Amount: ${tx.amount_usd.toFixed(2)}
+                      </div>
                     </div>
-                    <div className="my-1.5 font-heading font-black text-xl text-[#4EAD8A]">
-                      {activeThresholdRow.recall.toFixed(1)}%
-                    </div>
-                    <span className="text-[10px] text-[#8E8E9E]">
-                      {activeThresholdRow.tp_count} / 74 Caught
+                    <span
+                      className={`text-[10px] font-mono font-bold px-2.5 py-1 ${
+                        isFraud ? "clay-badge-rose" : "clay-badge-sage"
+                      }`}
+                    >
+                      {isFraud ? "CONFIRMED FRAUD" : "LEGITIMATE"}
                     </span>
-                  </motion.div>
-
-                  {/* Precision */}
-                  <motion.div
-                    key={`prec-${selectedThreshold}`}
-                    initial={{ opacity: 0.6, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-xl border border-[#242436] bg-[#0A0A0F] p-3.5 flex flex-col justify-between"
-                  >
-                    <div className="flex items-center justify-between text-[#8E8E9E]">
-                      <span className="text-[10px] uppercase font-semibold">Precision</span>
-                      <TelemetrySpikeIcon size={14} />
-                    </div>
-                    <div className="my-1.5 font-heading font-black text-xl text-[#E6C875]">
-                      {activeThresholdRow.precision.toFixed(1)}%
-                    </div>
-                    <span className="text-[10px] text-[#8E8E9E]">
-                      {activeThresholdRow.fp_per_10k.toFixed(1)} FP / 10k Tx
-                    </span>
-                  </motion.div>
-
-                  {/* False Positives */}
-                  <motion.div
-                    key={`fp-${selectedThreshold}`}
-                    initial={{ opacity: 0.6, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-xl border border-[#242436] bg-[#0A0A0F] p-3.5 flex flex-col justify-between"
-                  >
-                    <div className="flex items-center justify-between text-[#8E8E9E]">
-                      <span className="text-[10px] uppercase font-semibold">False Positives</span>
-                      <RadarSweepIcon size={14} />
-                    </div>
-                    <div className="my-1.5 font-heading font-black text-xl text-[#F5F1E8]">
-                      {activeThresholdRow.fp_count}
-                    </div>
-                    <span className="text-[10px] text-[#8E8E9E]">
-                      Friction: ${activeThresholdRow.friction_costs.toFixed(0)}
-                    </span>
-                  </motion.div>
-
-                  {/* Total Net Cost */}
-                  <motion.div
-                    key={`cost-${selectedThreshold}`}
-                    initial={{ opacity: 0.6, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-xl border border-[#C9A24D]/35 bg-[#C9A24D]/10 p-3.5 flex flex-col justify-between"
-                  >
-                    <div className="flex items-center justify-between text-[#8E8E9E]">
-                      <span className="text-[10px] uppercase font-semibold text-[#E6C875]">Total Net Cost</span>
-                      <CostMatrixIcon size={14} />
-                    </div>
-                    <div className="my-1.5 font-heading font-black text-xl text-[#F5F1E8]">
-                      ${activeThresholdRow.total_cost.toFixed(2)}
-                    </div>
-                    <span className="text-[10px] text-[#8E8E9E]">
-                      FN: ${activeThresholdRow.fraud_losses.toFixed(0)} | FP: ${activeThresholdRow.friction_costs.toFixed(0)}
-                    </span>
-                  </motion.div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Precision-Recall Curve Chart (Recharts) */}
-            <Card className="border-[#242436] bg-[#12121A]/85 shadow-xl backdrop-blur-sm">
-              <CardHeader className="border-b border-[#242436] pb-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-[#C9A24D]" />
-                    <CardTitle className="font-heading font-bold text-sm text-[#F5F1E8] uppercase tracking-wider">
-                      Precision-Recall Curve (PR-AUC: 0.8424)
-                    </CardTitle>
-                  </div>
-                  <span className="text-[11px] font-mono text-[#8E8E9E]">
-                    Operating Point: t = {selectedThreshold.toFixed(2)}
-                  </span>
-                </div>
-              </CardHeader>
-
-              <CardContent className="pt-4">
-                <div className="h-64 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={PR_CURVE_DATA} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1F1F2E" />
-                      <XAxis
-                        dataKey="recall"
-                        type="number"
-                        domain={[0, 1]}
-                        tickCount={6}
-                        tick={{ fill: "#8E8E9E", fontSize: 11, fontFamily: "monospace" }}
-                        label={{ value: "Recall", position: "insideBottomRight", offset: -5, fill: "#8E8E9E", fontSize: 11 }}
-                      />
-                      <YAxis
-                        domain={[0, 100]}
-                        tick={{ fill: "#8E8E9E", fontSize: 11, fontFamily: "monospace" }}
-                        label={{ value: "Precision (%)", angle: -90, position: "insideLeft", offset: 15, fill: "#8E8E9E", fontSize: 11 }}
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: "#0A0A0F",
-                          borderColor: "#242436",
-                          borderRadius: "10px",
-                          fontSize: "12px",
-                          fontFamily: "monospace",
-                          color: "#F5F1E8",
-                        }}
-                        // @ts-expect-error recharts formatter typing
-                        formatter={(val: number) => [`${val.toFixed(2)}%`, ""]}
-                      />
-                      <Legend
-                        wrapperStyle={{ fontSize: "11px", fontFamily: "monospace", paddingTop: "8px" }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="xgb_precision"
-                        name="XGBoost Production (0.8424)"
-                        stroke="#C9A24D"
-                        strokeWidth={2.5}
-                        dot={false}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="baseline_precision"
-                        name="Logistic Regression (0.7904)"
-                        stroke="#5A5A70"
-                        strokeWidth={1.5}
-                        strokeDasharray="4 4"
-                        dot={false}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="no_skill"
-                        name="No-Skill Baseline (0.17%)"
-                        stroke="#C4707A"
-                        strokeWidth={1}
-                        strokeDasharray="2 2"
-                        dot={false}
-                      />
-                      {/* Active operating point marker */}
-                      <ReferenceDot
-                        x={activePRPoint.recall}
-                        y={activePRPoint.precision}
-                        r={6}
-                        fill="#C9A24D"
-                        stroke="#FFFFFF"
-                        strokeWidth={2}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-
-                <p className="mt-2 text-[11px] text-[#8E8E9E] font-mono text-center">
-                  Gold marker tracks current operating posture (Recall: {activeThresholdRow.recall.toFixed(1)}%, Precision: {activeThresholdRow.precision.toFixed(1)}%).
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Threshold Sweep Cost Matrix Table */}
-            <Card className="border-[#242436] bg-[#12121A]/70 shadow-md">
-              <CardHeader className="pb-2">
-                <div className="flex items-center gap-2">
-                  <CostMatrixIcon size={16} />
-                  <CardTitle className="font-heading font-bold text-xs text-[#F5F1E8] uppercase">
-                    Full Cost Matrix Sweep ($122.21 / FN vs $5.00 / FP)
-                  </CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <Table className="w-full text-[11px] font-mono">
-                    <TableHeader>
-                      <TableRow className="border-[#242436] hover:bg-transparent">
-                        <TableHead className="text-[#8E8E9E]">Threshold</TableHead>
-                        <TableHead className="text-[#8E8E9E]">Recall</TableHead>
-                        <TableHead className="text-[#8E8E9E]">Precision</TableHead>
-                        <TableHead className="text-[#8E8E9E]">FP Count</TableHead>
-                        <TableHead className="text-[#8E8E9E]">FN Count</TableHead>
-                        <TableHead className="text-[#8E8E9E]">Total Cost</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {THRESHOLD_DATA.map((row) => {
-                        const isActive = Math.abs(row.threshold - selectedThreshold) < 0.001;
-                        return (
-                          <TableRow
-                            key={row.threshold}
-                            onClick={() => setSelectedThreshold(row.threshold)}
-                            className={`cursor-pointer transition-colors border-[#242436]/60 ${
-                              isActive
-                                ? "bg-[#C9A24D]/15 text-[#E6C875] font-bold border-[#C9A24D]/40"
-                                : "text-[#8E8E9E] hover:bg-[#181824]/60"
-                            }`}
-                          >
-                            <TableCell className="py-2">
-                              {row.threshold.toFixed(2)}{" "}
-                              {row.is_optimal && (
-                                <Badge className="bg-[#4EAD8A]/20 text-[#4EAD8A] border border-[#4EAD8A]/35 text-[9px] px-1.5 py-0 font-bold ml-1">
-                                  OPTIMAL
-                                </Badge>
-                              )}
-                            </TableCell>
-                            <TableCell className="py-2 text-[#4EAD8A]">{row.recall.toFixed(1)}%</TableCell>
-                            <TableCell className="py-2 text-[#E6C875]">{row.precision.toFixed(1)}%</TableCell>
-                            <TableCell className="py-2">{row.fp_count}</TableCell>
-                            <TableCell className="py-2">{row.fn_count}</TableCell>
-                            <TableCell className="py-2 text-[#F5F1E8] font-semibold">${row.total_cost.toFixed(2)}</TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            </Card>
+                  </motion.button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+
+          {/* Execute Live Scoring Button */}
+          <div className="pt-2">
+            <motion.button
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.98, y: 1 }}
+              onClick={handleRunScoring}
+              disabled={isScoring}
+              className="w-full clay-btn-rose flex items-center justify-center gap-2.5 font-heading font-bold text-xs sm:text-sm py-4 tracking-wide disabled:opacity-50 cursor-pointer text-[#0A0A0A]"
+            >
+              {isScoring ? (
+                <>
+                  <RotateCcw className="h-4 w-4 animate-spin" />
+                  Scoring via Tree Inference Engine...
+                </>
+              ) : (
+                <>
+                  <Play className="h-4 w-4 fill-current" />
+                  Score Selected Transaction (t = {selectedThreshold.toFixed(2)})
+                </>
+              )}
+            </motion.button>
+          </div>
+
+          {/* Score Result Presentation */}
+          <AnimatePresence mode="wait">
+            {scoreResult && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25 }}
+                className="clay-card-inset p-6 font-mono space-y-4"
+              >
+                <div className="flex items-center justify-between pb-3 border-b border-[#26262B]/60">
+                  <span className="text-xs text-[#9A9AA4]">Inference Decision Output</span>
+                  <div className="flex items-center gap-1.5 text-xs text-[#F2B8C6]">
+                    <Clock className="h-3.5 w-3.5" />
+                    <span>{scoreResult.latency_ms} ms</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="text-xs text-[#9A9AA4]">Predicted Fraud Probability</div>
+                    <div className="text-3xl font-heading font-black text-[#F7F6F3] mt-0.5">
+                      {(scoreResult.risk_score * 100).toFixed(2)}%
+                    </div>
+                  </div>
+
+                  <div>
+                    {scoreResult.is_flagged ? (
+                      <div className="clay-badge-rose px-4 py-2 text-xs font-bold flex items-center gap-2">
+                        <NeumorphicShieldAlertIcon size={20} />
+                        <span>FLAGGED FOR REVIEW</span>
+                      </div>
+                    ) : (
+                      <div className="clay-badge-sage px-4 py-2 text-xs font-bold flex items-center gap-2">
+                        <NeumorphicShieldCheckIcon size={20} />
+                        <span>APPROVED (STRAIGHT-THROUGH)</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Visual Probability Bar */}
+                <div className="pt-2">
+                  <div className="relative h-3 w-full rounded-full bg-[#08080A] overflow-hidden shadow-inner border border-white/5">
+                    <div
+                      className={`h-full transition-all duration-500 rounded-full ${
+                        scoreResult.is_flagged
+                          ? "bg-gradient-to-r from-[#FCE2E9] to-[#F2B8C6]"
+                          : "bg-gradient-to-r from-[#D2EBDE] to-[#B5D8C5]"
+                      }`}
+                      style={{
+                        width: `${Math.min(Math.max(scoreResult.risk_score * 100, 3), 100)}%`,
+                      }}
+                    ></div>
+                    {/* Cutoff Marker */}
+                    <div
+                      className="absolute top-0 bottom-0 w-1 bg-[#F2B8C6] z-10 shadow-[0_0_8px_#F2B8C6]"
+                      style={{ left: `${scoreResult.threshold_applied * 100}%` }}
+                    ></div>
+                  </div>
+                  <div className="mt-2 flex justify-between text-[11px] text-[#9A9AA4]">
+                    <span>0% Prob</span>
+                    <span className="text-[#F2B8C6] font-bold">
+                      Active Cutoff: t = {scoreResult.threshold_applied.toFixed(2)}
+                    </span>
+                    <span>100% Prob</span>
+                  </div>
+                </div>
+
+                {scoreResult.error && (
+                  <div className="text-xs text-[#F2B8C6] bg-[#F2B8C6]/10 p-3 rounded-xl border border-[#F2B8C6]/25">
+                    {scoreResult.error}
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* PROGRESSIVE DISCLOSURE: Feature Inspector (Collapsed by Default) */}
+          <div className="pt-2 border-t border-[#26262B]/50">
+            <button
+              type="button"
+              onClick={() => setIsFeaturesExpanded(!isFeaturesExpanded)}
+              className="w-full flex items-center justify-between py-2 text-xs font-mono text-[#9A9AA4] hover:text-[#F7F6F3] transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <Layers className="h-4 w-4 text-[#F2B8C6]" />
+                <span>
+                  {isFeaturesExpanded
+                    ? `Hide PCA Projections for ${currentSample.id}`
+                    : `30 PCA feature vectors loaded for ${currentSample.id} · Click to inspect`}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-[11px] text-[#F2B8C6]">
+                <span>{isFeaturesExpanded ? "Collapse" : "Inspect Vectors"}</span>
+                {isFeaturesExpanded ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+              </div>
+            </button>
+
+            <AnimatePresence>
+              {isFeaturesExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden pt-4"
+                >
+                  <div className="clay-card-inset p-5">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs font-mono">
+                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
+                        <span className="text-[#9A9AA4] block text-[10px]">Amount ($)</span>
+                        <span className="text-[#F7F6F3] font-bold">${currentSample.amount_usd.toFixed(2)}</span>
+                      </div>
+                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
+                        <span className="text-[#9A9AA4] block text-[10px]">V14 (Anomaly)</span>
+                        <span className="text-[#F2B8C6] font-bold">{(currentSample.features.V14 as number).toFixed(3)}</span>
+                      </div>
+                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
+                        <span className="text-[#9A9AA4] block text-[10px]">V10 (Anomaly)</span>
+                        <span className="text-[#F2B8C6] font-bold">{(currentSample.features.V10 as number).toFixed(3)}</span>
+                      </div>
+                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
+                        <span className="text-[#9A9AA4] block text-[10px]">V4</span>
+                        <span className="text-[#F7F6F3] font-bold">{(currentSample.features.V4 as number).toFixed(3)}</span>
+                      </div>
+                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
+                        <span className="text-[#9A9AA4] block text-[10px]">V12</span>
+                        <span className="text-[#F7F6F3] font-bold">{(currentSample.features.V12 as number).toFixed(3)}</span>
+                      </div>
+                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
+                        <span className="text-[#9A9AA4] block text-[10px]">V17</span>
+                        <span className="text-[#F7F6F3] font-bold">{(currentSample.features.V17 as number).toFixed(3)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

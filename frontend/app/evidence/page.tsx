@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  TreeAttributionIcon,
-  BiometricShieldIcon,
-  TelemetrySpikeIcon,
-} from "@/components/icons/CustomIcons";
+  NeumorphicTreeIcon,
+  NeumorphicShieldCheckIcon,
+  NeumorphicShieldAlertIcon,
+} from "@/components/icons/NeumorphicIcons";
 import {
   FileText,
-  ShieldAlert,
-  ShieldCheck,
   Copy,
   Check,
   Sparkles,
@@ -19,23 +18,26 @@ import {
   Code2,
   TrendingUp,
   TrendingDown,
+  Shield,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { SAMPLE_TRANSACTIONS } from "../data/metricsData";
+
+// Lazy-load the ambient 3D clay background
+const AmbientClayBackground = dynamic(
+  () => import("../components/three/ambient-clay-orb"),
+  { ssr: false, loading: () => null }
+);
 
 export default function EvidencePage() {
   const [selectedTxKey, setSelectedTxKey] = useState<keyof typeof SAMPLE_TRANSACTIONS>("confirmed_fraud");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
   const [showJson, setShowJson] = useState<boolean>(false);
+
+  // Progressive disclosure: show top 2 factors by default, expand to all 5
+  const [showAllFactors, setShowAllFactors] = useState<boolean>(false);
 
   // Active transaction fixture
   const currentTx = SAMPLE_TRANSACTIONS[selectedTxKey];
@@ -85,6 +87,7 @@ export default function EvidencePage() {
 
       const data = await response.json();
       setExplainData(data);
+      setShowAllFactors(false); // Reset to progressive top-2 view
     } catch (err: unknown) {
       const elapsed = performance.now() - t0;
       const isFraud = selectedTxKey.includes("fraud");
@@ -188,6 +191,7 @@ export default function EvidencePage() {
         evidence_summary: `### SentinelPay Automated Fraud Evidence & Chargeback Dossier\n**Metadata:** Transaction ID: \`${currentTx.id}\` | Amount: \`$${currentTx.amount_usd.toFixed(2)}\` | Risk Score: \`${fallbackRisk.toFixed(4)}\` (${(fallbackRisk * 100).toFixed(2)}%) | Status: **\`${isFlagged ? "FLAGGED_FOR_REVIEW" : "APPROVED"}\`**\n\n#### 1. Executive Summary & Automated Evidence Narrative\nThis transaction was ${isFlagged ? `flagged with an estimated fraud risk score of **${(fallbackRisk * 100).toFixed(1)}%** exceeding the operational security threshold (0.10). Primary quantitative risk drivers: statistical anomaly in derived component V14 (value: -5.21, 52.2% weight), statistical anomaly in derived component V10 (value: -3.23, 18.7% weight).` : `cleared with a low fraud risk score of **${(fallbackRisk * 100).toFixed(2)}%** (Decision: APPROVED).`}\n\n#### 2. Recommended Operational Action & Dispute Defense\n${isFlagged ? "**High-Confidence Fraud Pattern Detected**: Immediate cardholder challenge / step-up 3D Secure authentication required. Attach this SHAP attribution log verifying multi-dimensional statistical divergence from valid cardholder behavioral profiles." : "**Standard Low-Risk Transaction**: Transaction cleared for automated straight-through processing."}`,
         latency_ms: Number(elapsed.toFixed(2)),
       });
+      setShowAllFactors(false);
     } finally {
       setIsLoading(false);
     }
@@ -201,356 +205,355 @@ export default function EvidencePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] text-[#F5F1E8] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <div className="relative min-h-screen bg-[#0A0A0A] text-[#F7F6F3] px-4 py-10 sm:px-6 lg:px-8 overflow-hidden">
+      {/* 3D Ambient Clay Background Canvas */}
+      <AmbientClayBackground />
+
+      <div className="relative z-10 mx-auto max-w-5xl space-y-8">
         {/* Header Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#242436] pb-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#26262B]/60 pb-6">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-[#C9A24D]"></span>
-              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#E6C875]">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-2 w-2 rounded-full bg-[#F2B8C6] shadow-[0_0_8px_#F2B8C6]"></span>
+              <span className="text-xs font-mono font-medium uppercase tracking-wider text-[#F2B8C6]">
                 SHAP Auto-Responder & Dispute Evidence Engine
               </span>
             </div>
-            <h1 className="mt-1 font-heading font-black text-2xl sm:text-3xl text-[#F5F1E8] tracking-tight">
+            <h1 className="mt-1 font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#F7F6F3] tracking-tight">
               Automated Chargeback Defense Dossier
             </h1>
-            <p className="mt-1 text-xs text-[#8E8E9E]">
-              Exact Shapley game-theoretic attributions decomposed via <code className="text-[#E6C875] font-mono">shap.TreeExplainer</code> into dispute-ready narratives.
+            <p className="mt-1 text-xs sm:text-sm text-[#9A9AA4]">
+              Exact Shapley game-theoretic attributions decomposed via <code className="text-[#F2B8C6] font-mono">shap.TreeExplainer</code> into dispute-ready narratives.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
+          <div className="flex items-center gap-3">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setShowJson(!showJson)}
-              className="border-[#242436] bg-[#12121A] text-[#8E8E9E] hover:text-[#F5F1E8] hover:bg-[#181824] font-mono text-xs"
+              className="clay-btn-surface px-4 py-2 text-xs font-mono flex items-center gap-2 cursor-pointer"
             >
-              <Code2 className="h-3.5 w-3.5 mr-1.5 text-[#C9A24D]" />
-              {showJson ? "Hide Raw Payload" : "Inspect Raw JSON"}
-            </Button>
+              <Code2 className="h-4 w-4 text-[#F2B8C6]" />
+              <span>{showJson ? "Hide Raw JSON" : "Inspect Raw JSON"}</span>
+            </motion.button>
           </div>
         </div>
 
-        {/* Transaction Selector Strip */}
-        <div className="mt-6">
-          <label className="text-xs font-mono text-[#8E8E9E] block mb-2">
+        {/* Transaction Selector (Spacious & Clean) */}
+        <motion.div
+          whileHover={{ y: -2 }}
+          transition={{ duration: 0.2 }}
+          className="clay-card p-6 sm:p-7 space-y-4"
+        >
+          <label className="text-xs font-mono text-[#9A9AA4] block">
             Select Test Set Payload to Deconstruct:
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
             {(Object.keys(SAMPLE_TRANSACTIONS) as Array<keyof typeof SAMPLE_TRANSACTIONS>).map((key) => {
               const tx = SAMPLE_TRANSACTIONS[key];
               const isSelected = selectedTxKey === key;
               const isFraud = key.includes("fraud");
               return (
-                <button
+                <motion.button
                   key={key}
+                  type="button"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                   onClick={() => {
                     setSelectedTxKey(key);
                     setExplainData(null);
                   }}
-                  className={`flex flex-col justify-between rounded-xl p-3.5 text-left transition-all border ${
-                    isSelected
-                      ? "border-[#C9A24D]/60 bg-[#C9A24D]/10 shadow-md ring-1 ring-[#C9A24D]/30"
-                      : "border-[#242436] bg-[#12121A]/70 hover:border-[#383850] hover:bg-[#181824]"
+                  className={`flex flex-col justify-between p-4 text-left transition-all cursor-pointer ${
+                    isSelected ? "clay-card-selected" : "clay-card-interactive"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-mono font-semibold text-[#F5F1E8]">{tx.id}</span>
-                    <Badge
-                      variant="outline"
-                      className={`font-mono text-[9px] font-bold ${
-                        isFraud
-                          ? "bg-[#C4707A]/20 text-[#C4707A] border-[#C4707A]/30"
-                          : "bg-[#4EAD8A]/20 text-[#4EAD8A] border-[#4EAD8A]/30"
+                    <span className="text-xs font-mono font-bold text-[#F7F6F3]">{tx.id}</span>
+                    <span
+                      className={`text-[9px] font-mono font-bold px-2 py-0.5 ${
+                        isFraud ? "clay-badge-rose" : "clay-badge-sage"
                       }`}
                     >
                       {tx.ground_truth}
-                    </Badge>
+                    </span>
                   </div>
-                  <div className="mt-2 text-xs font-medium text-[#8E8E9E] line-clamp-1">{tx.label}</div>
-                  <div className="mt-1 text-[11px] font-mono text-[#F5F1E8] font-semibold">${tx.amount_usd.toFixed(2)} USD</div>
-                </button>
+                  <div className="mt-2 text-xs font-heading font-medium text-[#9A9AA4] line-clamp-1">{tx.label}</div>
+                  <div className="mt-1 text-xs font-mono text-[#F2B8C6] font-semibold">${tx.amount_usd.toFixed(2)} USD</div>
+                </motion.button>
               );
             })}
           </div>
-        </div>
 
-        {/* Generate Evidence Trigger Banner */}
-        <Card className="mt-5 border-[#242436] bg-[#12121A]/85 shadow-lg backdrop-blur-sm">
-          <CardContent className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C9A24D]/15 text-[#C9A24D] border border-[#C9A24D]/30">
-                <TreeAttributionIcon size={22} />
-              </div>
-              <div>
-                <div className="text-xs font-mono font-bold text-[#F5F1E8] flex items-center gap-2">
-                  <span>Target Payload:</span>
-                  <span className="text-[#E6C875]">{currentTx.id}</span>
-                  <span className="text-[#8E8E9E] font-normal">(${currentTx.amount_usd.toFixed(2)})</span>
-                </div>
-                <p className="text-[11px] text-[#8E8E9E] font-mono mt-0.5">
-                  Calculates exact Shapley game-theoretic attributions across 30 PCA decision trees.
-                </p>
-              </div>
-            </div>
-
-            <Button
+          {/* Action Button */}
+          <div className="pt-3">
+            <motion.button
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.98, y: 1 }}
               onClick={handleGenerateExplanation}
               disabled={isLoading}
-              className="bg-[#C9A24D] hover:bg-[#E6C875] text-[#0A0A0F] font-heading font-bold text-xs px-6 py-3 shadow-lg shadow-[#C9A24D]/20 transition-all w-full sm:w-auto rounded-xl"
+              className="w-full clay-btn-rose px-7 py-4 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 tracking-wide disabled:opacity-50 cursor-pointer text-[#0A0A0A]"
             >
               {isLoading ? (
                 <>
-                  <RotateCcw className="h-3.5 w-3.5 mr-2 animate-spin" />
-                  Deconstructing SHAP Paths...
+                  <RotateCcw className="h-4 w-4 animate-spin" />
+                  Deconstructing Tree Paths via SHAP...
                 </>
               ) : (
                 <>
-                  <Sparkles className="h-3.5 w-3.5 mr-2" />
-                  Generate Dispute Dossier
+                  <Sparkles className="h-4 w-4" />
+                  Deconstruct {currentTx.id} (${currentTx.amount_usd.toFixed(2)}) & Generate Evidence
                 </>
               )}
-            </Button>
-          </CardContent>
-        </Card>
+            </motion.button>
+          </div>
+        </motion.div>
 
-        {/* Dossier Output Presentation */}
+        {/* Dossier Presentation with Progressive Disclosure */}
         <AnimatePresence mode="wait">
           {explainData ? (
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
+              exit={{ opacity: 0, y: -14 }}
               transition={{ duration: 0.3 }}
-              className="mt-6 flex flex-col gap-6"
+              className="space-y-6"
             >
-              {/* Telemetry Bar */}
-              <div className="flex items-center justify-between text-xs font-mono text-[#8E8E9E]">
-                <div className="flex items-center gap-2 text-[#E6C875]">
+              {/* Telemetry Header Strip */}
+              <div className="flex items-center justify-between text-xs font-mono text-[#9A9AA4]">
+                <div className="flex items-center gap-2 text-[#F2B8C6]">
                   <Clock className="h-3.5 w-3.5" />
-                  <span>Computed in {explainData.latency_ms} ms via TreeExplainer</span>
+                  <span>Computed in {explainData.latency_ms} ms via shap.TreeExplainer</span>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleCopyMarkdown}
-                    className="border-[#242436] bg-[#12121A] text-[#F5F1E8] hover:bg-[#181824] font-mono text-xs rounded-lg"
-                  >
-                    {copied ? (
-                      <>
-                        <Check className="h-3.5 w-3.5 mr-1.5 text-[#4EAD8A]" />
-                        <span className="text-[#4EAD8A]">Copied Markdown!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-3.5 w-3.5 mr-1.5 text-[#8E8E9E]" />
-                        <span>Copy Markdown Dossier</span>
-                      </>
-                    )}
-                  </Button>
-                </div>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleCopyMarkdown}
+                  className="clay-btn-surface px-4 py-1.5 font-mono text-xs flex items-center gap-2 cursor-pointer"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5 text-[#B5D8C5]" />
+                      <span className="text-[#B5D8C5]">Copied Markdown!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5 text-[#9A9AA4]" />
+                      <span>Copy Markdown Dossier</span>
+                    </>
+                  )}
+                </motion.button>
               </div>
 
               {/* Main Dossier Card */}
-              <Card className="border-[#242436] bg-[#12121A]/90 shadow-2xl backdrop-blur-sm overflow-hidden">
+              <motion.div
+                whileHover={{ y: -2 }}
+                transition={{ duration: 0.2 }}
+                className="clay-card p-7 sm:p-9 space-y-7"
+              >
                 {/* Dossier Header */}
-                <CardHeader className="border-b border-[#242436] bg-[#0A0A0F]/70 pb-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#E6C875] font-bold block mb-1">
-                        Dispute Evidence & Chargeback Defense Dossier
-                      </span>
-                      <div className="flex items-center gap-3">
-                        <CardTitle className="font-heading font-black text-xl text-[#F5F1E8]">
-                          {explainData.transaction_id}
-                        </CardTitle>
-                        <Badge variant="secondary" className="font-mono text-xs bg-[#181824] text-[#F5F1E8] border-[#242436]">
-                          ${currentTx.amount_usd.toFixed(2)} USD
-                        </Badge>
-                      </div>
-                    </div>
-
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#26262B]/60 pb-6">
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#F2B8C6] font-bold block mb-1">
+                      Dispute Evidence & Chargeback Defense Dossier
+                    </span>
                     <div className="flex items-center gap-3">
-                      <div className="text-right font-mono">
-                        <div className="text-[10px] text-[#8E8E9E]">Estimated Risk Score</div>
-                        <div className="font-heading font-black text-2xl text-[#F5F1E8]">
-                          {(explainData.risk_score * 100).toFixed(2)}%
-                        </div>
+                      <h2 className="font-heading font-black text-2xl text-[#F7F6F3]">
+                        {explainData.transaction_id}
+                      </h2>
+                      <span className="clay-pill px-3 py-1 font-mono text-xs text-[#F7F6F3]">
+                        ${currentTx.amount_usd.toFixed(2)} USD
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="text-right font-mono">
+                      <div className="text-xs text-[#9A9AA4]">Estimated Risk</div>
+                      <div className="font-heading font-black text-2xl text-[#F7F6F3]">
+                        {(explainData.risk_score * 100).toFixed(2)}%
                       </div>
-
-                      {explainData.is_flagged ? (
-                        <Badge className="bg-[#C4707A]/20 text-[#C4707A] border border-[#C4707A]/40 font-mono text-xs px-3.5 py-1.5 font-bold flex items-center gap-1.5">
-                          <ShieldAlert className="h-4 w-4" />
-                          FLAGGED FOR REVIEW
-                        </Badge>
-                      ) : (
-                        <Badge className="bg-[#4EAD8A]/20 text-[#4EAD8A] border border-[#4EAD8A]/40 font-mono text-xs px-3.5 py-1.5 font-bold flex items-center gap-1.5">
-                          <ShieldCheck className="h-4 w-4" />
-                          APPROVED
-                        </Badge>
-                      )}
                     </div>
-                  </div>
-                </CardHeader>
 
-                <CardContent className="p-6 sm:p-8 space-y-6">
-                  {/* Section 1: Executive Summary */}
-                  <div>
-                    <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#8E8E9E] mb-2.5 flex items-center gap-2">
-                      <FileText className="h-3.5 w-3.5 text-[#C9A24D]" />
-                      1. Executive Summary & Automated Evidence Narrative
-                    </h3>
-                    <div className="rounded-xl border border-[#242436] bg-[#0A0A0F]/90 p-4 text-xs sm:text-sm text-[#F5F1E8] leading-relaxed font-sans">
-                      This transaction was{" "}
-                      {explainData.is_flagged ? (
-                        <>
-                          flagged with an estimated fraud risk score of{" "}
-                          <strong className="text-[#C4707A] font-mono">
-                            {(explainData.risk_score * 100).toFixed(1)}%
-                          </strong>{" "}
-                          exceeding the operational security threshold ({explainData.threshold_applied.toFixed(2)}).
-                          Primary quantitative risk drivers:{" "}
-                          {explainData.top_features
-                            .filter((f) => f.direction === "increases_risk")
-                            .map((f, i) => (
-                              <span key={f.feature}>
-                                {i > 0 && ", "}
-                                <strong>{f.feature}</strong> (anomaly value:{" "}
-                                <span className="font-mono text-[#F5F1E8]">{f.value.toFixed(2)}</span>,{" "}
-                                <span className="font-mono text-[#E6C875] font-semibold">
-                                  {f.contribution_pct}%
-                                </span>{" "}
-                                weight)
-                              </span>
-                            ))}
-                          .
-                          {explainData.top_features.some((f) => f.direction === "decreases_risk") && (
-                            <span>
-                              {" "}Conversely, baseline consistency in{" "}
-                              {explainData.top_features
-                                .filter((f) => f.direction === "decreases_risk")
-                                .map((f) => `${f.feature} (${f.contribution_pct}% mitigating weight)`)
-                                .join(", ")}{" "}
-                              partially mitigated the anomaly score.
+                    {explainData.is_flagged ? (
+                      <div className="clay-badge-rose px-4 py-2 font-mono text-xs font-bold flex items-center gap-2">
+                        <NeumorphicShieldAlertIcon size={18} />
+                        <span>FLAGGED</span>
+                      </div>
+                    ) : (
+                      <div className="clay-badge-sage px-4 py-2 font-mono text-xs font-bold flex items-center gap-2">
+                        <NeumorphicShieldCheckIcon size={18} />
+                        <span>APPROVED</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Section 1: Executive Summary */}
+                <div className="space-y-2.5">
+                  <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#9A9AA4] flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-[#F2B8C6]" />
+                    <span>1. Executive Summary & Automated Evidence Narrative</span>
+                  </h3>
+                  <div className="clay-card-inset p-5 text-xs sm:text-sm text-[#F7F6F3] leading-relaxed font-sans">
+                    This transaction was{" "}
+                    {explainData.is_flagged ? (
+                      <>
+                        flagged with an estimated fraud risk score of{" "}
+                        <strong className="text-[#F2B8C6] font-mono font-bold">
+                          {(explainData.risk_score * 100).toFixed(1)}%
+                        </strong>{" "}
+                        exceeding the operational security threshold ({explainData.threshold_applied.toFixed(2)}).
+                        Primary quantitative risk drivers:{" "}
+                        {explainData.top_features
+                          .filter((f) => f.direction === "increases_risk")
+                          .slice(0, 2)
+                          .map((f, i) => (
+                            <span key={f.feature}>
+                              {i > 0 && ", "}
+                              <strong>{f.feature}</strong> (anomaly value:{" "}
+                              <span className="font-mono text-[#F7F6F3]">{f.value.toFixed(2)}</span>,{" "}
+                              <span className="font-mono text-[#F2B8C6] font-bold">
+                                {f.contribution_pct}%
+                              </span>{" "}
+                              weight)
                             </span>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          cleared with a low fraud risk score of{" "}
-                          <strong className="text-[#4EAD8A] font-mono">
-                            {(explainData.risk_score * 100).toFixed(2)}%
-                          </strong>{" "}
-                          (Decision: APPROVED). Baseline transaction telemetry matched expected cardholder behavioral
-                          distributions across primary PCA projection vectors.
-                        </>
-                      )}
-                    </div>
+                          ))}
+                        .
+                      </>
+                    ) : (
+                      <>
+                        cleared with a low fraud risk score of{" "}
+                        <strong className="text-[#B5D8C5] font-mono font-bold">
+                          {(explainData.risk_score * 100).toFixed(2)}%
+                        </strong>{" "}
+                        (Decision: APPROVED). Baseline transaction telemetry matched expected cardholder behavioral
+                        distributions.
+                      </>
+                    )}
                   </div>
+                </div>
 
-                  {/* Section 2: Top 5 SHAP Feature Breakdown */}
-                  <div>
-                    <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#8E8E9E] mb-3 flex items-center gap-2">
-                      <Sparkles className="h-3.5 w-3.5 text-[#C9A24D]" />
-                      2. Top 5 SHAP Game-Theoretic Attributions
+                {/* Section 2: PROGRESSIVE DISCLOSURE — Top 2 Factors by Default, Expand for All 5 */}
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#9A9AA4] flex items-center gap-2">
+                      <Sparkles className="h-4 w-4 text-[#F2B8C6]" />
+                      <span>
+                        2. Key Feature Attributions {showAllFactors ? "(All 5 Factors)" : "(Top 2 Primary Drivers)"}
+                      </span>
                     </h3>
 
-                    <div className="grid grid-cols-1 gap-2.5 font-mono text-xs">
-                      {explainData.top_features.map((feat, idx) => {
+                    {explainData.top_features.length > 2 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllFactors(!showAllFactors)}
+                        className="text-xs font-mono text-[#F2B8C6] hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>{showAllFactors ? "Show Top 2 Drivers Only" : `Show All 5 Factors (+${explainData.top_features.length - 2} More)`}</span>
+                        {showAllFactors ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Feature Cards */}
+                  <div className="grid grid-cols-1 gap-3 font-mono text-xs">
+                    {(showAllFactors ? explainData.top_features : explainData.top_features.slice(0, 2)).map(
+                      (feat, idx) => {
                         const isRisk = feat.direction === "increases_risk";
                         return (
-                          <div
+                          <motion.div
                             key={feat.feature}
-                            className="rounded-xl border border-[#242436] bg-[#0A0A0F] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-[#383850] transition-colors"
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.25, delay: idx * 0.05 }}
+                            className="clay-card-sm p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5"
                           >
-                            <div className="flex items-center gap-3">
-                              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#181824] text-[11px] font-bold text-[#8E8E9E]">
+                            <div className="flex items-center gap-3.5">
+                              <span className="clay-pill flex h-7 w-7 items-center justify-center text-[11px] font-bold text-[#F2B8C6]">
                                 {idx + 1}
                               </span>
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-sm font-bold text-[#F5F1E8]">{feat.feature}</span>
-                                  <span className="text-[11px] text-[#8E8E9E] font-sans">({feat.description})</span>
+                                  <span className="font-heading font-bold text-sm text-[#F7F6F3]">{feat.feature}</span>
+                                  <span className="text-xs text-[#9A9AA4] font-sans">({feat.description})</span>
                                 </div>
-                                <div className="text-[11px] text-[#8E8E9E] mt-0.5">
-                                  Observed Normalized Value: <code className="text-[#F5F1E8] font-semibold">{feat.value}</code>
+                                <div className="text-[11px] text-[#9A9AA4] mt-0.5">
+                                  Normalized Value: <code className="text-[#F7F6F3] font-bold">{feat.value}</code>
                                 </div>
                               </div>
                             </div>
 
-                            <div className="flex items-center gap-4 sm:text-right">
+                            <div className="flex items-center gap-5 sm:text-right">
                               <div>
-                                <div className="text-[10px] text-[#8E8E9E]">SHAP Attribution</div>
-                                <div className={`font-bold ${isRisk ? "text-[#C4707A]" : "text-[#4EAD8A]"}`}>
+                                <div className="text-[10px] text-[#9A9AA4]">SHAP Score</div>
+                                <div className={`font-bold font-mono ${isRisk ? "text-[#F2B8C6]" : "text-[#B5D8C5]"}`}>
                                   {feat.shap_value > 0 ? `+${feat.shap_value.toFixed(4)}` : feat.shap_value.toFixed(4)}
                                 </div>
                               </div>
 
                               <div className="min-w-[80px]">
-                                <div className="text-[10px] text-[#8E8E9E]">Contribution</div>
-                                <div className="text-sm font-bold text-[#F5F1E8]">{feat.contribution_pct}%</div>
+                                <div className="text-[10px] text-[#9A9AA4]">Contribution</div>
+                                <div className="font-heading font-bold text-sm text-[#F7F6F3]">{feat.contribution_pct}%</div>
                               </div>
 
                               <div>
                                 {isRisk ? (
-                                  <Badge className="bg-[#C4707A]/15 text-[#C4707A] border border-[#C4707A]/30 text-[10px] font-bold flex items-center gap-1">
+                                  <span className="clay-badge-rose text-[10px] font-bold px-2.5 py-1 flex items-center gap-1">
                                     <TrendingUp className="h-3 w-3" />
                                     Increases Risk
-                                  </Badge>
+                                  </span>
                                 ) : (
-                                  <Badge className="bg-[#4EAD8A]/15 text-[#4EAD8A] border border-[#4EAD8A]/30 text-[10px] font-bold flex items-center gap-1">
+                                  <span className="clay-badge-sage text-[10px] font-bold px-2.5 py-1 flex items-center gap-1">
                                     <TrendingDown className="h-3 w-3" />
                                     Decreases Risk
-                                  </Badge>
+                                  </span>
                                 )}
                               </div>
                             </div>
-                          </div>
+                          </motion.div>
                         );
-                      })}
-                    </div>
+                      }
+                    )}
                   </div>
+                </div>
 
-                  {/* Section 3: Recommended Action */}
-                  <div>
-                    <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#8E8E9E] mb-2.5 flex items-center gap-2">
-                      <BiometricShieldIcon size={14} />
-                      3. Recommended Operational Action & Dispute Defense Strategy
-                    </h3>
-                    <div className="rounded-xl border border-[#C9A24D]/30 bg-[#C9A24D]/10 p-4 text-xs text-[#F5F1E8] leading-relaxed font-sans">
-                      {explainData.risk_score >= 0.70 ? (
-                        <div>
-                          <strong className="text-[#C4707A] font-semibold">High-Confidence Fraud Pattern Detected:</strong>{" "}
-                          Immediate cardholder challenge / step-up 3D Secure authentication required. If a chargeback dispute
-                          is initiated, attach this SHAP attribution log verifying multi-dimensional statistical divergence
-                          from valid cardholder behavioral profiles.
-                        </div>
-                      ) : explainData.is_flagged ? (
-                        <div>
-                          <strong className="text-[#E6C875] font-semibold">Elevated Risk Score Detected:</strong>{" "}
-                          Recommend automated SMS/OTP confirmation or temporary hold. Log evidence telemetry for automated
-                          chargeback defense.
-                        </div>
-                      ) : (
-                        <div>
-                          <strong className="text-[#4EAD8A] font-semibold">Standard Low-Risk Transaction:</strong>{" "}
-                          Transaction cleared for automated straight-through processing.
-                        </div>
-                      )}
-                    </div>
+                {/* Section 3: Recommended Action */}
+                <div className="space-y-2.5">
+                  <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#9A9AA4] flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-[#F2B8C6]" />
+                    <span>3. Recommended Operational Action & Dispute Defense Strategy</span>
+                  </h3>
+                  <div className="clay-card-rose p-5 text-xs sm:text-sm text-[#F7F6F3] leading-relaxed font-sans">
+                    {explainData.risk_score >= 0.70 ? (
+                      <div>
+                        <strong className="text-[#F2B8C6] font-semibold">High-Confidence Fraud Pattern Detected:</strong>{" "}
+                        Immediate cardholder challenge / step-up 3D Secure authentication required. If a chargeback dispute
+                        is initiated, attach this SHAP attribution log verifying multi-dimensional statistical divergence
+                        from valid cardholder behavioral profiles.
+                      </div>
+                    ) : explainData.is_flagged ? (
+                      <div>
+                        <strong className="text-[#D4C8EB] font-semibold">Elevated Risk Score Detected:</strong>{" "}
+                        Recommend automated SMS/OTP confirmation or temporary hold. Log evidence telemetry for automated
+                        chargeback defense.
+                      </div>
+                    ) : (
+                      <div>
+                        <strong className="text-[#B5D8C5] font-semibold">Standard Low-Risk Transaction:</strong>{" "}
+                        Transaction cleared for automated straight-through processing.
+                      </div>
+                    )}
                   </div>
+                </div>
 
-                  {/* Transparency Notice */}
-                  <div className="border-t border-[#242436] pt-4 text-[11px] text-[#8E8E9E] font-mono">
-                    <strong>Methodology & Anonymization Integrity:</strong> Components V1–V28 represent anonymized PCA projections.
-                    Feature attributions reflect exact mathematical Shapley game-theoretic contributions without speculative business relabeling.
-                  </div>
-                </CardContent>
-              </Card>
+                {/* Transparency Notice */}
+                <div className="border-t border-[#26262B]/50 pt-4 text-[11px] text-[#9A9AA4] font-mono">
+                  <strong>Methodology & Anonymization Integrity:</strong> Components V1–V28 represent anonymized PCA projections.
+                  Feature attributions reflect exact mathematical Shapley game-theoretic contributions without speculative business relabeling.
+                </div>
+              </motion.div>
 
               {/* Raw JSON Inspector */}
               <AnimatePresence>
@@ -562,27 +565,25 @@ export default function EvidencePage() {
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <Card className="border-[#242436] bg-[#0A0A0F] p-4 font-mono text-xs text-[#F5F1E8] overflow-x-auto">
+                    <div className="clay-card-inset p-5 font-mono text-xs text-[#F7F6F3] overflow-x-auto">
                       <pre>{JSON.stringify(explainData, null, 2)}</pre>
-                    </Card>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>
           ) : (
-            <Card className="mt-8 border-dashed border-[#242436] bg-[#12121A]/40 p-12 text-center">
-              <CardContent className="flex flex-col items-center">
-                <FileText className="h-10 w-10 text-[#5A5A70] mb-3" />
-                <CardTitle className="font-heading font-semibold text-sm text-[#F5F1E8]">
-                  No Evidence Dossier Generated Yet
-                </CardTitle>
-                <CardDescription className="mt-1 text-xs text-[#8E8E9E] max-w-sm">
-                  Select a transaction fixture above and click{" "}
-                  <strong className="text-[#E6C875]">&quot;Generate Dispute Dossier&quot;</strong> to compute live SHAP
-                  feature attributions.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <div className="clay-card p-12 text-center space-y-3">
+              <FileText className="mx-auto h-10 w-10 text-[#5A5A68]" />
+              <h3 className="font-heading font-bold text-base text-[#F7F6F3]">
+                Ready to Generate Dispute Dossier
+              </h3>
+              <p className="text-xs text-[#9A9AA4] max-w-sm mx-auto">
+                Select a transaction fixture above and click{" "}
+                <strong className="text-[#F2B8C6]">&quot;Deconstruct &amp; Generate Evidence&quot;</strong> to compute live SHAP
+                feature attributions.
+              </p>
+            </div>
           )}
         </AnimatePresence>
       </div>

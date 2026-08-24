@@ -9,208 +9,207 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Deep Corridor Particle Cloud ──────────────────────────────────────────────
-// 3,200 transaction nodes distributed continuously along a 180-unit Z corridor
-interface ParticleSystemProps {
-  count: number;
-}
+// ─── Floating Soft Clay Sculptures along Z-Spine (Pastel Palette) ───────────────
+function SoftClayCorridor() {
+  const groupRef = useRef<THREE.Group>(null!);
 
-function ParticleSystem({ count }: ParticleSystemProps) {
-  const meshRef = useRef<THREE.Points>(null!);
-  const flaggedRef = useRef<THREE.Points>(null!);
+  // Collection of soft clay sculptures along the Z-axis corridor (Z = +10 to -140)
+  // Shifted to soft pastel blush rose, lavender, sage, and neutral slate
+  const sculptures = useMemo(() => {
+    return [
+      // Hero Viewport (Z = +8 to -10)
+      { type: "smooth-torus", pos: [4.5, 2.2, 0], scale: 1.4, color: "#F2B8C6", rot: [0.6, 0.4, 0.2] },
+      { type: "matte-sphere", pos: [-5.2, -1.8, -4], scale: 2.1, color: "#181820", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [5.8, -3.2, -8], scale: 1.2, color: "#D4C8EB", rot: [0.8, -0.4, 0.6] },
+      { type: "clay-pebble", pos: [-3.8, 3.5, -12], scale: 1.6, color: "#B5D8C5", rot: [0.3, 0.8, -0.2] },
 
-  const [positions, colors, flaggedPositions] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    const col = new Float32Array(count * 3);
-    const flaggedCount = Math.floor(count * 0.05); // ~5% flagged transactions
-    const flaggedPos = new Float32Array(flaggedCount * 3);
+      // Insight Viewport (Z = -20 to -50)
+      { type: "smooth-torus", pos: [-4.8, 1.5, -24], scale: 1.8, color: "#22222A", rot: [0.2, 0.9, 0.4] },
+      { type: "matte-sphere", pos: [5.0, -2.5, -30], scale: 2.4, color: "#F2B8C6", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [-4.2, -3.0, -38], scale: 1.5, color: "#B5D8C5", rot: [-0.5, 0.3, 0.8] },
+      { type: "clay-pebble", pos: [4.5, 3.0, -45], scale: 1.7, color: "#D4C8EB", rot: [0.7, -0.6, 0.1] },
 
-    const rng = (min: number, max: number) => Math.random() * (max - min) + min;
+      // Metrics & Architecture Viewport (Z = -55 to -95)
+      { type: "smooth-torus", pos: [5.5, 1.8, -60], scale: 2.2, color: "#F2B8C6", rot: [0.9, 0.2, -0.5] },
+      { type: "matte-sphere", pos: [-5.5, -2.0, -68], scale: 2.6, color: "#181820", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [4.0, -3.5, -78], scale: 1.6, color: "#B5D8C5", rot: [0.4, 0.8, -0.3] },
+      { type: "clay-pebble", pos: [-4.5, 3.2, -88], scale: 2.0, color: "#D4C8EB", rot: [-0.4, 0.5, 0.6] },
 
-    let fi = 0;
-    for (let i = 0; i < count; i++) {
-      const angle = rng(0, Math.PI * 2);
-      const radius = rng(1.8, 8.5);
-      // Continuous deep corridor from z = 15 down to z = -170
-      const z = rng(-160, 15);
-
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-
-      pos[i * 3] = x;
-      pos[i * 3 + 1] = y;
-      pos[i * 3 + 2] = z;
-
-      // Warm ambient particle color: warm cream/gold and subtle slate
-      const isWarm = Math.random() > 0.4;
-      if (isWarm) {
-        col[i * 3] = 0.79;     // #C9A24D r
-        col[i * 3 + 1] = 0.64; // g
-        col[i * 3 + 2] = 0.30; // b
-      } else {
-        col[i * 3] = 0.35;
-        col[i * 3 + 1] = 0.38;
-        col[i * 3 + 2] = 0.55;
-      }
-
-      if (fi < flaggedCount && Math.random() < 0.08) {
-        flaggedPos[fi * 3] = x * 0.9;
-        flaggedPos[fi * 3 + 1] = y * 0.9;
-        flaggedPos[fi * 3 + 2] = z;
-        fi++;
-      }
-    }
-
-    return [pos, col, flaggedPos];
-  }, [count]);
+      // CTA & Final Destination Viewport (Z = -100 to -145)
+      { type: "smooth-torus", pos: [-4.2, 2.0, -105], scale: 2.0, color: "#F2B8C6", rot: [0.3, -0.7, 0.5] },
+      { type: "matte-sphere", pos: [5.2, -1.5, -118], scale: 2.8, color: "#22222A", rot: [0, 0, 0] },
+      { type: "pill-capsule", pos: [-3.5, -3.2, -130], scale: 1.8, color: "#B5D8C5", rot: [0.6, 0.2, -0.8] },
+      { type: "clay-pebble", pos: [4.2, 2.5, -140], scale: 2.2, color: "#D4C8EB", rot: [0.5, 0.7, -0.4] },
+    ];
+  }, []);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
-
-    if (meshRef.current) {
-      meshRef.current.rotation.z = t * 0.02;
-    }
-
-    if (flaggedRef.current) {
-      // Breathing pulse between amber and dusty rose
-      const pulse = 0.5 + 0.5 * Math.sin(t * 3.0);
-      const mat = flaggedRef.current.material as THREE.PointsMaterial;
-      mat.opacity = 0.5 + pulse * 0.5;
-      flaggedRef.current.rotation.z = t * 0.02;
+    if (groupRef.current) {
+      groupRef.current.children.forEach((child, i) => {
+        child.rotation.x += 0.003 * (i % 2 === 0 ? 1 : -1);
+        child.rotation.y += 0.004 * (i % 3 === 0 ? 1 : -1);
+        child.position.y += Math.sin(t * 0.8 + i) * 0.002;
+      });
     }
   });
 
   return (
-    <group>
-      {/* Legitimate transaction particles */}
-      <points ref={meshRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[positions, 3]}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            args={[colors, 3]}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.07}
-          vertexColors
-          transparent
-          opacity={0.65}
-          sizeAttenuation
-          depthWrite={false}
-        />
-      </points>
-
-      {/* Flagged anomalous transactions — pulsing warm gold/coral */}
-      <points ref={flaggedRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            args={[flaggedPositions, 3]}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.24}
-          color={new THREE.Color("#C4707A")}
-          transparent
-          opacity={0.9}
-          sizeAttenuation
-          depthWrite={false}
-        />
-      </points>
-    </group>
-  );
-}
-
-// ─── Glass Panels along the Deep Corridor ──────────────────────────────────────
-function GlassPanels() {
-  const count = 36;
-  const panels = useMemo(() => {
-    const result = [];
-    for (let i = 0; i < count; i++) {
-      const angle = (i / 6) * Math.PI * 2 + (i % 2) * 0.3;
-      const radius = 5.5 + Math.random() * 2.0;
-      // Stretched along the whole Z-spine
-      const z = -i * 4.2 + 5;
-      const rotX = (Math.random() - 0.5) * 0.4;
-      const rotY = angle + (Math.random() - 0.5) * 0.4;
-      const scale = 0.8 + Math.random() * 1.2;
-      result.push({ angle, radius, z, rotX, rotY, scale });
-    }
-    return result;
-  }, []);
-
-  return (
-    <group>
-      {panels.map((p, i) => (
-        <mesh
-          key={i}
-          position={[
-            Math.cos(p.angle) * p.radius,
-            Math.sin(p.angle) * p.radius,
-            p.z,
-          ]}
-          rotation={[p.rotX, p.rotY, 0]}
-          scale={[p.scale * 1.6, p.scale, 1]}
+    <group ref={groupRef}>
+      {sculptures.map((item, idx) => (
+        <group
+          key={idx}
+          position={item.pos as [number, number, number]}
+          rotation={item.rot as [number, number, number]}
+          scale={item.scale}
         >
-          <planeGeometry args={[1.4, 0.9]} />
-          <meshPhysicalMaterial
-            color="#C9A24D"
-            transparent
-            opacity={0.035}
-            roughness={0.15}
-            metalness={0.3}
-            side={THREE.DoubleSide}
-            depthWrite={false}
-          />
-        </mesh>
+          {item.type === "smooth-torus" && (
+            <mesh>
+              <torusGeometry args={[1.5, 0.5, 24, 48]} />
+              <meshStandardMaterial
+                color={item.color}
+                roughness={0.65}
+                metalness={0.12}
+                transparent
+                opacity={0.7}
+              />
+            </mesh>
+          )}
+
+          {item.type === "matte-sphere" && (
+            <mesh>
+              <sphereGeometry args={[1.3, 32, 32]} />
+              <meshStandardMaterial
+                color={item.color}
+                roughness={0.75}
+                metalness={0.08}
+                transparent
+                opacity={0.6}
+              />
+            </mesh>
+          )}
+
+          {item.type === "pill-capsule" && (
+            <mesh>
+              <capsuleGeometry args={[0.7, 1.6, 16, 32]} />
+              <meshStandardMaterial
+                color={item.color}
+                roughness={0.6}
+                metalness={0.15}
+                transparent
+                opacity={0.65}
+              />
+            </mesh>
+          )}
+
+          {item.type === "clay-pebble" && (
+            <mesh>
+              <icosahedronGeometry args={[1.2, 2]} />
+              <meshStandardMaterial
+                color={item.color}
+                roughness={0.7}
+                metalness={0.1}
+                transparent
+                opacity={0.65}
+              />
+            </mesh>
+          )}
+        </group>
       ))}
     </group>
   );
 }
 
-// ─── Concentric Corridor Rings ────────────────────────────────────────────────
-function TunnelRings() {
-  const rings = useMemo(() => {
-    return Array.from({ length: 38 }, (_, i) => ({
-      z: -i * 4.4 + 10,
-      radius: 6.2 + Math.sin(i * 0.35) * 0.8,
-    }));
-  }, []);
+// ─── Soft Ambient Matte Particle Cloud ─────────────────────────────────────────
+function SoftClayDust({ count }: { count: number }) {
+  const pointsRef = useRef<THREE.Points>(null!);
+
+  const [positions, colors] = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      const radius = 2.5 + Math.random() * 8.5;
+      const angle = Math.random() * Math.PI * 2;
+      const z = -Math.random() * 160 + 15;
+
+      pos[i * 3] = Math.cos(angle) * radius;
+      pos[i * 3 + 1] = Math.sin(angle) * radius;
+      pos[i * 3 + 2] = z;
+
+      const isRose = Math.random() > 0.45;
+      if (isRose) {
+        // Soft blush rose (#F2B8C6)
+        col[i * 3] = 0.95;
+        col[i * 3 + 1] = 0.72;
+        col[i * 3 + 2] = 0.78;
+      } else {
+        // Soft pastel lavender (#D4C8EB)
+        col[i * 3] = 0.83;
+        col[i * 3 + 1] = 0.78;
+        col[i * 3 + 2] = 0.92;
+      }
+    }
+
+    return [pos, col];
+  }, [count]);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    if (pointsRef.current) {
+      pointsRef.current.rotation.z = t * 0.012;
+    }
+  });
 
   return (
-    <group>
-      {rings.map((r, i) => (
-        <mesh key={i} position={[0, 0, r.z]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[r.radius, 0.022, 8, 80]} />
-          <meshBasicMaterial
-            color={i % 4 === 0 ? "#C9A24D" : "#242436"}
-            transparent
-            opacity={i % 4 === 0 ? 0.28 : 0.12}
-            depthWrite={false}
-          />
-        </mesh>
-      ))}
-    </group>
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-color" args={[colors, 3]} />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.08}
+        vertexColors
+        transparent
+        opacity={0.45}
+        sizeAttenuation
+        depthWrite={false}
+      />
+    </points>
   );
 }
 
-// ─── Single Full-Page Scroll Controller ────────────────────────────────────────
-// Spans the entire document height (0% to 100%) to drive camera Z from 10 to -145
+// ─── Studio Lighting Setup (Pastel Theme) ──────────────────────────────────────
+function StudioLights() {
+  return (
+    <>
+      <ambientLight intensity={0.5} />
+      {/* Warm Key Light */}
+      <directionalLight position={[8, 12, 10]} intensity={2.2} color="#F7F6F3" />
+      {/* Soft Rose Fill Light */}
+      <directionalLight position={[-8, -6, 5]} intensity={1.6} color="#F2B8C6" />
+      {/* Soft Lavender Rim Light */}
+      <directionalLight position={[0, -10, -20]} intensity={1.3} color="#D4C8EB" />
+      {/* Mid-Tunnel Soft Sage Light */}
+      <pointLight position={[5, 4, -60]} intensity={2.2} color="#B5D8C5" />
+      {/* Deep-Tunnel Destination Rose Light */}
+      <pointLight position={[-5, -4, -110]} intensity={2.4} color="#F2B8C6" />
+    </>
+  );
+}
+
+// ─── Single Full-Page Camera Controller ────────────────────────────────────────
 function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
   const { camera } = useThree();
 
   useEffect(() => {
     const perspCam = camera as THREE.PerspectiveCamera;
     perspCam.position.set(0, 0, 10);
-    perspCam.fov = isMobile ? 80 : 65;
+    perspCam.fov = isMobile ? 80 : 62;
     perspCam.updateProjectionMatrix();
 
     if (isMobile) {
-      // Mobile: subtle drift
+      // Gentle floating animation on mobile
       const tween = gsap.to(perspCam.position, {
         z: -30,
         duration: 8,
@@ -223,19 +222,20 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
       };
     }
 
-    // Desktop: ONE GSAP ScrollTrigger spanning the entire page height
+    // Single continuous GSAP ScrollTrigger spanning the whole document height
     const st = ScrollTrigger.create({
       trigger: typeof document !== "undefined" ? document.body : undefined,
       start: "top top",
       end: "bottom bottom",
       scrub: 1.2,
       onUpdate: (self) => {
-        const progress = self.progress; // 0.0 to 1.0
-        // Linearly traverse from z = +10 down to z = -145
+        const progress = self.progress; // 0.0 -> 1.0
+        // Move camera smoothly along Z from +10 down to -145
         perspCam.position.z = 10 - progress * 155;
-        // Subtle organic sway during descent
-        perspCam.position.x = Math.sin(progress * Math.PI * 2) * 0.75;
-        perspCam.position.y = Math.cos(progress * Math.PI * 2) * -0.4;
+        // Organic subtle lateral drift that settles calmly at the destination
+        const driftFactor = 1 - Math.pow(progress, 3) * 0.5;
+        perspCam.position.x = Math.sin(progress * Math.PI * 2) * 0.8 * driftFactor;
+        perspCam.position.y = Math.cos(progress * Math.PI * 2) * -0.5 * driftFactor;
       },
     });
 
@@ -245,19 +245,6 @@ function FullPageCameraController({ isMobile }: { isMobile: boolean }) {
   }, [camera, isMobile]);
 
   return null;
-}
-
-// ─── Warm Corridor Ambient Lights ──────────────────────────────────────────────
-function Lights() {
-  return (
-    <>
-      <ambientLight intensity={0.25} />
-      <pointLight position={[0, 0, 8]} intensity={2.5} color="#C9A24D" />
-      <pointLight position={[4, 2, -35]} intensity={2.0} color="#E6C875" />
-      <pointLight position={[-4, -2, -80]} intensity={2.0} color="#C4707A" />
-      <pointLight position={[3, 3, -125]} intensity={2.5} color="#C9A24D" />
-    </>
-  );
 }
 
 // ─── Main HeroTunnel Component ─────────────────────────────────────────────────
@@ -271,12 +258,12 @@ export default function HeroTunnel() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const particleCount = isMobile ? 800 : 3200;
+  const particleCount = isMobile ? 400 : 1200;
 
   return (
     <Canvas
       dpr={[1, isMobile ? 1.5 : 2]}
-      camera={{ position: [0, 0, 10], fov: 65 }}
+      camera={{ position: [0, 0, 10], fov: 62 }}
       gl={{
         antialias: !isMobile,
         powerPreference: "high-performance",
@@ -285,11 +272,10 @@ export default function HeroTunnel() {
       style={{ background: "transparent" }}
       frameloop="always"
     >
-      <Lights />
+      <StudioLights />
       <FullPageCameraController isMobile={isMobile} />
-      <ParticleSystem count={particleCount} />
-      <GlassPanels />
-      <TunnelRings />
+      <SoftClayCorridor />
+      <SoftClayDust count={particleCount} />
       <Preload all />
     </Canvas>
   );

@@ -1,92 +1,284 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BiometricShieldIcon, RadarSweepIcon, TreeAttributionIcon, TelemetrySpikeIcon } from "@/components/icons/CustomIcons";
-import { ExternalLink, Terminal } from "lucide-react";
+import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import {
+  NeumorphicShieldCheckIcon,
+  NeumorphicRadarIcon,
+  NeumorphicTreeIcon,
+  NeumorphicSpikeIcon,
+} from "@/components/icons/NeumorphicIcons";
+import { Terminal, ExternalLink } from "lucide-react";
 
-export default function Navbar() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
+// ─── Magnetic Portal Component with Cursor Tracking ───────────────────────────
+interface MagneticPortalProps {
+  children: React.ReactNode;
+  strength?: number;
+  className?: string;
+}
 
-  const navItems = [
-    { name: "Executive Summary", href: "/", icon: TelemetrySpikeIcon },
-    { name: "Risk Console", href: "/console", icon: RadarSweepIcon },
-    { name: "Evidence Dossier", href: "/evidence", icon: TreeAttributionIcon },
-  ];
+function MagneticPortal({ children, strength = 0.25, className = "" }: MagneticPortalProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springConfig = { damping: 15, stiffness: 180, mass: 0.1 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const distanceX = (e.clientX - centerX) * strength;
+    const distanceY = (e.clientY - centerY) * strength;
+    x.set(distanceX);
+    y.set(distanceY);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <header
-      className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
-        isHome
-          ? "border-[#242436]/40 bg-[#0A0A0F]/60 backdrop-blur-lg"
-          : "border-[#242436] bg-[#0A0A0F]/90 backdrop-blur-md"
-      }`}
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      className={`relative ${className}`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#C9A24D]/10 border border-[#C9A24D]/30 text-[#C9A24D] group-hover:border-[#C9A24D] transition-colors">
-              <BiometricShieldIcon size={20} />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-heading font-bold text-base tracking-tight text-[#F5F1E8]">
-                  SentinelPay
-                </span>
-                <span className="rounded-full bg-[#C9A24D]/15 px-2 py-0.5 text-[10px] font-mono font-semibold text-[#E6C875] border border-[#C9A24D]/30">
-                  Track 02
-                </span>
-              </div>
-              <p className="text-[11px] text-[#8E8E9E] font-mono">
-                Real-Time Fraud Intelligence Engine
-              </p>
-            </div>
-          </Link>
+      {children}
+    </motion.div>
+  );
+}
 
-          <nav className="hidden md:flex items-center gap-1.5 ml-4">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              return (
+// ─── Main Reimagined Floating Kinetic Capsule Navbar ───────────────────────────
+export default function Navbar() {
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [hoveredPortal, setHoveredPortal] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 45) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navItems = [
+    {
+      id: "summary",
+      name: "Executive Summary",
+      shortName: "Summary",
+      href: "/",
+      icon: NeumorphicSpikeIcon,
+      accent: "#F2B8C6",
+    },
+    {
+      id: "console",
+      name: "Risk Console",
+      shortName: "Console",
+      href: "/console",
+      icon: NeumorphicRadarIcon,
+      accent: "#B5D8C5",
+    },
+    {
+      id: "evidence",
+      name: "Evidence Dossier",
+      shortName: "Dossier",
+      href: "/evidence",
+      icon: NeumorphicTreeIcon,
+      accent: "#D4C8EB",
+    },
+  ];
+
+  // In condensed scroll mode, show compact icon deck unless user hovers over the capsule
+  const isCompact = isScrolled && !isHovered;
+
+  return (
+    <header className="fixed top-4 sm:top-5 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+      <motion.div
+        initial={{ y: -30, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        layout
+        className={`pointer-events-auto relative flex items-center transition-all duration-400 ease-out select-none ${
+          isCompact
+            ? "clay-card px-3.5 py-2 gap-2.5 rounded-full border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(242,184,198,0.12)] bg-[#101014]/90 backdrop-blur-2xl"
+            : "clay-card px-4 sm:px-5 py-2.5 sm:py-3 gap-3 sm:gap-4 rounded-3xl sm:rounded-full border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.75),0_0_25px_rgba(242,184,198,0.14)] bg-[#121216]/92 backdrop-blur-2xl"
+        }`}
+      >
+        {/* Brand Emblem Portal */}
+        <MagneticPortal strength={0.2}>
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-[#24242E] to-[#121216] border border-[#F2B8C6]/30 text-[#F2B8C6] shadow-sm group-hover:border-[#F2B8C6] transition-colors">
+              <NeumorphicShieldCheckIcon size={20} />
+              {/* Subtle Ambient Pulse Ring */}
+              <span className="absolute inset-0 rounded-2xl bg-[#F2B8C6]/10 animate-ping opacity-25"></span>
+            </div>
+
+            <AnimatePresence>
+              {!isCompact && (
+                <motion.div
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="hidden md:flex flex-col overflow-hidden whitespace-nowrap pr-1"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-heading font-black text-sm tracking-tight text-[#F7F6F3]">
+                      SentinelPay
+                    </span>
+                    <span className="clay-badge-rose px-1.5 py-0.2 text-[9px] font-mono font-bold">
+                      v1.0
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-[#9A9AA4] font-mono leading-none">
+                    Fraud Intelligence
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Link>
+        </MagneticPortal>
+
+        {/* Vertical Clay Inset Divider */}
+        <div className="h-6 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent mx-0.5"></div>
+
+        {/* Magnetic Navigation Portals Deck */}
+        <nav className="flex items-center gap-1.5 sm:gap-2">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+            const isItemHovered = hoveredPortal === item.id;
+
+            return (
+              <MagneticPortal key={item.id} strength={0.3}>
                 <Link
-                  key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+                  onMouseEnter={() => setHoveredPortal(item.id)}
+                  onMouseLeave={() => setHoveredPortal(null)}
+                  className={`relative flex items-center gap-2 rounded-2xl transition-all duration-200 cursor-pointer ${
+                    isCompact
+                      ? "p-2"
+                      : "px-3 py-1.5 sm:px-3.5 sm:py-2"
+                  } ${
                     isActive
-                      ? "bg-[#181824] text-[#F5F1E8] shadow-sm border border-[#2B2B40]"
-                      : "text-[#8E8E9E] hover:bg-[#14141E] hover:text-[#F5F1E8]"
+                      ? "clay-card-selected text-[#F7F6F3]"
+                      : "clay-card-interactive text-[#9A9AA4] hover:text-[#F7F6F3]"
                   }`}
                 >
-                  <Icon size={14} className={isActive ? "opacity-100" : "opacity-60"} />
-                  {item.name}
+                  {/* Neumorphic Icon */}
+                  <div className="relative">
+                    <Icon
+                      size={18}
+                      className={isActive ? "opacity-100 scale-105" : "opacity-75"}
+                    />
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeDot"
+                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-[#F2B8C6]"
+                      />
+                    )}
+                  </div>
+
+                  {/* Expandable Label (Visible when not in compact scroll mode, or on hover) */}
+                  <AnimatePresence>
+                    {(!isCompact || isItemHovered) && (
+                      <motion.span
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: "auto" }}
+                        exit={{ opacity: 0, width: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden whitespace-nowrap text-xs font-heading font-medium tracking-tight"
+                      >
+                        {isCompact ? item.shortName : item.name}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </Link>
-              );
-            })}
-          </nav>
-        </div>
+              </MagneticPortal>
+            );
+          })}
+        </nav>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 rounded-full border border-[#4EAD8A]/30 bg-[#4EAD8A]/10 px-2.5 py-1 text-[11px] font-mono text-[#4EAD8A]">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4EAD8A] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4EAD8A]"></span>
-            </span>
-            <span>API Online :8000</span>
-          </div>
+        {/* Vertical Clay Inset Divider */}
+        <div className="h-6 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent mx-0.5"></div>
 
-          <a
-            href="http://localhost:8000/docs"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1.5 rounded-lg border border-[#242436] bg-[#12121A] px-2.5 py-1.5 text-xs font-mono text-[#8E8E9E] hover:bg-[#181824] hover:text-[#F5F1E8] transition-colors"
-          >
-            <Terminal className="h-3.5 w-3.5 text-[#8E8E9E]" />
-            <span className="hidden sm:inline">OpenAPI Docs</span>
-            <ExternalLink className="h-3 w-3 text-[#5A5A70]" />
-          </a>
+        {/* System Active Telemetry Pill & OpenAPI Shortcut */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Engine Status Indicator */}
+          <MagneticPortal strength={0.2}>
+            <div
+              className={`flex items-center gap-1.5 rounded-2xl clay-card-inset text-xs font-mono transition-all ${
+                isCompact ? "p-2" : "px-2.5 py-1.5 text-[11px]"
+              } text-[#B5D8C5]`}
+              title="FastAPI Sub-10ms Engine Active"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#B5D8C5] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#B5D8C5]"></span>
+              </span>
+              <AnimatePresence>
+                {!isCompact && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: "auto" }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="hidden sm:inline overflow-hidden whitespace-nowrap font-medium"
+                  >
+                    Active
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </div>
+          </MagneticPortal>
+
+          {/* OpenAPI Docs Portal */}
+          <MagneticPortal strength={0.25}>
+            <a
+              href="http://localhost:8000/docs"
+              target="_blank"
+              rel="noreferrer"
+              className={`flex items-center gap-1.5 rounded-2xl clay-card-interactive text-xs font-mono text-[#9A9AA4] hover:text-[#F7F6F3] transition-colors ${
+                isCompact ? "p-2" : "px-2.5 py-1.5 text-[11px]"
+              }`}
+              title="Inspect OpenAPI Schema Documentation"
+            >
+              <Terminal className="h-3.5 w-3.5 text-[#F2B8C6]" />
+              <AnimatePresence>
+                {!isCompact && (
+                  <motion.span
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: "auto" }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="hidden lg:inline overflow-hidden whitespace-nowrap text-[#9A9AA4]"
+                  >
+                    API
+                  </motion.span>
+                )}
+              </AnimatePresence>
+              <ExternalLink className="h-2.5 w-2.5 text-[#5A5A68] hidden sm:inline" />
+            </a>
+          </MagneticPortal>
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 }
