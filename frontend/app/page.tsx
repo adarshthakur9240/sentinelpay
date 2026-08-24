@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useInView, animate } from "framer-motion";
-import confetti from "canvas-confetti";
 import {
   NeumorphicRadarIcon,
   NeumorphicTreeIcon,
@@ -87,35 +86,6 @@ function AnimatedCounter({
   );
 }
 
-// ─── Celebratory Strict Dual Pastel Confetti Burst ─────────────────────────────
-function fireConfetti() {
-  const end = Date.now() + 1600;
-  const colors = ["#F2B8C6", "#FCE2E9", "#A8B5E0", "#F7F6F3"];
-
-  const frame = () => {
-    confetti({
-      particleCount: 4,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0 },
-      colors,
-      disableForReducedMotion: true,
-    });
-    confetti({
-      particleCount: 4,
-      angle: 120,
-      spread: 55,
-      origin: { x: 1 },
-      colors,
-      disableForReducedMotion: true,
-    });
-    if (Date.now() < end) requestAnimationFrame(frame);
-  };
-
-  frame();
-}
-
-// ─── Main Landing Page ─────────────────────────────────────────────────────────
 export default function HomePage() {
   const insightSectionRef = useRef<HTMLDivElement>(null);
   const lineOneRef = useRef<HTMLParagraphElement>(null);
@@ -124,18 +94,9 @@ export default function HomePage() {
   const metricsRef = useRef<HTMLDivElement>(null);
   const ctaPanelRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
-  const confettiFiredRef = useRef(false);
 
   const isMetricsInView = useInView(metricsRef, { once: true, margin: "-80px" });
   const isCtaInView = useInView(ctaPanelRef, { once: true, margin: "-100px" });
-
-  // Confetti triggers once when the metrics section enters view
-  useEffect(() => {
-    if (isMetricsInView && !confettiFiredRef.current) {
-      confettiFiredRef.current = true;
-      setTimeout(() => fireConfetti(), 1200);
-    }
-  }, [isMetricsInView]);
 
   // Section 2: GSAP ScrollTrigger Pinned Scrub Reveals
   useEffect(() => {
