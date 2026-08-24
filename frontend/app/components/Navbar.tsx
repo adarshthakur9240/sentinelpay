@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
@@ -57,24 +57,11 @@ function MagneticPortal({ children, strength = 0.25, className = "" }: MagneticP
   );
 }
 
-// ─── Main Reimagined Floating Kinetic Capsule Navbar ───────────────────────────
+// ─── Main Floating Kinetic Capsule Navbar (Hover-Only Expand) ───────────────────
 export default function Navbar() {
   const pathname = usePathname();
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [hoveredPortal, setHoveredPortal] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 45) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const navItems = [
     {
@@ -103,19 +90,22 @@ export default function Navbar() {
     },
   ];
 
-  // In condensed scroll mode, show compact icon deck unless user hovers over the capsule
-  const isCompact = isScrolled && !isHovered;
+  // Resting state is ALWAYS compact/minimal. ONLY expands on active cursor hover.
+  const isCompact = !isHovered;
 
   return (
     <header className="fixed top-4 sm:top-5 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
       <motion.div
         initial={{ y: -30, opacity: 0, scale: 0.95 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setHoveredPortal(null);
+        }}
         layout
-        className={`pointer-events-auto relative flex items-center transition-all duration-400 ease-out select-none ${
+        className={`pointer-events-auto relative flex items-center transition-all duration-300 ease-out select-none ${
           isCompact
             ? "clay-card px-3.5 py-2 gap-2.5 rounded-full border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.85),0_0_20px_rgba(242,184,198,0.10)] bg-[#0A0A0D]/92 backdrop-blur-2xl"
             : "clay-card px-4 sm:px-5 py-2.5 sm:py-3 gap-3 sm:gap-4 rounded-3xl sm:rounded-full border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_25px_rgba(242,184,198,0.12)] bg-[#0C0C10]/95 backdrop-blur-2xl"
@@ -136,7 +126,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, width: 0 }}
                   animate={{ opacity: 1, width: "auto" }}
                   exit={{ opacity: 0, width: 0 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.2 }}
                   className="hidden md:flex flex-col overflow-hidden whitespace-nowrap pr-1"
                 >
                   <div className="flex items-center gap-1.5">
@@ -206,7 +196,7 @@ export default function Navbar() {
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden whitespace-nowrap text-xs font-heading font-medium tracking-tight"
                       >
-                        {isCompact ? item.shortName : item.name}
+                        {item.name}
                       </motion.span>
                     )}
                   </AnimatePresence>
