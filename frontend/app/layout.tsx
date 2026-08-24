@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import LenisProvider from "./providers/LenisProvider";
 import OnboardingGuide from "./components/onboarding/OnboardingGuide";
+import ColdStartClayHUD from "./components/telemetry/ColdStartClayHUD";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,6 +58,8 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           {/* First-time visitor onboarding guided walkthrough overlay */}
           <OnboardingGuide />
+          {/* Global backend cold start / cloud warmup telemetry HUD */}
+          <ColdStartClayHUD />
         </LenisProvider>
       </body>
     </html>
