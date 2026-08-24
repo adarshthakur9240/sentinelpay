@@ -38,6 +38,7 @@ import {
   SAMPLE_TRANSACTIONS,
   type ThresholdPoint,
 } from "../data/metricsData";
+import LiveFeedView from "./live-feed";
 
 // Lazy-load ambient 3D backdrop
 const AmbientClayBackground = dynamic(
@@ -46,6 +47,9 @@ const AmbientClayBackground = dynamic(
 );
 
 export default function RiskConsolePage() {
+  // Active console mode tab
+  const [activeTab, setActiveTab] = useState<"playground" | "live_stream">("playground");
+
   // Operating threshold state
   const [selectedThreshold, setSelectedThreshold] = useState<number>(0.10);
 
@@ -180,11 +184,44 @@ export default function RiskConsolePage() {
             Transaction Risk Evaluation
           </h1>
           <p className="text-sm sm:text-base text-[#8E8E98] leading-relaxed">
-            Select a payment transaction to assess fraud probability and review recommended actions.
+            Assess real-time fraud probability, evaluate rolling velocity features, and review recommended operational actions.
           </p>
+
+          {/* Console Mode Switcher Tabs */}
+          <div className="flex items-center gap-2 pt-2">
+            <div className="inline-flex items-center p-1 rounded-2xl bg-[#09090D] border border-white/10 shadow-lg">
+              <button
+                type="button"
+                onClick={() => setActiveTab("playground")}
+                className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+                  activeTab === "playground"
+                    ? "bg-[#161620] text-[#F7F6F3] border border-white/15 shadow-sm"
+                    : "text-[#8E8E98] hover:text-[#F7F6F3]"
+                }`}
+              >
+                Single Transaction Playground
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("live_stream")}
+                className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  activeTab === "live_stream"
+                    ? "bg-[#141014] text-[#F2B8C6] border border-[#F2B8C6]/40 shadow-[0_0_15px_rgba(242,184,198,0.15)]"
+                    : "text-[#8E8E98] hover:text-[#F2B8C6]"
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full bg-[#F2B8C6] animate-pulse"></span>
+                Live Stream Feed
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* ── 2. PRIMARY ACTION CARD (Clean, Calm, Spacious) ────────────────── */}
+        {/* ── 2. TAB CONTENT (Playground vs Live Stream Feed) ──────────────── */}
+        {activeTab === "live_stream" ? (
+          <LiveFeedView />
+        ) : (
+          <>
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.2 }}
@@ -498,6 +535,8 @@ export default function RiskConsolePage() {
             )}
           </AnimatePresence>
         </div>
+        </>
+        )}
       </div>
     </div>
   );
