@@ -74,7 +74,8 @@ export default function EvidencePage() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/explain", {
+      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
+      const response = await fetch(`${baseUrl}/explain`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -89,6 +90,10 @@ export default function EvidencePage() {
 
       if (!response.ok) {
         throw new Error(`API returned HTTP ${response.status}`);
+      }
+
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("sentinelpay:backend-success"));
       }
 
       const data = await response.json();

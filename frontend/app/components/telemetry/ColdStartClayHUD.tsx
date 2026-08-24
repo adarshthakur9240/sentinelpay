@@ -1,20 +1,18 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import * as THREE from "three";
 import {
-  Server,
-  Activity,
-  CheckCircle2,
-  Minimize2,
-  Maximize2,
   Terminal,
   Cpu,
-  RefreshCw,
-  Sparkles,
+  Minimize2,
+  Maximize2,
+  X,
+  CheckCircle2,
+  Server,
 } from "lucide-react";
 import { useBackendWarmup } from "../../hooks/useBackendWarmup";
 
@@ -82,11 +80,18 @@ function ClayWarmupObject({ isReady }: { isReady: boolean }) {
 }
 
 export default function ColdStartClayHUD() {
-  const { isWarmingUp, isReady, elapsedSeconds, retryCount, apiHealthData } = useBackendWarmup();
+  const {
+    isWarmingUp,
+    isReady,
+    elapsedSeconds,
+    retryCount,
+    dismissWarmup,
+  } = useBackendWarmup();
+
   const [isMinimized, setIsMinimized] = useState<boolean>(false);
   const [logIndex, setLogIndex] = useState<number>(0);
 
-  // Cycle terminal loading lines progressively based on elapsed time
+  // Progressive terminal logs
   useEffect(() => {
     if (isReady) {
       setLogIndex(TERMINAL_LOGS.length - 1);
@@ -100,21 +105,19 @@ export default function ColdStartClayHUD() {
     return () => clearInterval(interval);
   }, [isReady]);
 
-  // If backend is already fast/awake on initial load, do not show HUD
-  if (!isWarmingUp && !isReady) return null;
-
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isWarmingUp && (
         <motion.aside
+          key="cold-start-clay-hud"
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 30, scale: 0.9, filter: "blur(8px)" }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          exit={{ opacity: 0, y: 30, scale: 0.9, filter: "blur(6px)" }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
           aria-live="polite"
           className="fixed bottom-6 right-6 z-50 w-[360px] sm:w-[390px] select-none pointer-events-auto"
         >
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#070709]/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] transition-all">
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#070709]/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] transition-all">
             {/* Ambient clay glow gradient backdrop */}
             <div
               className={`absolute -top-12 -right-12 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none transition-colors duration-700 ${
@@ -138,7 +141,7 @@ export default function ColdStartClayHUD() {
                   />
                 </span>
                 <span className="font-mono text-[11px] font-bold tracking-wider uppercase text-[#F7F6F3]">
-                  {isReady ? "Cluster Operational" : "Inference Node Warmup"}
+                  {isReady ? "Cluster Connected" : "Inference Node Warmup"}
                 </span>
               </div>
 
@@ -156,6 +159,13 @@ export default function ColdStartClayHUD() {
                   ) : (
                     <Minimize2 className="w-3.5 h-3.5" />
                   )}
+                </button>
+                <button
+                  onClick={dismissWarmup}
+                  title="Dismiss HUD"
+                  className="p-1 rounded-lg text-[#8E8E98] hover:text-[#F7F6F3] hover:bg-white/5 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -187,8 +197,15 @@ export default function ColdStartClayHUD() {
                   {/* Telemetry Stats */}
                   <div className="flex-1 min-w-0 space-y-1.5">
                     <div className="flex items-baseline justify-between">
-                      <span className="text-xs font-heading font-black text-[#F7F6F3] truncate">
-                        {isReady ? "Inference Ready" : "Active Node Spin-up"}
+                      <span className="text-xs font-heading font-black text-[#F7F6F3] truncate flex items-center gap-1.5">
+                        {isReady ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#A8B5E0]" />
+                            <span>Inference Ready</span>
+                          </>
+                        ) : (
+                          <span>Active Node Spin-up</span>
+                        )}
                       </span>
                       <span className="text-xs font-mono font-bold text-[#F2B8C6]">
                         {elapsedSeconds}s elapsed
@@ -197,7 +214,7 @@ export default function ColdStartClayHUD() {
 
                     <p className="text-[11px] font-mono text-[#8E8E98] leading-tight line-clamp-2">
                       {isReady
-                        ? "FastAPI server & SHAP TreeExplainer pre-warmed."
+                        ? "FastAPI server & SHAP TreeExplainer pre-warmed. Initializing..."
                         : "Container instance waking from spin-down. Cold start takes ~30-45s on free tier."}
                     </p>
 

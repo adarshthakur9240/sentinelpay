@@ -135,9 +135,10 @@ export default function RingNetworkPage() {
   useEffect(() => {
     async function fetchGraphData() {
       try {
+        const baseUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
         const [ringsRes, netRes] = await Promise.all([
-          fetch("http://localhost:8000/graph/rings").catch(() => null),
-          fetch("http://localhost:8000/graph/network").catch(() => null),
+          fetch(`${baseUrl}/graph/rings`).catch(() => null),
+          fetch(`${baseUrl}/graph/network`).catch(() => null),
         ]);
 
         if (ringsRes && ringsRes.ok) {

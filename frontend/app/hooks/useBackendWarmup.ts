@@ -18,12 +18,19 @@ export interface UseBackendWarmupReturn {
   retryCount: number;
   apiHealthData: BackendHealthResponse | null;
   checkHealthNow: () => Promise<void>;
+  dismissWarmup: () => void;
 }
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-const INITIAL_GRACE_PERIOD_MS = 2500; // 2.5s before surfacing warmup overlay
-const RETRY_INTERVAL_MS = 3000; // 3s polling intervals
+const getBaseUrl = (): string => {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl && envUrl.trim() !== "") {
+    return envUrl.replace(/\/$/, "");
+  }
+  return "http://localhost:8000";
+};
+
+const INITIAL_GRACE_PERIOD_MS = 2500; // 2.5s threshold
+const RETRY_INTERVAL_MS = 3500; // 3.5s polling loop during cold boot
 
 export function useBackendWarmup(): UseBackendWarmupReturn {
   const [isWarmingUp, setIsWarmingUp] = useState<boolean>(false);
@@ -34,19 +41,33 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
 
   const startTimeRef = useRef<number>(Date.now());
   const isMountedRef = useRef<boolean>(true);
-  const isReadyRef = useRef<boolean>(false);
+  const isResolvedRef = useRef<boolean>(false);
+  const hasEverShownHudRef = useRef<boolean>(false);
+
   const pollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const elapsedIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const graceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  const dismissWarmup = useCallback(() => {
+    setIsWarmingUp(false);
+  }, []);
 
   const pingHealth = useCallback(async () => {
-    if (isReadyRef.current || !isMountedRef.current) return;
+    if (isResolvedRef.current || !isMountedRef.current) return;
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
 
     const controller = new AbortController();
+    abortControllerRef.current = controller;
     const timeoutId = setTimeout(() => controller.abort(), 4000);
 
+    const baseUrl = getBaseUrl();
+
     try {
-      const response = await fetch(`${API_BASE_URL}/health`, {
+      const response = await fetch(`${baseUrl}/health`, {
         method: "GET",
         signal: controller.signal,
         cache: "no-store",
@@ -57,25 +78,49 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
 
       clearTimeout(timeoutId);
 
-      if (response.ok && isMountedRef.current) {
-        const data: BackendHealthResponse = await response.json();
+      if (response.ok && isMountedRef.current && !isResolvedRef.current) {
+        let data: BackendHealthResponse = { status: "ok" };
+        try {
+          data = await response.json();
+        } catch {
+          // Non-json 200 is still healthy
+        }
+
+        isResolvedRef.current = true;
         setApiHealthData(data);
         setIsReady(true);
-        isReadyRef.current = true;
 
-        // If overlay was already shown, let it show success briefly before dismissal
-        setTimeout(() => {
-          if (isMountedRef.current) {
-            setIsWarmingUp(false);
-          }
-        }, 2200);
+        // Cancel grace period immediately so HUD never opens if response was fast
+        if (graceTimerRef.current) {
+          clearTimeout(graceTimerRef.current);
+          graceTimerRef.current = null;
+        }
+
+        if (hasEverShownHudRef.current) {
+          // If HUD is already visible, show success for 1.5s then fade out
+          setTimeout(() => {
+            if (isMountedRef.current) {
+              setIsWarmingUp(false);
+            }
+          }, 1500);
+        } else {
+          // Fast response (< 2.5s): HUD stays completely hidden
+          setIsWarmingUp(false);
+        }
+
+        // Stop elapsed timer
+        if (elapsedIntervalRef.current) {
+          clearInterval(elapsedIntervalRef.current);
+          elapsedIntervalRef.current = null;
+        }
         return;
       }
-    } catch (err) {
-      // Endpoint still waking up or unreachable
+    } catch {
+      // Backend is cold or still waking
     }
 
-    if (isMountedRef.current && !isReadyRef.current) {
+    // Schedule next poll if still unresolved
+    if (isMountedRef.current && !isResolvedRef.current) {
       setRetryCount((prev) => prev + 1);
       pollTimeoutRef.current = setTimeout(pingHealth, RETRY_INTERVAL_MS);
     }
@@ -83,31 +128,53 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
 
   useEffect(() => {
     isMountedRef.current = true;
+    isResolvedRef.current = false;
+    hasEverShownHudRef.current = false;
     startTimeRef.current = Date.now();
 
-    // 1. Grace period: If backend responds under 2.5s, user never sees warmup HUD
+    // 1. Grace Period: Only show HUD if backend has NOT completed within 2.5s
     graceTimerRef.current = setTimeout(() => {
-      if (!isReadyRef.current && isMountedRef.current) {
+      if (!isResolvedRef.current && isMountedRef.current) {
+        hasEverShownHudRef.current = true;
         setIsWarmingUp(true);
       }
     }, INITIAL_GRACE_PERIOD_MS);
 
-    // 2. Ticking timer for elapsed seconds
+    // 2. Elapsed seconds timer
     elapsedIntervalRef.current = setInterval(() => {
-      if (isMountedRef.current) {
+      if (isMountedRef.current && !isResolvedRef.current) {
         const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
         setElapsedSeconds(elapsed);
       }
     }, 1000);
 
-    // 3. Initiate first health check
+    // 3. Kick off immediate health ping
     pingHealth();
+
+    // 4. Global fallback listener: if any other component (e.g. /score) successfully talks to backend
+    const onApiSuccess = () => {
+      if (!isResolvedRef.current) {
+        isResolvedRef.current = true;
+        setIsReady(true);
+        if (graceTimerRef.current) clearTimeout(graceTimerRef.current);
+        if (hasEverShownHudRef.current) {
+          setTimeout(() => {
+            if (isMountedRef.current) setIsWarmingUp(false);
+          }, 1500);
+        } else {
+          setIsWarmingUp(false);
+        }
+      }
+    };
+    window.addEventListener("sentinelpay:backend-success", onApiSuccess);
 
     return () => {
       isMountedRef.current = false;
       if (graceTimerRef.current) clearTimeout(graceTimerRef.current);
       if (pollTimeoutRef.current) clearTimeout(pollTimeoutRef.current);
       if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current);
+      if (abortControllerRef.current) abortControllerRef.current.abort();
+      window.removeEventListener("sentinelpay:backend-success", onApiSuccess);
     };
   }, [pingHealth]);
 
@@ -118,5 +185,6 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
     retryCount,
     apiHealthData,
     checkHealthNow: pingHealth,
+    dismissWarmup,
   };
 }
