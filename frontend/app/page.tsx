@@ -350,43 +350,92 @@ export default function HomePage() {
           <strong className="text-[#F7F6F3] font-mono font-bold">0.8424</strong>, 98.22% false-alarm reduction.
         </motion.p>
 
-        {/* Action CTAs */}
+        {/* Floating Side Telemetry Command Rail / HUD Dock */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.0 }}
-          className="mt-12 flex flex-col sm:flex-row items-center gap-4"
+          initial={{ opacity: 0, x: 30, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 lg:mt-0 lg:absolute lg:bottom-10 lg:right-8 xl:right-14 z-20 w-full max-w-sm sm:w-[350px]"
         >
-          <Link href="/console">
-            <motion.button
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.97, y: 1 }}
-              className="clay-btn-rose inline-flex items-center gap-3 px-8 py-3.5 text-sm font-heading font-bold text-[#050505] tracking-wide cursor-pointer"
-            >
-              <NeumorphicSpikeIcon size={20} />
-              <span>Launch Risk Console</span>
-              <ChevronRight className="h-4 w-4" />
-            </motion.button>
-          </Link>
+          <div className="clay-card p-4 sm:p-5 text-left space-y-3 border border-white/10 shadow-[0_24px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(242,184,198,0.10)] bg-[#0C0C10]/95 backdrop-blur-2xl">
+            {/* Dock Telemetry Header */}
+            <div className="flex items-center justify-between pb-2.5 border-b border-[#1E1E23]/70">
+              <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase font-bold text-[#8E8E98] tracking-wider">
+                <Terminal className="h-3 w-3 text-[#F2B8C6]" />
+                <span>Command Deck</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#A8B5E0] bg-[#A8B5E0]/10 px-2 py-0.5 rounded-full border border-[#A8B5E0]/20">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A8B5E0] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#A8B5E0]"></span>
+                </span>
+                <span>&lt;10ms PING</span>
+              </div>
+            </div>
 
-          <Link href="/evidence">
-            <motion.button
-              whileHover={{ scale: 1.02, y: -1 }}
-              whileTap={{ scale: 0.98, y: 1 }}
-              className="clay-btn-surface inline-flex items-center gap-3 px-8 py-3.5 text-sm font-heading font-bold text-[#F7F6F3] backdrop-blur-md cursor-pointer"
-            >
-              <NeumorphicTreeIcon size={20} />
-              <span>SHAP Dispute Dossier</span>
-            </motion.button>
-          </Link>
+            {/* Primary Action: Active Telemetry Launcher */}
+            <Link href="/console" className="block group">
+              <motion.div
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                className="clay-btn-rose p-3 sm:p-3.5 flex items-center justify-between gap-3 text-[#050505] cursor-pointer relative overflow-hidden transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#050505]/12 border border-[#050505]/15 text-[#050505]">
+                    <NeumorphicSpikeIcon size={18} />
+                  </div>
+                  <div>
+                    <div className="font-heading font-bold text-xs sm:text-sm tracking-tight leading-tight">
+                      Launch Risk Console
+                    </div>
+                    <div className="text-[10px] font-mono font-medium opacity-75 leading-none mt-0.5">
+                      Live Threshold Optimizer
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-[9px] font-mono font-bold bg-[#050505]/15 px-2 py-0.5 rounded-full">
+                    LIVE
+                  </span>
+                  <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </motion.div>
+            </Link>
+
+            {/* Secondary Action: Inspect/Audit Trigger */}
+            <Link href="/evidence" className="block group">
+              <motion.div
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                className="clay-btn-surface p-3 sm:p-3.5 flex items-center justify-between gap-3 text-[#F7F6F3] cursor-pointer hover:border-[#A8B5E0]/30 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#181822] border border-white/5 text-[#A8B5E0]">
+                    <NeumorphicTreeIcon size={18} />
+                  </div>
+                  <div>
+                    <div className="font-heading font-bold text-xs sm:text-sm tracking-tight leading-tight">
+                      SHAP Dispute Dossier
+                    </div>
+                    <div className="text-[10px] font-mono text-[#8E8E98] leading-none mt-0.5">
+                      Audit Game-Theoretic Proof
+                    </div>
+                  </div>
+                </div>
+                <span className="clay-badge-periwinkle text-[9px] font-mono font-bold px-2 py-0.5">
+                  PR-AUC 0.8424
+                </span>
+              </motion.div>
+            </Link>
+          </div>
         </motion.div>
 
         {/* Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 1 }}
-          className="mt-16 flex flex-col items-center gap-2 text-xs font-mono text-[#8E8E98]"
+          transition={{ delay: 1.6, duration: 1 }}
+          className="mt-14 lg:mt-16 flex flex-col items-center gap-2 text-xs font-mono text-[#8E8E98]"
         >
           <span>Scroll to explore the architecture</span>
           <div className="flex h-8 w-5 justify-center rounded-full border border-[#1E1E23] p-1 shadow-inner">
