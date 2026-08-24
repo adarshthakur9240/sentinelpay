@@ -14,7 +14,19 @@ import {
   NeumorphicSliderScaleIcon,
   NeumorphicSpikeIcon,
 } from "@/components/icons/NeumorphicIcons";
-import { ChevronRight, ArrowRight, Shield, Terminal, ExternalLink } from "lucide-react";
+import {
+  ChevronRight,
+  ArrowRight,
+  Shield,
+  Terminal,
+  ExternalLink,
+  Cpu,
+  Zap,
+  Activity,
+  Layers,
+  CheckCircle2,
+  Lock,
+} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -111,9 +123,12 @@ export default function HomePage() {
   const lineTwoRef = useRef<HTMLParagraphElement>(null);
   const lineThreeRef = useRef<HTMLParagraphElement>(null);
   const metricsRef = useRef<HTMLDivElement>(null);
+  const ctaPanelRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
   const confettiFiredRef = useRef(false);
+
   const isMetricsInView = useInView(metricsRef, { once: true, margin: "-80px" });
+  const isCtaInView = useInView(ctaPanelRef, { once: true, margin: "-100px" });
 
   // Confetti triggers once when the metrics section enters view
   useEffect(() => {
@@ -211,6 +226,70 @@ export default function HomePage() {
     return () => ctx.revert();
   }, []);
 
+  // Telemetry modules assembled onto the control panel
+  const hudModules = [
+    {
+      id: "mod-1",
+      title: "MODEL CORE",
+      value: "XGBoost scale_pos_weight=578.55",
+      badge: "OPTIMIZED",
+      badgeClass: "clay-badge-sage",
+      icon: Cpu,
+      initial: { x: -70, y: -40, opacity: 0, scale: 0.85 },
+      delay: 0.15,
+    },
+    {
+      id: "mod-2",
+      title: "EXPLAINABILITY",
+      value: "shap.TreeExplainer (Exact Shapley)",
+      badge: "ACTIVE",
+      badgeClass: "clay-badge-rose",
+      icon: Layers,
+      initial: { x: 70, y: -40, opacity: 0, scale: 0.85 },
+      delay: 0.25,
+    },
+    {
+      id: "mod-3",
+      title: "INFERENCE SPEED",
+      value: "FastAPI Sub-10ms Lifespan",
+      badge: "LIVE",
+      badgeClass: "clay-badge-sage",
+      icon: Zap,
+      initial: { x: -70, y: 0, opacity: 0, scale: 0.85 },
+      delay: 0.35,
+    },
+    {
+      id: "mod-4",
+      title: "HELD-OUT METRIC",
+      value: "PR-AUC 0.8424 Test Split",
+      badge: "VERIFIED",
+      badgeClass: "clay-badge-lavender",
+      icon: Activity,
+      initial: { x: 70, y: 0, opacity: 0, scale: 0.85 },
+      delay: 0.45,
+    },
+    {
+      id: "mod-5",
+      title: "COST MATRIX",
+      value: "Parametric $122.21 vs $5 Surface",
+      badge: "t = 0.10",
+      badgeClass: "clay-badge-rose",
+      icon: CheckCircle2,
+      initial: { x: -60, y: 40, opacity: 0, scale: 0.85 },
+      delay: 0.55,
+    },
+    {
+      id: "mod-6",
+      title: "DATA SPLIT",
+      value: "Stratified 70/15/15 Distribution",
+      badge: "BALANCED",
+      badgeClass: "clay-pill text-[#9A9AA4]",
+      icon: Lock,
+      initial: { x: 60, y: 40, opacity: 0, scale: 0.85 },
+      delay: 0.65,
+    },
+  ];
+
   return (
     <div className="relative min-h-screen bg-[#0A0A0A] text-[#F7F6F3]">
       {/* ── PERSISTENT FULL-PAGE 3D STUDIO BACKDROP (Z-0) ────────────────── */}
@@ -242,7 +321,7 @@ export default function HomePage() {
           <span>Real-Time Fraud Intelligence · Sub-10ms Inference</span>
         </motion.div>
 
-        {/* Hero Title (Reduced ~18% for balanced viewport proportion) */}
+        {/* Hero Title */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -558,72 +637,150 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* ── SECTION 4: Live Interactive CTA (Landmark 4) ─────────────────── */}
-      <section className="relative z-10 py-32 px-4 max-w-4xl mx-auto text-center">
+      {/* ── SECTION 4: INTERACTIVE CONTROL PANEL HUD ASSEMBLED CTA (Landmark 4) ─── */}
+      <section
+        ref={ctaPanelRef}
+        className="relative z-10 py-32 px-4 max-w-5xl mx-auto"
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true, margin: "-60px" }}
-          className="clay-card p-9 sm:p-12 relative overflow-hidden"
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={isCtaInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="clay-card p-8 sm:p-12 relative overflow-hidden border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(242,184,198,0.12)]"
         >
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl clay-btn-surface text-[#F2B8C6]">
-            <NeumorphicSpikeIcon size={32} />
+          {/* Futuristic HUD Corner Accents */}
+          <div className="absolute top-4 left-4 h-4 w-4 border-t-2 border-l-2 border-[#F2B8C6]/50 pointer-events-none"></div>
+          <div className="absolute top-4 right-4 h-4 w-4 border-t-2 border-r-2 border-[#F2B8C6]/50 pointer-events-none"></div>
+          <div className="absolute bottom-4 left-4 h-4 w-4 border-b-2 border-l-2 border-[#F2B8C6]/50 pointer-events-none"></div>
+          <div className="absolute bottom-4 right-4 h-4 w-4 border-b-2 border-r-2 border-[#F2B8C6]/50 pointer-events-none"></div>
+
+          {/* Top HUD Telemetry Banner */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#26262B]/70">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F2B8C6]/10 border border-[#F2B8C6]/30 text-[#F2B8C6]">
+                <NeumorphicSpikeIcon size={22} />
+              </div>
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#F2B8C6] font-bold block">
+                  SYSTEM READY · OPERATIONAL HUD
+                </span>
+                <span className="text-xs font-mono text-[#9A9AA4]">
+                  Cost-Sensitive Inference Deck & Auto-Responder
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="clay-badge-sage px-3 py-1 flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#B5D8C5] animate-pulse"></span>
+                <span>STATUS: ARMED</span>
+              </span>
+            </div>
           </div>
 
-          <h2 className="font-heading font-black text-3xl sm:text-5xl text-[#F7F6F3] tracking-tight">
-            See the Engine Catch Fraud
-            <br />
-            <span className="text-pastel-gradient">in Real Time.</span>
-          </h2>
+          {/* Headline & Subtext with Mask Wipe Entrance */}
+          <div className="mt-8 text-center space-y-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 24, clipPath: "inset(0% 0% 100% 0%)" }}
+              animate={isCtaInView ? { opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" } : {}}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-heading font-black text-3xl sm:text-5xl md:text-6xl text-[#F7F6F3] tracking-tight"
+            >
+              See the Engine Catch Fraud
+              <br />
+              <span className="text-pastel-gradient">in Real Time.</span>
+            </motion.h2>
 
-          <p className="mt-4 text-sm sm:text-base text-[#9A9AA4] max-w-lg mx-auto font-normal">
-            Test live FastAPI scoring on genuine Kaggle test-set transactions. Sweep the
-            threshold slider to visualize the financial cost surface.
-          </p>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              className="text-sm sm:text-base text-[#9A9AA4] max-w-xl mx-auto font-normal leading-relaxed"
+            >
+              Test live FastAPI scoring on genuine Kaggle test-set transactions. Sweep the
+              operating threshold slider or deconstruct multi-dimensional Shapley game-theoretic evidence.
+            </motion.p>
+          </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/console">
+          {/* ── ASSEMBLED TECH SPEC MODULE GRID (Flying in from Multi-Vectors) ── */}
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {hudModules.map((mod) => {
+              const Icon = mod.icon;
+              return (
+                <motion.div
+                  key={mod.id}
+                  initial={mod.initial}
+                  animate={isCtaInView ? { x: 0, y: 0, opacity: 1, scale: 1 } : mod.initial}
+                  transition={{
+                    type: "spring",
+                    stiffness: 220,
+                    damping: 22,
+                    delay: mod.delay,
+                  }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  className="clay-card-sm p-4 flex flex-col justify-between relative group border border-white/5 hover:border-[#F2B8C6]/30 transition-all"
+                >
+                  <div className="flex items-center justify-between pb-2">
+                    <span className="text-[10px] font-mono uppercase text-[#9A9AA4] font-bold tracking-wider flex items-center gap-1.5">
+                      <Icon className="h-3.5 w-3.5 text-[#F2B8C6]" />
+                      <span>{mod.title}</span>
+                    </span>
+                    <span className={`text-[9px] font-mono font-bold px-2 py-0.5 ${mod.badgeClass}`}>
+                      {mod.badge}
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono font-semibold text-[#F7F6F3] mt-1 line-clamp-1">
+                    {mod.value}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* ── ACTIVATION TRIGGER CTA BUTTONS (Glow Pulse Effect) ──────────── */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/console" className="w-full sm:w-auto">
               <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.7 }}
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97, y: 1 }}
-                className="clay-btn-rose inline-flex items-center gap-3 px-8 py-3.5 text-sm font-heading font-bold text-[#0A0A0A] tracking-wide cursor-pointer"
+                className="w-full sm:w-auto clay-btn-rose inline-flex items-center justify-center gap-3 px-9 py-4 text-sm font-heading font-bold text-[#0A0A0A] tracking-wide cursor-pointer relative group overflow-hidden"
               >
+                {/* Subtle Ambient Rhythmic Pulse Glow */}
+                <motion.span
+                  animate={{
+                    opacity: [0.3, 0.75, 0.3],
+                    scale: [0.98, 1.02, 0.98],
+                  }}
+                  transition={{
+                    duration: 2.2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.8,
+                  }}
+                  className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FCE2E9] to-[#F2B8C6] blur-md -z-10"
+                />
                 <NeumorphicSpikeIcon size={20} />
-                <span>Open Risk Console</span>
-                <ArrowRight className="h-4 w-4" />
+                <span>Launch Operational Console</span>
+                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </motion.button>
             </Link>
 
-            <Link href="/evidence">
+            <Link href="/evidence" className="w-full sm:w-auto">
               <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.8 }}
                 whileHover={{ scale: 1.02, y: -1 }}
                 whileTap={{ scale: 0.97, y: 1 }}
-                className="clay-btn-surface inline-flex items-center gap-3 px-8 py-3.5 text-sm font-heading font-bold text-[#F7F6F3] cursor-pointer"
+                className="w-full sm:w-auto clay-btn-surface inline-flex items-center justify-center gap-3 px-9 py-4 text-sm font-heading font-bold text-[#F7F6F3] cursor-pointer"
               >
                 <NeumorphicTreeIcon size={20} />
-                <span>SHAP Evidence Dossier</span>
+                <span>Deconstruct SHAP Dossier</span>
               </motion.button>
             </Link>
-          </div>
-
-          {/* Architecture Badges */}
-          <div className="mt-10 flex flex-wrap justify-center gap-2">
-            {[
-              "XGBoost scale_pos_weight=578.55",
-              "shap.TreeExplainer",
-              "FastAPI Real-Time Lifespan",
-              "PR-AUC 0.8424",
-              "Continuous Adaptive Architecture",
-              "Stratified 70/15/15 Split",
-            ].map((tag) => (
-              <span
-                key={tag}
-                className="clay-pill px-3.5 py-1.5 text-[11px] font-mono text-[#9A9AA4]"
-              >
-                {tag}
-              </span>
-            ))}
           </div>
         </motion.div>
       </section>
