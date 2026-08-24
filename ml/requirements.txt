@@ -37,3 +37,6 @@ uvicorn==0.52.4
 matplotlib==3.11.1
 httpx==0.28.1
 xgboost==3.4.1
+networkx>=3.0.0
+pyvis>=0.3.2
+
