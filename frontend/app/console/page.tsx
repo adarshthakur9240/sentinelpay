@@ -21,7 +21,6 @@ import {
   NeumorphicShieldCheckIcon,
   NeumorphicShieldAlertIcon,
   NeumorphicSpikeIcon,
-  NeumorphicTreeIcon,
 } from "@/components/icons/NeumorphicIcons";
 import {
   Clock,
@@ -165,13 +164,13 @@ export default function RiskConsolePage() {
   }, [activeThresholdRow]);
 
   return (
-    <div className="relative min-h-screen bg-[#0A0A0A] text-[#F7F6F3] px-4 py-10 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="relative min-h-screen bg-[#050505] text-[#F7F6F3] px-4 py-10 sm:px-6 lg:px-8 overflow-hidden">
       {/* 3D Ambient Clay Background Canvas */}
       <AmbientClayBackground />
 
       <div className="relative z-10 mx-auto max-w-7xl space-y-10">
         {/* Header Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#26262B]/60 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1E1E23]/60 pb-6">
           <div>
             <div className="flex items-center gap-2.5">
               <span className="flex h-2 w-2 rounded-full bg-[#F2B8C6] shadow-[0_0_8px_#F2B8C6]"></span>
@@ -182,14 +181,14 @@ export default function RiskConsolePage() {
             <h1 className="mt-1 font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#F7F6F3] tracking-tight">
               Real-Time Inference & Operating Threshold Optimizer
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#9A9AA4]">
+            <p className="mt-1 text-xs sm:text-sm text-[#8E8E98]">
               Cost-sensitive XGBoost (<code className="text-[#F2B8C6] font-mono">scale_pos_weight=578.55</code>) with parametric cost optimization.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="clay-badge-rose px-4 py-1.5 text-xs font-mono flex items-center gap-2">
-              <span className="text-[#9A9AA4]">Operating Point:</span>
+              <span className="text-[#8E8E98]">Operating Point:</span>
               <strong className="text-[#F7F6F3]">t = 0.10</strong>
             </div>
           </div>
@@ -199,24 +198,24 @@ export default function RiskConsolePage() {
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.2 }}
-          className="clay-card p-7 sm:p-9 space-y-8"
+          className="clay-card p-7 sm:p-9 space-y-8 bg-[#09090D]"
         >
           {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#26262B]/60">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#1E1E23]/60">
             <div className="flex items-center gap-3.5">
               <NeumorphicSliderScaleIcon size={32} />
               <div>
                 <h2 className="font-heading font-bold text-base sm:text-lg text-[#F7F6F3] tracking-tight">
                   Operating Threshold Sweep & Net Cost Response
                 </h2>
-                <p className="text-xs text-[#9A9AA4] font-mono">
+                <p className="text-xs text-[#8E8E98] font-mono">
                   Drag slider to sweep operating point across the Precision-Recall curve
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="text-[#9A9AA4]">Selected Cutoff:</span>
+              <span className="text-[#8E8E98]">Selected Cutoff:</span>
               <span className="clay-badge-rose px-3.5 py-1 font-bold text-xs">
                 t = {selectedThreshold.toFixed(2)}
               </span>
@@ -225,16 +224,16 @@ export default function RiskConsolePage() {
 
           {/* Threshold Slider Component */}
           <div className="space-y-3 px-1">
-            <div className="flex justify-between text-xs font-mono text-[#9A9AA4]">
+            <div className="flex justify-between text-xs font-mono text-[#8E8E98]">
               <span className="text-[#F2B8C6] font-medium">High Recall (t=0.10)</span>
-              <span className="text-[#B5D8C5] font-semibold flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#B5D8C5]"></span>
+              <span className="text-[#A8B5E0] font-semibold flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#A8B5E0]"></span>
                 Cost-Optimal ($1,424.31 @ t=0.10)
               </span>
-              <span className="text-[#9A9AA4] font-medium">High Precision (t=0.90)</span>
+              <span className="text-[#8E8E98] font-medium">High Precision (t=0.90)</span>
             </div>
 
-            <div className="clay-card-inset p-3 rounded-2xl">
+            <div className="clay-card-inset p-3 rounded-2xl bg-[#060608]">
               <input
                 type="range"
                 min="0.10"
@@ -250,7 +249,7 @@ export default function RiskConsolePage() {
               />
             </div>
 
-            <div className="flex justify-between text-xs font-mono text-[#9A9AA4] pt-1">
+            <div className="flex justify-between text-xs font-mono text-[#8E8E98] pt-1">
               {[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9].map((t) => (
                 <button
                   key={t}
@@ -271,46 +270,46 @@ export default function RiskConsolePage() {
             </div>
           </div>
 
-          {/* Spacious Metric Summary Strip (Clean & Readable) */}
+          {/* Spacious Metric Summary Strip (Dual Pastel Accents) */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-2">
             {/* Metric 1: Recall */}
-            <div className="clay-card-sm p-5 sm:p-6 flex flex-col justify-between">
-              <div className="flex items-center justify-between text-[#9A9AA4]">
-                <span className="text-xs font-mono uppercase font-semibold">Recall @ Cutoff</span>
-                <Target className="h-4 w-4 text-[#B5D8C5]" />
+            <div className="clay-card-periwinkle p-5 sm:p-6 flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[#8E8E98]">
+                <span className="text-xs font-mono uppercase font-semibold text-[#A8B5E0]">Recall @ Cutoff</span>
+                <Target className="h-4 w-4 text-[#A8B5E0]" />
               </div>
-              <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#B5D8C5] tabular-nums">
+              <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#A8B5E0] tabular-nums">
                 {displayMetrics.recall.toFixed(1)}%
               </div>
-              <span className="text-xs font-mono text-[#9A9AA4]">
+              <span className="text-xs font-mono text-[#8E8E98]">
                 {Math.round(displayMetrics.recall * 0.74)} of 74 fraud caught
               </span>
             </div>
 
             {/* Metric 2: Precision */}
-            <div className="clay-card-sm p-5 sm:p-6 flex flex-col justify-between">
-              <div className="flex items-center justify-between text-[#9A9AA4]">
-                <span className="text-xs font-mono uppercase font-semibold">Precision</span>
+            <div className="clay-card-rose p-5 sm:p-6 flex flex-col justify-between">
+              <div className="flex items-center justify-between text-[#8E8E98]">
+                <span className="text-xs font-mono uppercase font-semibold text-[#F2B8C6]">Precision</span>
                 <TrendingUp className="h-4 w-4 text-[#F2B8C6]" />
               </div>
               <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#F2B8C6] tabular-nums">
                 {displayMetrics.precision.toFixed(1)}%
               </div>
-              <span className="text-xs font-mono text-[#9A9AA4]">
+              <span className="text-xs font-mono text-[#8E8E98]">
                 {displayMetrics.fp_per_10k.toFixed(1)} false alarms / 10k
               </span>
             </div>
 
             {/* Metric 3: False Positives */}
             <div className="clay-card-sm p-5 sm:p-6 flex flex-col justify-between">
-              <div className="flex items-center justify-between text-[#9A9AA4]">
+              <div className="flex items-center justify-between text-[#8E8E98]">
                 <span className="text-xs font-mono uppercase font-semibold">False Alarms</span>
-                <AlertTriangle className="h-4 w-4 text-[#D4C8EB]" />
+                <AlertTriangle className="h-4 w-4 text-[#8E8E98]" />
               </div>
               <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#F7F6F3] tabular-nums">
                 {Math.round(displayMetrics.fp_count)}
               </div>
-              <span className="text-xs font-mono text-[#9A9AA4]">
+              <span className="text-xs font-mono text-[#8E8E98]">
                 ${Math.round(displayMetrics.friction_costs)} user friction
               </span>
             </div>
@@ -324,13 +323,13 @@ export default function RiskConsolePage() {
               <div className="my-3 font-heading font-black text-3xl sm:text-4xl text-[#F7F6F3] tabular-nums">
                 ${displayMetrics.total_cost.toFixed(2)}
               </div>
-              <span className="text-xs font-mono text-[#9A9AA4]">
+              <span className="text-xs font-mono text-[#8E8E98]">
                 FN: ${Math.round(displayMetrics.fraud_losses)} | FP: ${Math.round(displayMetrics.friction_costs)}
               </span>
             </div>
           </div>
 
-          {/* PR Curve Chart with Spacious Layout */}
+          {/* PR Curve Chart with Dual Pastel Palette */}
           <div className="pt-4 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -339,7 +338,7 @@ export default function RiskConsolePage() {
                   Precision-Recall Operating Curve (PR-AUC 0.8424)
                 </span>
               </div>
-              <span className="text-xs font-mono text-[#9A9AA4]">
+              <span className="text-xs font-mono text-[#8E8E98]">
                 Active operating marker tracks t = {selectedThreshold.toFixed(2)}
               </span>
             </div>
@@ -347,29 +346,29 @@ export default function RiskConsolePage() {
             <div className="h-64 sm:h-72 w-full pt-2">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={PR_CURVE_DATA} margin={{ top: 10, right: 15, left: -15, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1E" opacity={0.6} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#16161D" opacity={0.6} />
                   <XAxis
                     dataKey="recall"
                     type="number"
                     domain={[0, 1]}
                     tickCount={6}
-                    tick={{ fill: "#9A9AA4", fontSize: 11, fontFamily: "monospace" }}
-                    label={{ value: "Recall", position: "insideBottomRight", offset: -5, fill: "#9A9AA4", fontSize: 11 }}
+                    tick={{ fill: "#8E8E98", fontSize: 11, fontFamily: "monospace" }}
+                    label={{ value: "Recall", position: "insideBottomRight", offset: -5, fill: "#8E8E98", fontSize: 11 }}
                   />
                   <YAxis
                     domain={[0, 100]}
-                    tick={{ fill: "#9A9AA4", fontSize: 11, fontFamily: "monospace" }}
-                    label={{ value: "Precision (%)", angle: -90, position: "insideLeft", offset: 20, fill: "#9A9AA4", fontSize: 11 }}
+                    tick={{ fill: "#8E8E98", fontSize: 11, fontFamily: "monospace" }}
+                    label={{ value: "Precision (%)", angle: -90, position: "insideLeft", offset: 20, fill: "#8E8E98", fontSize: 11 }}
                   />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#121216",
-                      borderColor: "#26262B",
+                      backgroundColor: "#0D0D11",
+                      borderColor: "#1E1E23",
                       borderRadius: "16px",
                       fontSize: "12px",
                       fontFamily: "monospace",
                       color: "#F7F6F3",
-                      boxShadow: "0 12px 30px rgba(0,0,0,0.6)",
+                      boxShadow: "0 12px 30px rgba(0,0,0,0.8)",
                     }}
                     // @ts-expect-error recharts formatter typing
                     formatter={(val: number) => [`${val.toFixed(2)}%`, ""]}
@@ -389,7 +388,7 @@ export default function RiskConsolePage() {
                     type="monotone"
                     dataKey="baseline_precision"
                     name="Logistic Regression Baseline (0.7904)"
-                    stroke="#5A5A68"
+                    stroke="#A8B5E0"
                     strokeWidth={1.5}
                     strokeDasharray="4 4"
                     dot={false}
@@ -398,7 +397,7 @@ export default function RiskConsolePage() {
                     type="monotone"
                     dataKey="no_skill"
                     name="No-Skill Baseline (0.17%)"
-                    stroke="#7E5265"
+                    stroke="#424250"
                     strokeWidth={1}
                     strokeDasharray="2 2"
                     dot={false}
@@ -417,12 +416,12 @@ export default function RiskConsolePage() {
             </div>
           </div>
 
-          {/* PROGRESSIVE DISCLOSURE: Full Cost Matrix Sweep (Collapsed by Default) */}
-          <div className="pt-2 border-t border-[#26262B]/50">
+          {/* PROGRESSIVE DISCLOSURE: Full Cost Matrix Sweep */}
+          <div className="pt-2 border-t border-[#1E1E23]/50">
             <button
               type="button"
               onClick={() => setIsCostTableExpanded(!isCostTableExpanded)}
-              className="w-full flex items-center justify-between py-2 text-xs font-mono text-[#9A9AA4] hover:text-[#F7F6F3] transition-colors cursor-pointer"
+              className="w-full flex items-center justify-between py-2 text-xs font-mono text-[#8E8E98] hover:text-[#F7F6F3] transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <SlidersHorizontal className="h-4 w-4 text-[#F2B8C6]" />
@@ -447,10 +446,10 @@ export default function RiskConsolePage() {
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="overflow-hidden pt-4"
                 >
-                  <div className="clay-card-inset p-5 overflow-x-auto">
+                  <div className="clay-card-inset p-5 overflow-x-auto bg-[#070709]">
                     <table className="w-full text-left text-xs font-mono">
                       <thead>
-                        <tr className="border-b border-[#26262B] text-[#9A9AA4]">
+                        <tr className="border-b border-[#1E1E23] text-[#8E8E98]">
                           <th className="pb-2.5">Threshold</th>
                           <th className="pb-2.5">Recall</th>
                           <th className="pb-2.5">Precision</th>
@@ -459,7 +458,7 @@ export default function RiskConsolePage() {
                           <th className="pb-2.5 text-right">Total Net Cost</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#26262B]/30">
+                      <tbody className="divide-y divide-[#1E1E23]/30">
                         {THRESHOLD_DATA.map((row) => {
                           const isActive = Math.abs(row.threshold - selectedThreshold) < 0.001;
                           return (
@@ -469,18 +468,18 @@ export default function RiskConsolePage() {
                               className={`cursor-pointer transition-colors ${
                                 isActive
                                   ? "bg-[#F2B8C6]/15 text-[#F2B8C6] font-bold"
-                                  : "text-[#9A9AA4] hover:bg-[#18181D]/60 hover:text-[#F7F6F3]"
+                                  : "text-[#8E8E98] hover:bg-[#121217] hover:text-[#F7F6F3]"
                               }`}
                             >
                               <td className="py-2.5 pl-1.5">
                                 {row.threshold.toFixed(2)}{" "}
                                 {row.is_optimal && (
-                                  <span className="clay-badge-sage text-[9px] px-2 py-0.5 font-bold ml-1">
+                                  <span className="clay-badge-periwinkle text-[9px] px-2 py-0.5 font-bold ml-1">
                                     OPTIMAL
                                   </span>
                                 )}
                               </td>
-                              <td className="py-2.5 text-[#B5D8C5]">{row.recall.toFixed(1)}%</td>
+                              <td className="py-2.5 text-[#A8B5E0]">{row.recall.toFixed(1)}%</td>
                               <td className="py-2.5 text-[#F2B8C6]">{row.precision.toFixed(1)}%</td>
                               <td className="py-2.5">{row.fp_count}</td>
                               <td className="py-2.5">{row.fn_count}</td>
@@ -503,29 +502,29 @@ export default function RiskConsolePage() {
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.2 }}
-          className="clay-card p-7 sm:p-9 space-y-6"
+          className="clay-card p-7 sm:p-9 space-y-6 bg-[#09090D]"
         >
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#26262B]/60 pb-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#1E1E23]/60 pb-5">
             <div className="flex items-center gap-3.5">
               <NeumorphicRadarIcon size={30} />
               <div>
                 <h2 className="font-heading font-bold text-base sm:text-lg text-[#F7F6F3] tracking-tight">
                   Live Test Split Scoring Demo
                 </h2>
-                <p className="text-xs text-[#9A9AA4] font-mono">
+                <p className="text-xs text-[#8E8E98] font-mono">
                   Executes live FastAPI /score call using genuine Kaggle test transactions
                 </p>
               </div>
             </div>
-            <span className="clay-pill px-3.5 py-1 font-mono text-xs text-[#9A9AA4]">
+            <span className="clay-pill px-3.5 py-1 font-mono text-xs text-[#8E8E98]">
               POST /score (Latency &lt;10ms)
             </span>
           </div>
 
           {/* Sample Selectors */}
           <div className="space-y-3">
-            <label className="text-xs font-mono text-[#9A9AA4] block">
+            <label className="text-xs font-mono text-[#8E8E98] block">
               Choose Test Transaction:
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -549,13 +548,13 @@ export default function RiskConsolePage() {
                   >
                     <div>
                       <div className="font-heading font-bold text-sm text-[#F7F6F3]">{tx.label}</div>
-                      <div className="text-xs font-mono text-[#9A9AA4] mt-0.5">
+                      <div className="text-xs font-mono text-[#8E8E98] mt-0.5">
                         ID: <span className="text-[#F7F6F3]">{tx.id}</span> · Amount: ${tx.amount_usd.toFixed(2)}
                       </div>
                     </div>
                     <span
                       className={`text-[10px] font-mono font-bold px-2.5 py-1 ${
-                        isFraud ? "clay-badge-rose" : "clay-badge-sage"
+                        isFraud ? "clay-badge-rose" : "clay-badge-periwinkle"
                       }`}
                     >
                       {isFraud ? "CONFIRMED FRAUD" : "LEGITIMATE"}
@@ -573,7 +572,7 @@ export default function RiskConsolePage() {
               whileTap={{ scale: 0.98, y: 1 }}
               onClick={handleRunScoring}
               disabled={isScoring}
-              className="w-full clay-btn-rose flex items-center justify-center gap-2.5 font-heading font-bold text-xs sm:text-sm py-4 tracking-wide disabled:opacity-50 cursor-pointer text-[#0A0A0A]"
+              className="w-full clay-btn-rose flex items-center justify-center gap-2.5 font-heading font-bold text-xs sm:text-sm py-4 tracking-wide disabled:opacity-50 cursor-pointer text-[#050505]"
             >
               {isScoring ? (
                 <>
@@ -597,10 +596,10 @@ export default function RiskConsolePage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
-                className="clay-card-inset p-6 font-mono space-y-4"
+                className="clay-card-inset p-6 font-mono space-y-4 bg-[#070709]"
               >
-                <div className="flex items-center justify-between pb-3 border-b border-[#26262B]/60">
-                  <span className="text-xs text-[#9A9AA4]">Inference Decision Output</span>
+                <div className="flex items-center justify-between pb-3 border-b border-[#1E1E23]/60">
+                  <span className="text-xs text-[#8E8E98]">Inference Decision Output</span>
                   <div className="flex items-center gap-1.5 text-xs text-[#F2B8C6]">
                     <Clock className="h-3.5 w-3.5" />
                     <span>{scoreResult.latency_ms} ms</span>
@@ -609,7 +608,7 @@ export default function RiskConsolePage() {
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <div className="text-xs text-[#9A9AA4]">Predicted Fraud Probability</div>
+                    <div className="text-xs text-[#8E8E98]">Predicted Fraud Probability</div>
                     <div className="text-3xl font-heading font-black text-[#F7F6F3] mt-0.5">
                       {(scoreResult.risk_score * 100).toFixed(2)}%
                     </div>
@@ -622,7 +621,7 @@ export default function RiskConsolePage() {
                         <span>FLAGGED FOR REVIEW</span>
                       </div>
                     ) : (
-                      <div className="clay-badge-sage px-4 py-2 text-xs font-bold flex items-center gap-2">
+                      <div className="clay-badge-periwinkle px-4 py-2 text-xs font-bold flex items-center gap-2">
                         <NeumorphicShieldCheckIcon size={20} />
                         <span>APPROVED (STRAIGHT-THROUGH)</span>
                       </div>
@@ -632,12 +631,12 @@ export default function RiskConsolePage() {
 
                 {/* Visual Probability Bar */}
                 <div className="pt-2">
-                  <div className="relative h-3 w-full rounded-full bg-[#08080A] overflow-hidden shadow-inner border border-white/5">
+                  <div className="relative h-3 w-full rounded-full bg-[#050505] overflow-hidden shadow-inner border border-white/5">
                     <div
                       className={`h-full transition-all duration-500 rounded-full ${
                         scoreResult.is_flagged
                           ? "bg-gradient-to-r from-[#FCE2E9] to-[#F2B8C6]"
-                          : "bg-gradient-to-r from-[#D2EBDE] to-[#B5D8C5]"
+                          : "bg-gradient-to-r from-[#DCE3F8] to-[#A8B5E0]"
                       }`}
                       style={{
                         width: `${Math.min(Math.max(scoreResult.risk_score * 100, 3), 100)}%`,
@@ -649,7 +648,7 @@ export default function RiskConsolePage() {
                       style={{ left: `${scoreResult.threshold_applied * 100}%` }}
                     ></div>
                   </div>
-                  <div className="mt-2 flex justify-between text-[11px] text-[#9A9AA4]">
+                  <div className="mt-2 flex justify-between text-[11px] text-[#8E8E98]">
                     <span>0% Prob</span>
                     <span className="text-[#F2B8C6] font-bold">
                       Active Cutoff: t = {scoreResult.threshold_applied.toFixed(2)}
@@ -667,12 +666,12 @@ export default function RiskConsolePage() {
             )}
           </AnimatePresence>
 
-          {/* PROGRESSIVE DISCLOSURE: Feature Inspector (Collapsed by Default) */}
-          <div className="pt-2 border-t border-[#26262B]/50">
+          {/* PROGRESSIVE DISCLOSURE: Feature Inspector */}
+          <div className="pt-2 border-t border-[#1E1E23]/50">
             <button
               type="button"
               onClick={() => setIsFeaturesExpanded(!isFeaturesExpanded)}
-              className="w-full flex items-center justify-between py-2 text-xs font-mono text-[#9A9AA4] hover:text-[#F7F6F3] transition-colors cursor-pointer"
+              className="w-full flex items-center justify-between py-2 text-xs font-mono text-[#8E8E98] hover:text-[#F7F6F3] transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <Layers className="h-4 w-4 text-[#F2B8C6]" />
@@ -697,30 +696,30 @@ export default function RiskConsolePage() {
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="overflow-hidden pt-4"
                 >
-                  <div className="clay-card-inset p-5">
+                  <div className="clay-card-inset p-5 bg-[#070709]">
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs font-mono">
-                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
-                        <span className="text-[#9A9AA4] block text-[10px]">Amount ($)</span>
+                      <div className="p-3 bg-[#0E0E12] rounded-xl border border-white/5">
+                        <span className="text-[#8E8E98] block text-[10px]">Amount ($)</span>
                         <span className="text-[#F7F6F3] font-bold">${currentSample.amount_usd.toFixed(2)}</span>
                       </div>
-                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
-                        <span className="text-[#9A9AA4] block text-[10px]">V14 (Anomaly)</span>
+                      <div className="p-3 bg-[#0E0E12] rounded-xl border border-white/5">
+                        <span className="text-[#8E8E98] block text-[10px]">V14 (Anomaly)</span>
                         <span className="text-[#F2B8C6] font-bold">{(currentSample.features.V14 as number).toFixed(3)}</span>
                       </div>
-                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
-                        <span className="text-[#9A9AA4] block text-[10px]">V10 (Anomaly)</span>
+                      <div className="p-3 bg-[#0E0E12] rounded-xl border border-white/5">
+                        <span className="text-[#8E8E98] block text-[10px]">V10 (Anomaly)</span>
                         <span className="text-[#F2B8C6] font-bold">{(currentSample.features.V10 as number).toFixed(3)}</span>
                       </div>
-                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
-                        <span className="text-[#9A9AA4] block text-[10px]">V4</span>
+                      <div className="p-3 bg-[#0E0E12] rounded-xl border border-white/5">
+                        <span className="text-[#8E8E98] block text-[10px]">V4</span>
                         <span className="text-[#F7F6F3] font-bold">{(currentSample.features.V4 as number).toFixed(3)}</span>
                       </div>
-                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
-                        <span className="text-[#9A9AA4] block text-[10px]">V12</span>
+                      <div className="p-3 bg-[#0E0E12] rounded-xl border border-white/5">
+                        <span className="text-[#8E8E98] block text-[10px]">V12</span>
                         <span className="text-[#F7F6F3] font-bold">{(currentSample.features.V12 as number).toFixed(3)}</span>
                       </div>
-                      <div className="p-3 bg-[#121216] rounded-xl border border-white/5">
-                        <span className="text-[#9A9AA4] block text-[10px]">V17</span>
+                      <div className="p-3 bg-[#0E0E12] rounded-xl border border-white/5">
+                        <span className="text-[#8E8E98] block text-[10px]">V17</span>
                         <span className="text-[#F7F6F3] font-bold">{(currentSample.features.V17 as number).toFixed(3)}</span>
                       </div>
                     </div>

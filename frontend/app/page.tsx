@@ -17,7 +17,6 @@ import {
 import {
   ChevronRight,
   ArrowRight,
-  Shield,
   Terminal,
   ExternalLink,
   Cpu,
@@ -88,10 +87,10 @@ function AnimatedCounter({
   );
 }
 
-// ─── Celebratory Soft Pastel Confetti Burst ────────────────────────────────────
+// ─── Celebratory Strict Dual Pastel Confetti Burst ─────────────────────────────
 function fireConfetti() {
   const end = Date.now() + 1600;
-  const colors = ["#F2B8C6", "#D4C8EB", "#B5D8C5", "#F7F6F3"];
+  const colors = ["#F2B8C6", "#FCE2E9", "#A8B5E0", "#F7F6F3"];
 
   const frame = () => {
     confetti({
@@ -233,7 +232,7 @@ export default function HomePage() {
       title: "MODEL CORE",
       value: "XGBoost scale_pos_weight=578.55",
       badge: "OPTIMIZED",
-      badgeClass: "clay-badge-sage",
+      badgeClass: "clay-badge-periwinkle",
       icon: Cpu,
       initial: { x: -70, y: -40, opacity: 0, scale: 0.85 },
       delay: 0.15,
@@ -253,7 +252,7 @@ export default function HomePage() {
       title: "INFERENCE SPEED",
       value: "FastAPI Sub-10ms Lifespan",
       badge: "LIVE",
-      badgeClass: "clay-badge-sage",
+      badgeClass: "clay-badge-periwinkle",
       icon: Zap,
       initial: { x: -70, y: 0, opacity: 0, scale: 0.85 },
       delay: 0.35,
@@ -263,7 +262,7 @@ export default function HomePage() {
       title: "HELD-OUT METRIC",
       value: "PR-AUC 0.8424 Test Split",
       badge: "VERIFIED",
-      badgeClass: "clay-badge-lavender",
+      badgeClass: "clay-badge-periwinkle",
       icon: Activity,
       initial: { x: 70, y: 0, opacity: 0, scale: 0.85 },
       delay: 0.45,
@@ -283,7 +282,7 @@ export default function HomePage() {
       title: "DATA SPLIT",
       value: "Stratified 70/15/15 Distribution",
       badge: "BALANCED",
-      badgeClass: "clay-pill text-[#9A9AA4]",
+      badgeClass: "clay-pill text-[#8E8E98]",
       icon: Lock,
       initial: { x: 60, y: 40, opacity: 0, scale: 0.85 },
       delay: 0.65,
@@ -291,7 +290,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#0A0A0A] text-[#F7F6F3]">
+    <div className="relative min-h-screen bg-[#050505] text-[#F7F6F3]">
       {/* ── PERSISTENT FULL-PAGE 3D STUDIO BACKDROP (Z-0) ────────────────── */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <Suspense fallback={null}>
@@ -299,12 +298,12 @@ export default function HomePage() {
         </Suspense>
       </div>
 
-      {/* Atmospheric Soft Neutral Vignette */}
+      {/* Atmospheric Soft Neutral Pure-Black Vignette */}
       <div
         className="fixed inset-0 z-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 50%, transparent 30%, #0A0A0A 95%)",
+            "radial-gradient(ellipse at 50% 50%, transparent 25%, #050505 95%)",
         }}
       />
 
@@ -336,7 +335,7 @@ export default function HomePage() {
           <br />
           We built a system
           <br />
-          <span className="text-[#9A9AA4]">that finds them anyway.</span>
+          <span className="text-[#8E8E98]">that finds them anyway.</span>
         </motion.h1>
 
         {/* Sub-headline */}
@@ -344,7 +343,7 @@ export default function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.75 }}
-          className="mt-8 max-w-2xl text-base sm:text-lg text-[#9A9AA4] font-normal leading-relaxed"
+          className="mt-8 max-w-2xl text-base sm:text-lg text-[#8E8E98] font-normal leading-relaxed"
         >
           Cost-sensitive XGBoost (<code className="text-[#F2B8C6] font-mono font-bold">scale_pos_weight=578.55</code>) with
           native SHAP game-theoretic explainability. Held-out PR-AUC{" "}
@@ -362,7 +361,7 @@ export default function HomePage() {
             <motion.button
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97, y: 1 }}
-              className="clay-btn-rose inline-flex items-center gap-3 px-8 py-3.5 text-sm font-heading font-bold text-[#0A0A0A] tracking-wide cursor-pointer"
+              className="clay-btn-rose inline-flex items-center gap-3 px-8 py-3.5 text-sm font-heading font-bold text-[#050505] tracking-wide cursor-pointer"
             >
               <NeumorphicSpikeIcon size={20} />
               <span>Launch Risk Console</span>
@@ -387,10 +386,10 @@ export default function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8, duration: 1 }}
-          className="mt-16 flex flex-col items-center gap-2 text-xs font-mono text-[#9A9AA4]"
+          className="mt-16 flex flex-col items-center gap-2 text-xs font-mono text-[#8E8E98]"
         >
           <span>Scroll to explore the architecture</span>
-          <div className="flex h-8 w-5 justify-center rounded-full border border-[#26262B] p-1 shadow-inner">
+          <div className="flex h-8 w-5 justify-center rounded-full border border-[#1E1E23] p-1 shadow-inner">
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
@@ -421,7 +420,7 @@ export default function HomePage() {
             style={{ willChange: "opacity, transform" }}
           >
             A naive model that predicts{" "}
-            <span className="text-[#F2B8C6]">every transaction as legitimate</span>
+            <span className="text-[#A8B5E0]">every transaction as legitimate</span>
             <br />
             achieves{" "}
             <span className="clay-badge-rose px-3 py-1 font-mono text-2xl sm:text-3xl inline-block mt-2 font-bold">
@@ -438,7 +437,7 @@ export default function HomePage() {
           >
             Yet it catches <span className="text-[#F2B8C6]">zero fraud</span>.
             <br />
-            <span className="text-lg font-normal text-[#9A9AA4] sm:text-2xl font-sans mt-3 block">
+            <span className="text-lg font-normal text-[#8E8E98] sm:text-2xl font-sans mt-3 block">
               Under extreme class imbalance, raw accuracy is mathematically meaningless.
             </span>
           </p>
@@ -450,12 +449,12 @@ export default function HomePage() {
             style={{ willChange: "opacity, transform" }}
           >
             We trained directly on the{" "}
-            <span className="text-[#B5D8C5]">Precision-Recall operating surface</span>,
+            <span className="text-[#A8B5E0]">Precision-Recall operating surface</span>,
             <br />
             minimized asymmetric financial friction ($5 FP vs $122.21 FN),
             <br />
             and engineered{" "}
-            <span className="text-[#D4C8EB]">exact Shapley game-theoretic evidence</span>.
+            <span className="text-[#F2B8C6]">exact Shapley game-theoretic evidence</span>.
           </p>
         </div>
       </section>
@@ -466,14 +465,14 @@ export default function HomePage() {
         className="relative z-10 py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
       >
         <div className="text-center">
-          <div className="clay-pill inline-flex items-center gap-2.5 px-4 py-1.5 text-xs font-mono text-[#9A9AA4]">
+          <div className="clay-pill inline-flex items-center gap-2.5 px-4 py-1.5 text-xs font-mono text-[#8E8E98]">
             <NeumorphicShieldCheckIcon size={16} />
             <span>HELD-OUT TEST SPLIT VALIDATION · N = 42,722 TRANSACTIONS</span>
           </div>
           <h2 className="mt-6 font-heading font-black text-3xl sm:text-5xl md:text-6xl text-[#F7F6F3] tracking-tight">
             Empirical Results Across Test Splits
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-[#9A9AA4] max-w-xl mx-auto font-normal">
+          <p className="mt-3 text-sm sm:text-base text-[#8E8E98] max-w-xl mx-auto font-normal">
             Stratified 70/15/15 split. Evaluated on genuine precision, recall, and false-alarm costs.
           </p>
         </div>
@@ -495,7 +494,7 @@ export default function HomePage() {
             <div className="font-heading font-black text-4xl sm:text-5xl text-[#F7F6F3] tabular-nums">
               <AnimatedCounter from={0} to={0.8424} decimals={4} duration={1.8} />
             </div>
-            <p className="mt-2.5 text-xs text-[#9A9AA4] font-mono">
+            <p className="mt-2.5 text-xs text-[#8E8E98] font-mono">
               +0.0520 lift over balanced baseline (0.7904)
             </p>
           </motion.div>
@@ -506,16 +505,16 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true, margin: "-40px" }}
-            className="clay-card p-6 relative overflow-hidden"
+            className="clay-card-periwinkle p-6 relative overflow-hidden"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono text-[#B5D8C5] uppercase font-bold">Recall @ t=0.10</span>
+              <span className="text-xs font-mono text-[#A8B5E0] uppercase font-bold">Recall @ t=0.10</span>
               <NeumorphicRadarIcon size={22} />
             </div>
-            <div className="font-heading font-black text-4xl sm:text-5xl text-[#B5D8C5] tabular-nums">
+            <div className="font-heading font-black text-4xl sm:text-5xl text-[#A8B5E0] tabular-nums">
               <AnimatedCounter from={0} to={85.14} suffix="%" decimals={2} duration={1.6} />
             </div>
-            <p className="mt-2.5 text-xs text-[#9A9AA4] font-mono">
+            <p className="mt-2.5 text-xs text-[#8E8E98] font-mono">
               63 of 74 fraud cases caught in test split
             </p>
           </motion.div>
@@ -526,16 +525,16 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true, margin: "-40px" }}
-            className="clay-card p-6 relative overflow-hidden"
+            className="clay-card-periwinkle p-6 relative overflow-hidden"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono text-[#D4C8EB] uppercase font-bold">FP Reduction</span>
+              <span className="text-xs font-mono text-[#A8B5E0] uppercase font-bold">FP Reduction</span>
               <NeumorphicSliderScaleIcon size={22} />
             </div>
             <div className="font-heading font-black text-4xl sm:text-5xl text-[#F7F6F3] tabular-nums">
               <AnimatedCounter from={0} to={98.22} suffix="%" decimals={2} duration={1.7} />
             </div>
-            <p className="mt-2.5 text-xs text-[#9A9AA4] font-mono">
+            <p className="mt-2.5 text-xs text-[#8E8E98] font-mono">
               901 → 16 false alarms vs balanced baseline
             </p>
           </motion.div>
@@ -549,13 +548,13 @@ export default function HomePage() {
             className="clay-card p-6 relative overflow-hidden"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono text-[#9A9AA4] uppercase font-bold">False Alarm Rate</span>
+              <span className="text-xs font-mono text-[#8E8E98] uppercase font-bold">False Alarm Rate</span>
               <NeumorphicShieldCheckIcon size={22} />
             </div>
             <div className="font-heading font-black text-4xl sm:text-5xl text-[#F7F6F3] tabular-nums">
               <AnimatedCounter from={0} to={3.7} suffix="" decimals={1} duration={1.5} />
             </div>
-            <p className="mt-2.5 text-xs text-[#9A9AA4] font-mono">
+            <p className="mt-2.5 text-xs text-[#8E8E98] font-mono">
               FP per 10,000 processed transactions
             </p>
           </motion.div>
@@ -563,7 +562,7 @@ export default function HomePage() {
 
         {/* Model Benchmark Architecture Matrix (Clay Card) */}
         <div className="mt-12 clay-card p-6 sm:p-7">
-          <div className="grid grid-cols-4 border-b border-[#26262B] pb-3.5 text-xs font-mono font-bold uppercase tracking-wider text-[#9A9AA4]">
+          <div className="grid grid-cols-4 border-b border-[#1E1E23] pb-3.5 text-xs font-mono font-bold uppercase tracking-wider text-[#8E8E98]">
             <span>Model Architecture</span>
             <span className="text-center">PR-AUC (Test)</span>
             <span className="text-center">False Positives</span>
@@ -598,7 +597,7 @@ export default function HomePage() {
           ].map((row) => (
             <div
               key={row.name}
-              className={`grid grid-cols-4 items-center border-b border-[#26262B]/50 py-4.5 text-sm last:border-0 ${
+              className={`grid grid-cols-4 items-center border-b border-[#1E1E23]/50 py-4.5 text-sm last:border-0 ${
                 row.isWinner ? "bg-[#F2B8C6]/10 rounded-2xl px-3 my-1" : "px-3"
               }`}
             >
@@ -609,7 +608,7 @@ export default function HomePage() {
                 <div className="mt-0.5">
                   <span
                     className={`inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 ${
-                      row.isWinner ? "clay-badge-rose" : "clay-pill text-[#9A9AA4]"
+                      row.isWinner ? "clay-badge-rose" : "clay-pill text-[#8E8E98]"
                     }`}
                   >
                     {row.badge}
@@ -625,14 +624,14 @@ export default function HomePage() {
                 {row.fp}
               </div>
 
-              <div className="text-right font-mono text-xs text-[#9A9AA4]">
+              <div className="text-right font-mono text-xs text-[#8E8E98]">
                 {row.strategy}
               </div>
             </div>
           ))}
         </div>
 
-        <p className="mt-4 text-center text-xs text-[#9A9AA4] font-mono">
+        <p className="mt-4 text-center text-xs text-[#8E8E98] font-mono">
           SMOTE degraded precision due to synthetic artifact generation in high-dimensional PCA projection space.
         </p>
       </section>
@@ -646,7 +645,7 @@ export default function HomePage() {
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={isCtaInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="clay-card p-8 sm:p-12 relative overflow-hidden border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(242,184,198,0.12)]"
+          className="clay-card p-8 sm:p-12 relative overflow-hidden border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.9),0_0_35px_rgba(242,184,198,0.12)] bg-[#0A0A0D]"
         >
           {/* Futuristic HUD Corner Accents */}
           <div className="absolute top-4 left-4 h-4 w-4 border-t-2 border-l-2 border-[#F2B8C6]/50 pointer-events-none"></div>
@@ -655,7 +654,7 @@ export default function HomePage() {
           <div className="absolute bottom-4 right-4 h-4 w-4 border-b-2 border-r-2 border-[#F2B8C6]/50 pointer-events-none"></div>
 
           {/* Top HUD Telemetry Banner */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#26262B]/70">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-[#1E1E23]/70">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F2B8C6]/10 border border-[#F2B8C6]/30 text-[#F2B8C6]">
                 <NeumorphicSpikeIcon size={22} />
@@ -664,15 +663,15 @@ export default function HomePage() {
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#F2B8C6] font-bold block">
                   SYSTEM READY · OPERATIONAL HUD
                 </span>
-                <span className="text-xs font-mono text-[#9A9AA4]">
+                <span className="text-xs font-mono text-[#8E8E98]">
                   Cost-Sensitive Inference Deck & Auto-Responder
                 </span>
               </div>
             </div>
 
             <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="clay-badge-sage px-3 py-1 flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#B5D8C5] animate-pulse"></span>
+              <span className="clay-badge-periwinkle px-3 py-1 flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#A8B5E0] animate-pulse"></span>
                 <span>STATUS: ARMED</span>
               </span>
             </div>
@@ -695,7 +694,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 16 }}
               animate={isCtaInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.25 }}
-              className="text-sm sm:text-base text-[#9A9AA4] max-w-xl mx-auto font-normal leading-relaxed"
+              className="text-sm sm:text-base text-[#8E8E98] max-w-xl mx-auto font-normal leading-relaxed"
             >
               Test live FastAPI scoring on genuine Kaggle test-set transactions. Sweep the
               operating threshold slider or deconstruct multi-dimensional Shapley game-theoretic evidence.
@@ -718,10 +717,10 @@ export default function HomePage() {
                     delay: mod.delay,
                   }}
                   whileHover={{ scale: 1.02, y: -2 }}
-                  className="clay-card-sm p-4 flex flex-col justify-between relative group border border-white/5 hover:border-[#F2B8C6]/30 transition-all"
+                  className="clay-card-sm p-4 flex flex-col justify-between relative group border border-white/5 hover:border-[#F2B8C6]/30 transition-all bg-[#0B0B0E]"
                 >
                   <div className="flex items-center justify-between pb-2">
-                    <span className="text-[10px] font-mono uppercase text-[#9A9AA4] font-bold tracking-wider flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono uppercase text-[#8E8E98] font-bold tracking-wider flex items-center gap-1.5">
                       <Icon className="h-3.5 w-3.5 text-[#F2B8C6]" />
                       <span>{mod.title}</span>
                     </span>
@@ -746,7 +745,7 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: 0.7 }}
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97, y: 1 }}
-                className="w-full sm:w-auto clay-btn-rose inline-flex items-center justify-center gap-3 px-9 py-4 text-sm font-heading font-bold text-[#0A0A0A] tracking-wide cursor-pointer relative group overflow-hidden"
+                className="w-full sm:w-auto clay-btn-rose inline-flex items-center justify-center gap-3 px-9 py-4 text-sm font-heading font-bold text-[#050505] tracking-wide cursor-pointer relative group overflow-hidden"
               >
                 {/* Subtle Ambient Rhythmic Pulse Glow */}
                 <motion.span
@@ -788,10 +787,10 @@ export default function HomePage() {
       {/* ── SECTION 5: Animated Concluding Footer Destination ──────────────── */}
       <footer
         ref={footerRef}
-        className="relative z-10 border-t border-[#26262B]/70 bg-[#0A0A0A]/90 backdrop-blur-2xl pt-16 pb-12 px-4 sm:px-6 lg:px-8"
+        className="relative z-10 border-t border-[#1E1E23]/70 bg-[#050505]/95 backdrop-blur-2xl pt-16 pb-12 px-4 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-[#26262B]/60">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-[#1E1E23]/60">
             {/* Column 1: Brand & Philosophy */}
             <div className="md:col-span-2 space-y-3">
               <div className="flex items-center gap-3">
@@ -801,7 +800,7 @@ export default function HomePage() {
                 <span className="font-heading font-bold text-lg text-[#F7F6F3]">SentinelPay</span>
                 <span className="clay-badge-rose px-2.5 py-0.5 text-[10px] font-mono font-semibold">v1.0</span>
               </div>
-              <p className="text-xs text-[#9A9AA4] max-w-sm leading-relaxed font-sans">
+              <p className="text-xs text-[#8E8E98] max-w-sm leading-relaxed font-sans">
                 Real-time fraud intelligence designed for extreme class imbalance. Operating at cost-optimal
                 operating points with instant Shapley game-theoretic evidence decomposition.
               </p>
@@ -813,17 +812,17 @@ export default function HomePage() {
                 Platform Interfaces
               </span>
               <div>
-                <Link href="/" className="text-[#9A9AA4] hover:text-[#F2B8C6] transition-colors">
+                <Link href="/" className="text-[#8E8E98] hover:text-[#F2B8C6] transition-colors">
                   Executive Summary
                 </Link>
               </div>
               <div>
-                <Link href="/console" className="text-[#9A9AA4] hover:text-[#F2B8C6] transition-colors">
+                <Link href="/console" className="text-[#8E8E98] hover:text-[#A8B5E0] transition-colors">
                   Operational Risk Console
                 </Link>
               </div>
               <div>
-                <Link href="/evidence" className="text-[#9A9AA4] hover:text-[#F2B8C6] transition-colors">
+                <Link href="/evidence" className="text-[#8E8E98] hover:text-[#A8B5E0] transition-colors">
                   SHAP Dispute Dossier
                 </Link>
               </div>
@@ -834,11 +833,11 @@ export default function HomePage() {
               <span className="text-[#F7F6F3] font-bold block mb-2 uppercase tracking-wider text-[11px]">
                 Inference Telemetry
               </span>
-              <div className="flex items-center gap-2 text-[#B5D8C5]">
-                <span className="h-2 w-2 rounded-full bg-[#B5D8C5] animate-pulse"></span>
+              <div className="flex items-center gap-2 text-[#A8B5E0]">
+                <span className="h-2 w-2 rounded-full bg-[#A8B5E0] animate-pulse"></span>
                 <span>FastAPI Service Online</span>
               </div>
-              <div className="text-[#9A9AA4]">
+              <div className="text-[#8E8E98]">
                 Operating Point: <span className="text-[#F7F6F3] font-bold">t = 0.10</span>
               </div>
               <div>
@@ -857,7 +856,7 @@ export default function HomePage() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-[#9A9AA4]">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-[#8E8E98]">
             <span>
               SentinelPay Engine · XGBoost <code className="text-[#F2B8C6]">scale_pos_weight=578.55</code> · SHAP TreeExplainer
             </span>

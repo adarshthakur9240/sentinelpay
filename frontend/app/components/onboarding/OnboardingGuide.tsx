@@ -11,7 +11,6 @@ import {
   ArrowDown,
   ArrowRight,
   Sparkles,
-  RotateCcw,
 } from "lucide-react";
 
 interface StepConfig {
@@ -165,7 +164,7 @@ export default function OnboardingGuide() {
           whileHover={{ scale: 1.08, y: -2 }}
           whileTap={{ scale: 0.94 }}
           onClick={handleRestartTour}
-          className="clay-card-interactive flex h-11 w-11 items-center justify-center rounded-2xl text-[#F2B8C6] shadow-xl border border-white/10 cursor-pointer group"
+          className="clay-card-interactive flex h-11 w-11 items-center justify-center rounded-2xl text-[#F2B8C6] shadow-xl border border-white/10 cursor-pointer group bg-[#0C0C10]"
           title="Restart Guided Onboarding Tour"
         >
           <HelpCircle className="h-5 w-5 group-hover:text-[#F7F6F3] transition-colors" />
@@ -181,10 +180,10 @@ export default function OnboardingGuide() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.92 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="pointer-events-auto clay-card p-5 sm:p-6 relative shadow-2xl border border-white/10"
+              className="pointer-events-auto clay-card p-5 sm:p-6 relative shadow-2xl border border-white/10 bg-[#0C0C10]/95 backdrop-blur-2xl"
             >
               {/* Header Bar */}
-              <div className="flex items-center justify-between pb-3 border-b border-[#26262B]/60">
+              <div className="flex items-center justify-between pb-3 border-b border-[#1E1E23]/60">
                 <div className="flex items-center gap-2.5">
                   <ShieldMascot size={32} mood={currentStep.mood} />
                   <div>
@@ -200,7 +199,7 @@ export default function OnboardingGuide() {
                 <button
                   type="button"
                   onClick={handleDismiss}
-                  className="p-1 rounded-lg text-[#9A9AA4] hover:text-[#F7F6F3] hover:bg-white/5 transition-colors cursor-pointer"
+                  className="p-1 rounded-lg text-[#8E8E98] hover:text-[#F7F6F3] hover:bg-white/5 transition-colors cursor-pointer"
                   title="Close Guide"
                 >
                   <X className="h-4 w-4" />
@@ -221,8 +220,8 @@ export default function OnboardingGuide() {
                     {currentStep.message}
                   </p>
 
-                  {/* Animated Pointer Indicator */}
-                  <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-mono text-[#B5D8C5]">
+                  {/* Animated Pointer Indicator in Soft Periwinkle */}
+                  <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-mono text-[#A8B5E0]">
                     {currentStep.pointerDirection === "down" && (
                       <motion.div
                         animate={{ y: [0, 4, 0] }}
@@ -258,11 +257,11 @@ export default function OnboardingGuide() {
               </AnimatePresence>
 
               {/* Action Buttons Footer */}
-              <div className="flex items-center justify-between pt-2 border-t border-[#26262B]/60 text-xs">
+              <div className="flex items-center justify-between pt-2 border-t border-[#1E1E23]/60 text-xs">
                 <button
                   type="button"
                   onClick={handleDismiss}
-                  className="text-[#9A9AA4] hover:text-[#F7F6F3] font-mono transition-colors cursor-pointer text-[11px]"
+                  className="text-[#8E8E98] hover:text-[#F7F6F3] font-mono transition-colors cursor-pointer text-[11px]"
                 >
                   Skip Tour
                 </button>
@@ -272,7 +271,7 @@ export default function OnboardingGuide() {
                     whileHover={{ scale: 1.03, y: -1 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={handleNext}
-                    className="clay-btn-rose px-4 py-2 font-heading font-bold text-xs flex items-center gap-1.5 cursor-pointer text-[#0A0A0A]"
+                    className="clay-btn-rose px-4 py-2 font-heading font-bold text-xs flex items-center gap-1.5 cursor-pointer text-[#050505]"
                   >
                     <span>{currentStep.ctaText || "Next"}</span>
                     <ChevronRight className="h-3.5 w-3.5" />

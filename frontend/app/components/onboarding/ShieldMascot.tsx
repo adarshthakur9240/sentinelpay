@@ -29,22 +29,22 @@ export default function ShieldMascot({
       >
         <defs>
           <linearGradient id="mascotBody" x1="6" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#24242E" />
-            <stop offset="50%" stopColor="#181820" />
-            <stop offset="100%" stopColor="#0F0F14" />
+            <stop offset="0%" stopColor="#1C1C24" />
+            <stop offset="50%" stopColor="#101015" />
+            <stop offset="100%" stopColor="#08080B" />
           </linearGradient>
           <linearGradient id="mascotRim" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#FCE2E9" />
             <stop offset="50%" stopColor="#F2B8C6" />
-            <stop offset="100%" stopColor="#D4C8EB" />
+            <stop offset="100%" stopColor="#A8B5E0" />
           </linearGradient>
           <filter id="mascotGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#F2B8C6" floodOpacity="0.25" />
-            <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#000000" floodOpacity="0.7" />
+            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#F2B8C6" floodOpacity="0.2" />
+            <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="#000000" floodOpacity="0.8" />
           </filter>
         </defs>
 
-        {/* Shield Body (Dark Clay with Pastel Rim) */}
+        {/* Shield Body */}
         <path
           d="M24 4 L39 9 V22 C39 32.5 32.5 39 24 44 C15.5 39 9 32.5 9 22 V9 L24 4 Z"
           fill="url(#mascotBody)"
@@ -56,7 +56,7 @@ export default function ShieldMascot({
         {/* Inner Clay Inset */}
         <path
           d="M24 7 L36 11 V22 C36 30.5 30.5 36 24 40 C17.5 36 12 30.5 12 22 V11 L24 7 Z"
-          fill="#131317"
+          fill="#0B0B0E"
           opacity="0.6"
         />
 
@@ -68,7 +68,7 @@ export default function ShieldMascot({
             cx="19.5"
             cy="19.5"
             r="1"
-            fill="#0A0A0A"
+            fill="#050505"
             animate={{ scaleY: [1, 0.1, 1] }}
             transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2 }}
           />
@@ -81,7 +81,7 @@ export default function ShieldMascot({
             cx="28.5"
             cy="19.5"
             r="1"
-            fill="#0A0A0A"
+            fill="#050505"
             animate={{ scaleY: [1, 0.1, 1] }}
             transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2 }}
           />
@@ -89,7 +89,7 @@ export default function ShieldMascot({
           <circle cx="32" cy="23" r="1.8" fill="#F2B8C6" opacity="0.75" />
         </g>
 
-        {/* Mascot Smile or Antenna */}
+        {/* Mascot Smile / Expression */}
         {mood === "happy" && (
           <path
             d="M21 25.5 Q24 28.5 27 25.5"
@@ -101,7 +101,7 @@ export default function ShieldMascot({
         {mood === "analyzing" && (
           <path
             d="M21 26 H27"
-            stroke="#B5D8C5"
+            stroke="#A8B5E0"
             strokeWidth="1.5"
             strokeLinecap="round"
           />
@@ -115,12 +115,12 @@ export default function ShieldMascot({
           />
         )}
 
-        {/* Little Radar Sparkle on Top */}
+        {/* Sparkle on Top */}
         <motion.circle
           cx="24"
           cy="7"
           r="1.2"
-          fill="#B5D8C5"
+          fill="#A8B5E0"
           animate={{ opacity: [0.4, 1, 0.4] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         />

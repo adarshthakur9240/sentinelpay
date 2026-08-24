@@ -50,7 +50,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${poppins.variable} dark antialiased`}
     >
-      <body className="min-h-screen bg-[#0A0A0A] text-[#F7F6F3] flex flex-col font-sans selection:bg-[#F2B8C6]/25 selection:text-[#FCE2E9]">
+      <body className="min-h-screen bg-[#050505] text-[#F7F6F3] flex flex-col font-sans selection:bg-[#F2B8C6]/25 selection:text-[#FCE2E9]">
         <LenisProvider>
           {/* Navbar sits on top with backdrop-blur */}
           <Navbar />

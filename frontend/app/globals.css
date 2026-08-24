@@ -6,63 +6,61 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ── Deep Black & Soft Pastel Palette (Neutral Black, Blush Rose, Sage, Lavender) ── */
-  --bg-dark: #0A0A0A;
-  --surface-dark: #121214;
-  --surface-hover: #18181C;
-  --border-dark: #26262B;
+  /* ── Strict Dual Pastel Palette: Pure Black, Soft Rose & Soft Periwinkle ── */
+  --bg-dark: #050505;
+  --surface-dark: #0D0D10;
+  --surface-hover: #131317;
+  --border-dark: #1E1E23;
   
   --text-cream: #F7F6F3;
-  --text-muted: #9A9AA4;
+  --text-muted: #8E8E98;
   
-  /* Primary Soft Pastel Accent: Muted Blush Rose */
+  /* Primary Soft Pastel Accent: Muted Blush Rose (Risk, Flagged, Primary Actions) */
   --accent-rose: #F2B8C6;
   --accent-rose-light: #FCE2E9;
-  --accent-rose-dim: rgba(242, 184, 198, 0.16);
+  --accent-rose-dim: rgba(242, 184, 198, 0.14);
 
-  /* Secondary Soft Pastel Accents: Sage Green & Lavender */
-  --accent-sage: #B5D8C5;
-  --accent-sage-dim: rgba(181, 216, 197, 0.16);
-  
-  --accent-lavender: #D4C8EB;
-  --accent-lavender-dim: rgba(212, 200, 235, 0.16);
+  /* Secondary Soft Pastel Accent: Soft Periwinkle (Safe, Neutral, Informational) */
+  --accent-periwinkle: #A8B5E0;
+  --accent-periwinkle-light: #DCE3F8;
+  --accent-periwinkle-dim: rgba(168, 181, 224, 0.14);
 
   /* ── shadcn/tailwind token overrides (dark-only) ──────── */
-  --background: oklch(0.06 0 0); /* Neutral deep black */
+  --background: oklch(0.03 0 0); /* Pure near-black #050505 */
   --foreground: oklch(0.97 0.01 80);
-  --card: oklch(0.10 0 0);
+  --card: oklch(0.07 0 0);
   --card-foreground: oklch(0.97 0.01 80);
-  --popover: oklch(0.10 0 0);
+  --popover: oklch(0.07 0 0);
   --popover-foreground: oklch(0.97 0.01 80);
   --primary: oklch(0.82 0.08 10); /* soft blush rose */
-  --primary-foreground: oklch(0.06 0 0);
-  --secondary: oklch(0.14 0 0);
+  --primary-foreground: oklch(0.03 0 0);
+  --secondary: oklch(0.10 0 0);
   --secondary-foreground: oklch(0.97 0.01 80);
-  --muted: oklch(0.14 0 0);
-  --muted-foreground: oklch(0.65 0.01 270);
-  --accent: oklch(0.14 0 0);
+  --muted: oklch(0.10 0 0);
+  --muted-foreground: oklch(0.60 0.01 270);
+  --accent: oklch(0.10 0 0);
   --accent-foreground: oklch(0.97 0.01 80);
   --destructive: oklch(0.70 0.12 10);
-  --border: oklch(0.18 0 0);
-  --input: oklch(0.18 0 0);
+  --border: oklch(0.14 0 0);
+  --input: oklch(0.14 0 0);
   --ring: oklch(0.82 0.08 10);
   --radius: 1.25rem;
 
   /* Chart tokens */
   --chart-1: oklch(0.82 0.08 10); /* soft rose */
-  --chart-2: oklch(0.84 0.06 150); /* soft sage */
-  --chart-3: oklch(0.82 0.07 300); /* soft lavender */
-  --chart-4: oklch(0.45 0 0);
-  --chart-5: oklch(0.30 0 0);
+  --chart-2: oklch(0.78 0.08 260); /* soft periwinkle */
+  --chart-3: oklch(0.35 0 0);
+  --chart-4: oklch(0.25 0 0);
+  --chart-5: oklch(0.15 0 0);
 
   /* Sidebar tokens */
-  --sidebar: oklch(0.09 0 0);
+  --sidebar: oklch(0.06 0 0);
   --sidebar-foreground: oklch(0.97 0.01 80);
   --sidebar-primary: oklch(0.82 0.08 10);
-  --sidebar-primary-foreground: oklch(0.06 0 0);
-  --sidebar-accent: oklch(0.14 0 0);
+  --sidebar-primary-foreground: oklch(0.03 0 0);
+  --sidebar-accent: oklch(0.10 0 0);
   --sidebar-accent-foreground: oklch(0.97 0.01 80);
-  --sidebar-border: oklch(0.18 0 0);
+  --sidebar-border: oklch(0.14 0 0);
   --sidebar-ring: oklch(0.82 0.08 10);
 }
 
@@ -72,12 +70,12 @@
     @apply border-border outline-ring/50;
   }
   html {
-    background-color: #0A0A0A;
+    background-color: #050505;
     scroll-behavior: auto;
   }
   body {
     @apply bg-background text-foreground;
-    background-color: #0A0A0A;
+    background-color: #050505;
     color: #F7F6F3;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-variant-numeric: tabular-nums;
@@ -96,14 +94,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #050505;
 }
 ::-webkit-scrollbar-thumb {
-  background: #24242B;
+  background: #1C1C22;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #363640;
+  background: #2C2C35;
 }
 
 /* ── @theme Configuration ─────────────────────────────────── */
@@ -139,185 +137,171 @@
   --radius-3xl: calc(var(--radius) * 2.2);
 }
 
-/* ── Soft Claymorphism & Minimal Surfaces ──────────────────── */
+/* ── Soft Near-Black Claymorphism Surfaces ─────────────────── */
 .clay-card {
-  background: linear-gradient(145deg, #151518 0%, #0F0F12 100%);
+  background: linear-gradient(145deg, #101014 0%, #09090C 100%);
   border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.06),
-    inset -2px -2px 4px rgba(0, 0, 0, 0.7),
-    12px 18px 36px rgba(0, 0, 0, 0.6),
-    -4px -4px 16px rgba(255, 255, 255, 0.012);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.05),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.8),
+    12px 18px 36px rgba(0, 0, 0, 0.75),
+    -4px -4px 16px rgba(255, 255, 255, 0.01);
 }
 
 .clay-card-sm {
-  background: linear-gradient(145deg, #17171B 0%, #101013 100%);
+  background: linear-gradient(145deg, #111115 0%, #0A0A0D 100%);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.035);
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.05),
-    inset -1px -1px 3px rgba(0, 0, 0, 0.6),
-    8px 12px 24px rgba(0, 0, 0, 0.5),
-    -2px -2px 10px rgba(255, 255, 255, 0.01);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.04),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.7),
+    8px 12px 24px rgba(0, 0, 0, 0.6),
+    -2px -2px 10px rgba(255, 255, 255, 0.008);
 }
 
 .clay-card-rose {
-  background: linear-gradient(145deg, rgba(242, 184, 198, 0.12) 0%, rgba(18, 18, 22, 0.95) 100%);
+  background: linear-gradient(145deg, rgba(242, 184, 198, 0.10) 0%, rgba(13, 13, 16, 0.95) 100%);
   border-radius: 24px;
-  border: 1px solid rgba(242, 184, 198, 0.28);
+  border: 1px solid rgba(242, 184, 198, 0.25);
   box-shadow:
-    inset 1px 1px 2px rgba(252, 226, 233, 0.2),
-    inset -2px -2px 4px rgba(0, 0, 0, 0.6),
-    12px 18px 36px rgba(0, 0, 0, 0.6),
-    0 0 24px -4px rgba(242, 184, 198, 0.12);
+    inset 1px 1px 2px rgba(252, 226, 233, 0.18),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.7),
+    12px 18px 36px rgba(0, 0, 0, 0.7),
+    0 0 24px -4px rgba(242, 184, 198, 0.10);
+}
+
+.clay-card-periwinkle {
+  background: linear-gradient(145deg, rgba(168, 181, 224, 0.10) 0%, rgba(13, 13, 16, 0.95) 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(168, 181, 224, 0.25);
+  box-shadow:
+    inset 1px 1px 2px rgba(220, 227, 248, 0.18),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.7),
+    12px 18px 36px rgba(0, 0, 0, 0.7),
+    0 0 24px -4px rgba(168, 181, 224, 0.10);
 }
 
 .clay-card-inset {
-  background: #0B0B0E;
+  background: #070709;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.025);
   box-shadow:
-    inset 3px 3px 8px rgba(0, 0, 0, 0.8),
-    inset -2px -2px 6px rgba(255, 255, 255, 0.025);
+    inset 3px 3px 8px rgba(0, 0, 0, 0.85),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.02);
 }
 
 .clay-card-interactive {
-  background: linear-gradient(145deg, #16161A 0%, #0F0F12 100%);
+  background: linear-gradient(145deg, #111115 0%, #0A0A0D 100%);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.035);
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.05),
-    inset -1px -1px 3px rgba(0, 0, 0, 0.6),
-    6px 10px 20px rgba(0, 0, 0, 0.45);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.04),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.7),
+    6px 10px 20px rgba(0, 0, 0, 0.55);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .clay-card-interactive:hover {
-  background: linear-gradient(145deg, #1C1C22 0%, #121216 100%);
-  border-color: rgba(242, 184, 198, 0.25);
+  background: linear-gradient(145deg, #16161B 0%, #0D0D11 100%);
+  border-color: rgba(168, 181, 224, 0.25);
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.08),
-    inset -1px -1px 3px rgba(0, 0, 0, 0.6),
-    8px 14px 28px rgba(0, 0, 0, 0.55),
-    0 0 16px -2px rgba(242, 184, 198, 0.12);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.06),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.7),
+    8px 14px 28px rgba(0, 0, 0, 0.65),
+    0 0 16px -2px rgba(168, 181, 224, 0.12);
 }
 
 .clay-card-selected {
-  background: linear-gradient(145deg, rgba(242, 184, 198, 0.15) 0%, #131317 100%);
-  border: 1.5px solid rgba(242, 184, 198, 0.45);
+  background: linear-gradient(145deg, rgba(242, 184, 198, 0.12) 0%, #0E0E12 100%);
+  border: 1.5px solid rgba(242, 184, 198, 0.40);
   box-shadow:
-    inset 1.5px 1.5px 3px rgba(252, 226, 233, 0.22),
-    inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.7),
-    8px 14px 28px rgba(0, 0, 0, 0.5),
-    0 0 20px -2px rgba(242, 184, 198, 0.2);
+    inset 1.5px 1.5px 3px rgba(252, 226, 233, 0.20),
+    inset -1.5px -1.5px 3px rgba(0, 0, 0, 0.75),
+    8px 14px 28px rgba(0, 0, 0, 0.6),
+    0 0 20px -2px rgba(242, 184, 198, 0.16);
 }
 
-/* ── Soft Pastel Buttons ──────────────────────────────────── */
+/* ── Tactile Buttons ──────────────────────────────────────── */
 .clay-btn-rose {
   background: linear-gradient(145deg, #FCE2E9 0%, #F2B8C6 60%, #D898A7 100%);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #0A0A0A;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #050505;
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.6),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.35),
-    6px 10px 24px rgba(242, 184, 198, 0.28),
-    0 4px 8px rgba(0, 0, 0, 0.5);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.55),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.4),
+    6px 10px 24px rgba(242, 184, 198, 0.25),
+    0 4px 8px rgba(0, 0, 0, 0.6);
   transition: all 0.2s ease;
 }
 
 .clay-btn-rose:hover {
   background: linear-gradient(145deg, #FFF0F4 0%, #F7C6D2 60%, #E2A6B4 100%);
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.7),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.35),
-    8px 14px 30px rgba(242, 184, 198, 0.42),
-    0 6px 12px rgba(0, 0, 0, 0.5);
-}
-
-.clay-btn-rose:active {
-  box-shadow:
-    inset 2px 2px 4px rgba(0, 0, 0, 0.4),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.25),
-    2px 4px 10px rgba(242, 184, 198, 0.18);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.65),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.4),
+    8px 14px 30px rgba(242, 184, 198, 0.38),
+    0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
 .clay-btn-surface {
-  background: linear-gradient(145deg, #1B1B20 0%, #111115 100%);
+  background: linear-gradient(145deg, #141418 0%, #0A0A0D 100%);
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   color: #F7F6F3;
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.08),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.6),
-    4px 8px 18px rgba(0, 0, 0, 0.45);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.06),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.7),
+    4px 8px 18px rgba(0, 0, 0, 0.55);
   transition: all 0.2s ease;
 }
 
 .clay-btn-surface:hover {
-  background: linear-gradient(145deg, #222228 0%, #15151A 100%);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(145deg, #1A1A20 0%, #0E0E12 100%);
+  border-color: rgba(168, 181, 224, 0.25);
   box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.12),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.6),
-    6px 10px 22px rgba(0, 0, 0, 0.5);
+    inset 1px 1px 2px rgba(255, 255, 255, 0.10),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.7),
+    6px 10px 22px rgba(0, 0, 0, 0.6);
 }
 
 .clay-pill {
-  background: linear-gradient(145deg, #18181D 0%, #0F0F12 100%);
+  background: linear-gradient(145deg, #121216 0%, #09090C 100%);
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   box-shadow:
-    inset 1px 1px 1.5px rgba(255, 255, 255, 0.06),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.6),
-    3px 5px 12px rgba(0, 0, 0, 0.4);
+    inset 1px 1px 1.5px rgba(255, 255, 255, 0.05),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.7),
+    3px 5px 12px rgba(0, 0, 0, 0.5);
 }
 
-/* ── Soft Pastel Badges ───────────────────────────────────── */
+/* ── Strict Dual Pastel Badges ────────────────────────────── */
 .clay-badge-rose {
-  background: linear-gradient(145deg, rgba(242, 184, 198, 0.18) 0%, rgba(242, 184, 198, 0.06) 100%);
-  border: 1px solid rgba(242, 184, 198, 0.35);
+  background: linear-gradient(145deg, rgba(242, 184, 198, 0.16) 0%, rgba(242, 184, 198, 0.04) 100%);
+  border: 1px solid rgba(242, 184, 198, 0.32);
   color: #F2B8C6;
   border-radius: 9999px;
   box-shadow:
-    inset 1px 1px 1.5px rgba(252, 226, 233, 0.25),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.5),
-    0 2px 8px rgba(242, 184, 198, 0.12);
+    inset 1px 1px 1.5px rgba(252, 226, 233, 0.22),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(242, 184, 198, 0.10);
 }
 
-.clay-badge-sage {
-  background: linear-gradient(145deg, rgba(181, 216, 197, 0.18) 0%, rgba(181, 216, 197, 0.06) 100%);
-  border: 1px solid rgba(181, 216, 197, 0.35);
-  color: #B5D8C5;
+.clay-badge-periwinkle {
+  background: linear-gradient(145deg, rgba(168, 181, 224, 0.16) 0%, rgba(168, 181, 224, 0.04) 100%);
+  border: 1px solid rgba(168, 181, 224, 0.32);
+  color: #A8B5E0;
   border-radius: 9999px;
   box-shadow:
-    inset 1px 1px 1.5px rgba(210, 235, 220, 0.25),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.5),
-    0 2px 8px rgba(181, 216, 197, 0.12);
+    inset 1px 1px 1.5px rgba(220, 227, 248, 0.22),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(168, 181, 224, 0.10);
 }
 
-.clay-badge-lavender {
-  background: linear-gradient(145deg, rgba(212, 200, 235, 0.18) 0%, rgba(212, 200, 235, 0.06) 100%);
-  border: 1px solid rgba(212, 200, 235, 0.35);
-  color: #D4C8EB;
-  border-radius: 9999px;
-  box-shadow:
-    inset 1px 1px 1.5px rgba(230, 220, 248, 0.25),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.5),
-    0 2px 8px rgba(212, 200, 235, 0.12);
-}
-
-/* ── Typography & Gradients ───────────────────────────────── */
+/* ── Typography Gradients ─────────────────────────────────── */
 .text-pastel-gradient {
-  background: linear-gradient(135deg, #F7F6F3 0%, #F2B8C6 55%, #D4C8EB 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-sage-gradient {
-  background: linear-gradient(135deg, #F7F6F3 0%, #B5D8C5 60%, #8FBFA6 100%);
+  background: linear-gradient(135deg, #F7F6F3 0%, #F2B8C6 55%, #A8B5E0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

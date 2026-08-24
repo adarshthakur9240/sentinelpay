@@ -205,13 +205,13 @@ export default function EvidencePage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0A0A0A] text-[#F7F6F3] px-4 py-10 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="relative min-h-screen bg-[#050505] text-[#F7F6F3] px-4 py-10 sm:px-6 lg:px-8 overflow-hidden">
       {/* 3D Ambient Clay Background Canvas */}
       <AmbientClayBackground />
 
       <div className="relative z-10 mx-auto max-w-5xl space-y-8">
         {/* Header Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#26262B]/60 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1E1E23]/60 pb-6">
           <div>
             <div className="flex items-center gap-2.5">
               <span className="flex h-2 w-2 rounded-full bg-[#F2B8C6] shadow-[0_0_8px_#F2B8C6]"></span>
@@ -222,7 +222,7 @@ export default function EvidencePage() {
             <h1 className="mt-1 font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-[#F7F6F3] tracking-tight">
               Automated Chargeback Defense Dossier
             </h1>
-            <p className="mt-1 text-xs sm:text-sm text-[#9A9AA4]">
+            <p className="mt-1 text-xs sm:text-sm text-[#8E8E98]">
               Exact Shapley game-theoretic attributions decomposed via <code className="text-[#F2B8C6] font-mono">shap.TreeExplainer</code> into dispute-ready narratives.
             </p>
           </div>
@@ -234,7 +234,7 @@ export default function EvidencePage() {
               onClick={() => setShowJson(!showJson)}
               className="clay-btn-surface px-4 py-2 text-xs font-mono flex items-center gap-2 cursor-pointer"
             >
-              <Code2 className="h-4 w-4 text-[#F2B8C6]" />
+              <Code2 className="h-4 w-4 text-[#A8B5E0]" />
               <span>{showJson ? "Hide Raw JSON" : "Inspect Raw JSON"}</span>
             </motion.button>
           </div>
@@ -244,9 +244,9 @@ export default function EvidencePage() {
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.2 }}
-          className="clay-card p-6 sm:p-7 space-y-4"
+          className="clay-card p-6 sm:p-7 space-y-4 bg-[#09090D]"
         >
-          <label className="text-xs font-mono text-[#9A9AA4] block">
+          <label className="text-xs font-mono text-[#8E8E98] block">
             Select Test Set Payload to Deconstruct:
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
@@ -272,13 +272,13 @@ export default function EvidencePage() {
                     <span className="text-xs font-mono font-bold text-[#F7F6F3]">{tx.id}</span>
                     <span
                       className={`text-[9px] font-mono font-bold px-2 py-0.5 ${
-                        isFraud ? "clay-badge-rose" : "clay-badge-sage"
+                        isFraud ? "clay-badge-rose" : "clay-badge-periwinkle"
                       }`}
                     >
                       {tx.ground_truth}
                     </span>
                   </div>
-                  <div className="mt-2 text-xs font-heading font-medium text-[#9A9AA4] line-clamp-1">{tx.label}</div>
+                  <div className="mt-2 text-xs font-heading font-medium text-[#8E8E98] line-clamp-1">{tx.label}</div>
                   <div className="mt-1 text-xs font-mono text-[#F2B8C6] font-semibold">${tx.amount_usd.toFixed(2)} USD</div>
                 </motion.button>
               );
@@ -292,7 +292,7 @@ export default function EvidencePage() {
               whileTap={{ scale: 0.98, y: 1 }}
               onClick={handleGenerateExplanation}
               disabled={isLoading}
-              className="w-full clay-btn-rose px-7 py-4 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 tracking-wide disabled:opacity-50 cursor-pointer text-[#0A0A0A]"
+              className="w-full clay-btn-rose px-7 py-4 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 tracking-wide disabled:opacity-50 cursor-pointer text-[#050505]"
             >
               {isLoading ? (
                 <>
@@ -320,7 +320,7 @@ export default function EvidencePage() {
               className="space-y-6"
             >
               {/* Telemetry Header Strip */}
-              <div className="flex items-center justify-between text-xs font-mono text-[#9A9AA4]">
+              <div className="flex items-center justify-between text-xs font-mono text-[#8E8E98]">
                 <div className="flex items-center gap-2 text-[#F2B8C6]">
                   <Clock className="h-3.5 w-3.5" />
                   <span>Computed in {explainData.latency_ms} ms via shap.TreeExplainer</span>
@@ -334,12 +334,12 @@ export default function EvidencePage() {
                 >
                   {copied ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-[#B5D8C5]" />
-                      <span className="text-[#B5D8C5]">Copied Markdown!</span>
+                      <Check className="h-3.5 w-3.5 text-[#A8B5E0]" />
+                      <span className="text-[#A8B5E0]">Copied Markdown!</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="h-3.5 w-3.5 text-[#9A9AA4]" />
+                      <Copy className="h-3.5 w-3.5 text-[#8E8E98]" />
                       <span>Copy Markdown Dossier</span>
                     </>
                   )}
@@ -350,10 +350,10 @@ export default function EvidencePage() {
               <motion.div
                 whileHover={{ y: -2 }}
                 transition={{ duration: 0.2 }}
-                className="clay-card p-7 sm:p-9 space-y-7"
+                className="clay-card p-7 sm:p-9 space-y-7 bg-[#09090D]"
               >
                 {/* Dossier Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#26262B]/60 pb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1E1E23]/60 pb-6">
                   <div>
                     <span className="text-[10px] font-mono uppercase tracking-widest text-[#F2B8C6] font-bold block mb-1">
                       Dispute Evidence & Chargeback Defense Dossier
@@ -370,7 +370,7 @@ export default function EvidencePage() {
 
                   <div className="flex items-center gap-4">
                     <div className="text-right font-mono">
-                      <div className="text-xs text-[#9A9AA4]">Estimated Risk</div>
+                      <div className="text-xs text-[#8E8E98]">Estimated Risk</div>
                       <div className="font-heading font-black text-2xl text-[#F7F6F3]">
                         {(explainData.risk_score * 100).toFixed(2)}%
                       </div>
@@ -382,7 +382,7 @@ export default function EvidencePage() {
                         <span>FLAGGED</span>
                       </div>
                     ) : (
-                      <div className="clay-badge-sage px-4 py-2 font-mono text-xs font-bold flex items-center gap-2">
+                      <div className="clay-badge-periwinkle px-4 py-2 font-mono text-xs font-bold flex items-center gap-2">
                         <NeumorphicShieldCheckIcon size={18} />
                         <span>APPROVED</span>
                       </div>
@@ -392,11 +392,11 @@ export default function EvidencePage() {
 
                 {/* Section 1: Executive Summary */}
                 <div className="space-y-2.5">
-                  <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#9A9AA4] flex items-center gap-2">
+                  <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#8E8E98] flex items-center gap-2">
                     <FileText className="h-4 w-4 text-[#F2B8C6]" />
                     <span>1. Executive Summary & Automated Evidence Narrative</span>
                   </h3>
-                  <div className="clay-card-inset p-5 text-xs sm:text-sm text-[#F7F6F3] leading-relaxed font-sans">
+                  <div className="clay-card-inset p-5 text-xs sm:text-sm text-[#F7F6F3] leading-relaxed font-sans bg-[#070709]">
                     This transaction was{" "}
                     {explainData.is_flagged ? (
                       <>
@@ -425,7 +425,7 @@ export default function EvidencePage() {
                     ) : (
                       <>
                         cleared with a low fraud risk score of{" "}
-                        <strong className="text-[#B5D8C5] font-mono font-bold">
+                        <strong className="text-[#A8B5E0] font-mono font-bold">
                           {(explainData.risk_score * 100).toFixed(2)}%
                         </strong>{" "}
                         (Decision: APPROVED). Baseline transaction telemetry matched expected cardholder behavioral
@@ -435,10 +435,10 @@ export default function EvidencePage() {
                   </div>
                 </div>
 
-                {/* Section 2: PROGRESSIVE DISCLOSURE — Top 2 Factors by Default, Expand for All 5 */}
+                {/* Section 2: PROGRESSIVE DISCLOSURE — Top 2 Factors by Default */}
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#9A9AA4] flex items-center gap-2">
+                    <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#8E8E98] flex items-center gap-2">
                       <Sparkles className="h-4 w-4 text-[#F2B8C6]" />
                       <span>
                         2. Key Feature Attributions {showAllFactors ? "(All 5 Factors)" : "(Top 2 Primary Drivers)"}
@@ -468,7 +468,7 @@ export default function EvidencePage() {
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.25, delay: idx * 0.05 }}
-                            className="clay-card-sm p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5"
+                            className="clay-card-sm p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 bg-[#0B0B0F]"
                           >
                             <div className="flex items-center gap-3.5">
                               <span className="clay-pill flex h-7 w-7 items-center justify-center text-[11px] font-bold text-[#F2B8C6]">
@@ -477,9 +477,9 @@ export default function EvidencePage() {
                               <div>
                                 <div className="flex items-center gap-2">
                                   <span className="font-heading font-bold text-sm text-[#F7F6F3]">{feat.feature}</span>
-                                  <span className="text-xs text-[#9A9AA4] font-sans">({feat.description})</span>
+                                  <span className="text-xs text-[#8E8E98] font-sans">({feat.description})</span>
                                 </div>
-                                <div className="text-[11px] text-[#9A9AA4] mt-0.5">
+                                <div className="text-[11px] text-[#8E8E98] mt-0.5">
                                   Normalized Value: <code className="text-[#F7F6F3] font-bold">{feat.value}</code>
                                 </div>
                               </div>
@@ -487,14 +487,14 @@ export default function EvidencePage() {
 
                             <div className="flex items-center gap-5 sm:text-right">
                               <div>
-                                <div className="text-[10px] text-[#9A9AA4]">SHAP Score</div>
-                                <div className={`font-bold font-mono ${isRisk ? "text-[#F2B8C6]" : "text-[#B5D8C5]"}`}>
+                                <div className="text-[10px] text-[#8E8E98]">SHAP Score</div>
+                                <div className={`font-bold font-mono ${isRisk ? "text-[#F2B8C6]" : "text-[#A8B5E0]"}`}>
                                   {feat.shap_value > 0 ? `+${feat.shap_value.toFixed(4)}` : feat.shap_value.toFixed(4)}
                                 </div>
                               </div>
 
                               <div className="min-w-[80px]">
-                                <div className="text-[10px] text-[#9A9AA4]">Contribution</div>
+                                <div className="text-[10px] text-[#8E8E98]">Contribution</div>
                                 <div className="font-heading font-bold text-sm text-[#F7F6F3]">{feat.contribution_pct}%</div>
                               </div>
 
@@ -505,7 +505,7 @@ export default function EvidencePage() {
                                     Increases Risk
                                   </span>
                                 ) : (
-                                  <span className="clay-badge-sage text-[10px] font-bold px-2.5 py-1 flex items-center gap-1">
+                                  <span className="clay-badge-periwinkle text-[10px] font-bold px-2.5 py-1 flex items-center gap-1">
                                     <TrendingDown className="h-3 w-3" />
                                     Decreases Risk
                                   </span>
@@ -521,7 +521,7 @@ export default function EvidencePage() {
 
                 {/* Section 3: Recommended Action */}
                 <div className="space-y-2.5">
-                  <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#9A9AA4] flex items-center gap-2">
+                  <h3 className="font-heading font-bold text-xs uppercase tracking-wider text-[#8E8E98] flex items-center gap-2">
                     <Shield className="h-4 w-4 text-[#F2B8C6]" />
                     <span>3. Recommended Operational Action & Dispute Defense Strategy</span>
                   </h3>
@@ -535,13 +535,13 @@ export default function EvidencePage() {
                       </div>
                     ) : explainData.is_flagged ? (
                       <div>
-                        <strong className="text-[#D4C8EB] font-semibold">Elevated Risk Score Detected:</strong>{" "}
+                        <strong className="text-[#A8B5E0] font-semibold">Elevated Risk Score Detected:</strong>{" "}
                         Recommend automated SMS/OTP confirmation or temporary hold. Log evidence telemetry for automated
                         chargeback defense.
                       </div>
                     ) : (
                       <div>
-                        <strong className="text-[#B5D8C5] font-semibold">Standard Low-Risk Transaction:</strong>{" "}
+                        <strong className="text-[#A8B5E0] font-semibold">Standard Low-Risk Transaction:</strong>{" "}
                         Transaction cleared for automated straight-through processing.
                       </div>
                     )}
@@ -549,7 +549,7 @@ export default function EvidencePage() {
                 </div>
 
                 {/* Transparency Notice */}
-                <div className="border-t border-[#26262B]/50 pt-4 text-[11px] text-[#9A9AA4] font-mono">
+                <div className="border-t border-[#1E1E23]/50 pt-4 text-[11px] text-[#8E8E98] font-mono">
                   <strong>Methodology & Anonymization Integrity:</strong> Components V1–V28 represent anonymized PCA projections.
                   Feature attributions reflect exact mathematical Shapley game-theoretic contributions without speculative business relabeling.
                 </div>
@@ -565,7 +565,7 @@ export default function EvidencePage() {
                     transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <div className="clay-card-inset p-5 font-mono text-xs text-[#F7F6F3] overflow-x-auto">
+                    <div className="clay-card-inset p-5 font-mono text-xs text-[#F7F6F3] overflow-x-auto bg-[#070709]">
                       <pre>{JSON.stringify(explainData, null, 2)}</pre>
                     </div>
                   </motion.div>
@@ -573,12 +573,12 @@ export default function EvidencePage() {
               </AnimatePresence>
             </motion.div>
           ) : (
-            <div className="clay-card p-12 text-center space-y-3">
-              <FileText className="mx-auto h-10 w-10 text-[#5A5A68]" />
+            <div className="clay-card p-12 text-center space-y-3 bg-[#09090D]">
+              <FileText className="mx-auto h-10 w-10 text-[#424250]" />
               <h3 className="font-heading font-bold text-base text-[#F7F6F3]">
                 Ready to Generate Dispute Dossier
               </h3>
-              <p className="text-xs text-[#9A9AA4] max-w-sm mx-auto">
+              <p className="text-xs text-[#8E8E98] max-w-sm mx-auto">
                 Select a transaction fixture above and click{" "}
                 <strong className="text-[#F2B8C6]">&quot;Deconstruct &amp; Generate Evidence&quot;</strong> to compute live SHAP
                 feature attributions.

@@ -91,7 +91,7 @@ export default function Navbar() {
       shortName: "Console",
       href: "/console",
       icon: NeumorphicRadarIcon,
-      accent: "#B5D8C5",
+      accent: "#A8B5E0",
     },
     {
       id: "evidence",
@@ -99,7 +99,7 @@ export default function Navbar() {
       shortName: "Dossier",
       href: "/evidence",
       icon: NeumorphicTreeIcon,
-      accent: "#D4C8EB",
+      accent: "#A8B5E0",
     },
   ];
 
@@ -117,14 +117,14 @@ export default function Navbar() {
         layout
         className={`pointer-events-auto relative flex items-center transition-all duration-400 ease-out select-none ${
           isCompact
-            ? "clay-card px-3.5 py-2 gap-2.5 rounded-full border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(242,184,198,0.12)] bg-[#101014]/90 backdrop-blur-2xl"
-            : "clay-card px-4 sm:px-5 py-2.5 sm:py-3 gap-3 sm:gap-4 rounded-3xl sm:rounded-full border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.75),0_0_25px_rgba(242,184,198,0.14)] bg-[#121216]/92 backdrop-blur-2xl"
+            ? "clay-card px-3.5 py-2 gap-2.5 rounded-full border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.85),0_0_20px_rgba(242,184,198,0.10)] bg-[#0A0A0D]/92 backdrop-blur-2xl"
+            : "clay-card px-4 sm:px-5 py-2.5 sm:py-3 gap-3 sm:gap-4 rounded-3xl sm:rounded-full border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_25px_rgba(242,184,198,0.12)] bg-[#0C0C10]/95 backdrop-blur-2xl"
         }`}
       >
         {/* Brand Emblem Portal */}
         <MagneticPortal strength={0.2}>
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-[#24242E] to-[#121216] border border-[#F2B8C6]/30 text-[#F2B8C6] shadow-sm group-hover:border-[#F2B8C6] transition-colors">
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1E1E28] to-[#0A0A0E] border border-[#F2B8C6]/30 text-[#F2B8C6] shadow-sm group-hover:border-[#F2B8C6] transition-colors">
               <NeumorphicShieldCheckIcon size={20} />
               {/* Subtle Ambient Pulse Ring */}
               <span className="absolute inset-0 rounded-2xl bg-[#F2B8C6]/10 animate-ping opacity-25"></span>
@@ -147,7 +147,7 @@ export default function Navbar() {
                       v1.0
                     </span>
                   </div>
-                  <span className="text-[10px] text-[#9A9AA4] font-mono leading-none">
+                  <span className="text-[10px] text-[#8E8E98] font-mono leading-none">
                     Fraud Intelligence
                   </span>
                 </motion.div>
@@ -157,7 +157,7 @@ export default function Navbar() {
         </MagneticPortal>
 
         {/* Vertical Clay Inset Divider */}
-        <div className="h-6 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent mx-0.5"></div>
+        <div className="h-6 w-[1px] bg-gradient-to-b from-transparent via-white/12 to-transparent mx-0.5"></div>
 
         {/* Magnetic Navigation Portals Deck */}
         <nav className="flex items-center gap-1.5 sm:gap-2">
@@ -179,7 +179,7 @@ export default function Navbar() {
                   } ${
                     isActive
                       ? "clay-card-selected text-[#F7F6F3]"
-                      : "clay-card-interactive text-[#9A9AA4] hover:text-[#F7F6F3]"
+                      : "clay-card-interactive text-[#8E8E98] hover:text-[#F7F6F3]"
                   }`}
                 >
                   {/* Neumorphic Icon */}
@@ -196,7 +196,7 @@ export default function Navbar() {
                     )}
                   </div>
 
-                  {/* Expandable Label (Visible when not in compact scroll mode, or on hover) */}
+                  {/* Expandable Label */}
                   <AnimatePresence>
                     {(!isCompact || isItemHovered) && (
                       <motion.span
@@ -217,7 +217,7 @@ export default function Navbar() {
         </nav>
 
         {/* Vertical Clay Inset Divider */}
-        <div className="h-6 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent mx-0.5"></div>
+        <div className="h-6 w-[1px] bg-gradient-to-b from-transparent via-white/12 to-transparent mx-0.5"></div>
 
         {/* System Active Telemetry Pill & OpenAPI Shortcut */}
         <div className="flex items-center gap-1.5 sm:gap-2">
@@ -226,12 +226,12 @@ export default function Navbar() {
             <div
               className={`flex items-center gap-1.5 rounded-2xl clay-card-inset text-xs font-mono transition-all ${
                 isCompact ? "p-2" : "px-2.5 py-1.5 text-[11px]"
-              } text-[#B5D8C5]`}
+              } text-[#A8B5E0]`}
               title="FastAPI Sub-10ms Engine Active"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#B5D8C5] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#B5D8C5]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A8B5E0] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#A8B5E0]"></span>
               </span>
               <AnimatePresence>
                 {!isCompact && (
@@ -255,7 +255,7 @@ export default function Navbar() {
               href="http://localhost:8000/docs"
               target="_blank"
               rel="noreferrer"
-              className={`flex items-center gap-1.5 rounded-2xl clay-card-interactive text-xs font-mono text-[#9A9AA4] hover:text-[#F7F6F3] transition-colors ${
+              className={`flex items-center gap-1.5 rounded-2xl clay-card-interactive text-xs font-mono text-[#8E8E98] hover:text-[#F7F6F3] transition-colors ${
                 isCompact ? "p-2" : "px-2.5 py-1.5 text-[11px]"
               }`}
               title="Inspect OpenAPI Schema Documentation"
@@ -268,13 +268,13 @@ export default function Navbar() {
                     animate={{ opacity: 1, width: "auto" }}
                     exit={{ opacity: 0, width: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="hidden lg:inline overflow-hidden whitespace-nowrap text-[#9A9AA4]"
+                    className="hidden lg:inline overflow-hidden whitespace-nowrap text-[#8E8E98]"
                   >
                     API
                   </motion.span>
                 )}
               </AnimatePresence>
-              <ExternalLink className="h-2.5 w-2.5 text-[#5A5A68] hidden sm:inline" />
+              <ExternalLink className="h-2.5 w-2.5 text-[#5A5A65] hidden sm:inline" />
             </a>
           </MagneticPortal>
         </div>
