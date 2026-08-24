@@ -70,8 +70,8 @@ export default function RiskConsolePage() {
     return found || THRESHOLD_DATA[0];
   }, [selectedThreshold]);
 
-  // Current sample fixture
-  const currentSample = SAMPLE_TRANSACTIONS[selectedTxKey];
+  // Current sample fixture with safe fallback
+  const currentSample = SAMPLE_TRANSACTIONS[selectedTxKey] || SAMPLE_TRANSACTIONS.confirmed_fraud;
 
   // Number animation for technical metrics
   const [displayMetrics, setDisplayMetrics] = useState({
@@ -198,7 +198,7 @@ export default function RiskConsolePage() {
                   isRisk: true,
                 },
                 {
-                  key: "typical_legitimate",
+                  key: "legitimate_regular",
                   label: "Standard In-Store Checkout",
                   amount: "$88.29",
                   status: "Expected Pattern",

@@ -38,8 +38,8 @@ export default function EvidencePage() {
   // Single unified technical details expansion toggle
   const [showTechnicalDetails, setShowTechnicalDetails] = useState<boolean>(false);
 
-  // Active transaction fixture
-  const currentTx = SAMPLE_TRANSACTIONS[selectedTxKey];
+  // Active transaction fixture with safe fallback
+  const currentTx = SAMPLE_TRANSACTIONS[selectedTxKey] || SAMPLE_TRANSACTIONS.confirmed_fraud;
 
   // State for explanation response
   const [explainData, setExplainData] = useState<{
@@ -242,7 +242,7 @@ export default function EvidencePage() {
                   isRisk: true,
                 },
                 {
-                  key: "typical_legitimate",
+                  key: "legitimate_regular",
                   label: "Verified Cardholder Payment",
                   amount: "$88.29",
                   status: "Cleared Payment",
