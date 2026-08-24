@@ -350,82 +350,42 @@ export default function HomePage() {
           <strong className="text-[#F7F6F3] font-mono font-bold">0.8424</strong>, 98.22% false-alarm reduction.
         </motion.p>
 
-        {/* Floating Side Telemetry Command Rail / HUD Dock */}
+        {/* ── Unified Glassmorphic Inline Action Console (Linear / Vercel Aesthetic) ── */}
         <motion.div
-          initial={{ opacity: 0, x: 30, y: 20, scale: 0.95 }}
-          animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-10 lg:mt-0 lg:absolute lg:bottom-10 lg:right-8 xl:right-14 z-20 w-full max-w-sm sm:w-[350px]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 flex justify-center"
         >
-          <div className="clay-card p-4 sm:p-5 text-left space-y-3 border border-white/10 shadow-[0_24px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(242,184,198,0.10)] bg-[#0C0C10]/95 backdrop-blur-2xl">
-            {/* Dock Telemetry Header */}
-            <div className="flex items-center justify-between pb-2.5 border-b border-[#1E1E23]/70">
-              <div className="flex items-center gap-1.5 text-[10px] font-mono uppercase font-bold text-[#8E8E98] tracking-wider">
-                <Terminal className="h-3 w-3 text-[#F2B8C6]" />
-                <span>Command Deck</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#A8B5E0] bg-[#A8B5E0]/10 px-2 py-0.5 rounded-full border border-[#A8B5E0]/20">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A8B5E0] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#A8B5E0]"></span>
-                </span>
-                <span>&lt;10ms PING</span>
-              </div>
-            </div>
-
-            {/* Primary Action: Active Telemetry Launcher */}
-            <Link href="/console" className="block group">
-              <motion.div
-                whileHover={{ scale: 1.02, y: -1 }}
+          <div className="clay-card inline-flex flex-col sm:flex-row items-center p-1.5 sm:p-2 rounded-2xl sm:rounded-full border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.8),0_0_24px_rgba(242,184,198,0.08)] bg-[#0C0C10]/85 backdrop-blur-xl gap-2 select-none">
+            {/* Primary Action: Launch Risk Console with active pulsing dot */}
+            <Link href="/console">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="clay-btn-rose p-3 sm:p-3.5 flex items-center justify-between gap-3 text-[#050505] cursor-pointer relative overflow-hidden transition-all"
+                className="clay-btn-rose w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl sm:rounded-full text-xs sm:text-sm font-heading font-bold text-[#050505] tracking-tight cursor-pointer group transition-all"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#050505]/12 border border-[#050505]/15 text-[#050505]">
-                    <NeumorphicSpikeIcon size={18} />
-                  </div>
-                  <div>
-                    <div className="font-heading font-bold text-xs sm:text-sm tracking-tight leading-tight">
-                      Launch Risk Console
-                    </div>
-                    <div className="text-[10px] font-mono font-medium opacity-75 leading-none mt-0.5">
-                      Live Threshold Optimizer
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-[9px] font-mono font-bold bg-[#050505]/15 px-2 py-0.5 rounded-full">
-                    LIVE
-                  </span>
-                  <ChevronRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                </div>
-              </motion.div>
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#050505] opacity-50"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#050505]"></span>
+                </span>
+                <span>Launch Risk Console</span>
+                <ChevronRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </motion.button>
             </Link>
 
-            {/* Secondary Action: Inspect/Audit Trigger */}
-            <Link href="/evidence" className="block group">
-              <motion.div
-                whileHover={{ scale: 1.02, y: -1 }}
+            {/* Secondary Action: Minimal ghost/glass pill with PR-AUC metadata */}
+            <Link href="/evidence">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="clay-btn-surface p-3 sm:p-3.5 flex items-center justify-between gap-3 text-[#F7F6F3] cursor-pointer hover:border-[#A8B5E0]/30 transition-all"
+                className="clay-btn-surface w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl sm:rounded-full text-xs sm:text-sm font-heading font-medium text-[#F7F6F3] cursor-pointer hover:border-[#A8B5E0]/30 transition-all"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#181822] border border-white/5 text-[#A8B5E0]">
-                    <NeumorphicTreeIcon size={18} />
-                  </div>
-                  <div>
-                    <div className="font-heading font-bold text-xs sm:text-sm tracking-tight leading-tight">
-                      SHAP Dispute Dossier
-                    </div>
-                    <div className="text-[10px] font-mono text-[#8E8E98] leading-none mt-0.5">
-                      Audit Game-Theoretic Proof
-                    </div>
-                  </div>
-                </div>
-                <span className="clay-badge-periwinkle text-[9px] font-mono font-bold px-2 py-0.5">
-                  PR-AUC 0.8424
+                <span>SHAP Dispute Dossier</span>
+                <span className="clay-badge-periwinkle text-[10px] font-mono font-bold px-2 py-0.5">
+                  PR-AUC: 0.8424
                 </span>
-              </motion.div>
+              </motion.button>
             </Link>
           </div>
         </motion.div>
