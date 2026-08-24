@@ -227,7 +227,9 @@ pytest serving/tests/test_api.py -v
 
 ---
 
-## 11. Future Production Horizons
+## 11. Beyond This Submission — Enterprise-Scale Vision (Not Implemented)
+
+These represent what a production deployment at Razorpay's scale would eventually need — genuinely out of scope for a hackathon timeline, listed here to show awareness of the full production picture, not as claimed work.
 
 1. **Distributed Stream Processing (Apache Flink Cluster)**:
    - Scale stateful window aggregation from single-node in-memory dictionaries to distributed RocksDB backends for billion-event global payment volumes.
