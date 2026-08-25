@@ -1,0 +1,3906 @@
+{
+  "metadata": {
+    "dataset": "Kaggle IEEE-CIS Fraud Detection (Real Identity & Transaction Linkage)",
+    "sample_size": 75000,
+    "total_nodes": 75000,
+    "total_edges": 285852,
+    "connected_components_ge_2": 2707,
+    "total_clusters_ge_3": 1647,
+    "total_fraud_syndicates": 97,
+    "total_syndicate_members": 22536,
+    "global_base_fraud_rate": 0.02696,
+    "cluster_fraud_rate": 0.029118,
+    "fraud_ring_fraud_rate": 0.041578,
+    "fraud_lift_ratio": 1.54
+  },
+  "rings": [
+    {
+      "ring_id": "RING-IEEE-023",
+      "cluster_size": 9,
+      "fraud_count": 9,
+      "flagged_count": 9,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-003583",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-034829",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-010419",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-030543",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-037784",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 59.0
+        },
+        {
+          "account_id": "TX-IEEE-002302",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 146.0
+        },
+        {
+          "account_id": "TX-IEEE-002367",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-041812",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 77.0
+        },
+        {
+          "account_id": "TX-IEEE-037119",
+          "device_id": "Unknown Device",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 92.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-080",
+      "cluster_size": 7,
+      "fraud_count": 7,
+      "flagged_count": 7,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-022162",
+          "device_id": "Windows",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "Windows 7",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-022051",
+          "device_id": "iOS Device",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "iOS 11.1.2",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-035194",
+          "device_id": "Windows",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "Windows 7",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-035189",
+          "device_id": "Windows",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "Windows 7",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-022041",
+          "device_id": "iOS Device",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "iOS 11.1.2",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-022046",
+          "device_id": "iOS Device",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "iOS 11.1.2",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-022160",
+          "device_id": "Windows",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "Windows 7",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-068",
+      "cluster_size": 6,
+      "fraud_count": 6,
+      "flagged_count": 6,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-027662",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 92.0
+        },
+        {
+          "account_id": "TX-IEEE-014792",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 100.0
+        },
+        {
+          "account_id": "TX-IEEE-019652",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 75.0
+        },
+        {
+          "account_id": "TX-IEEE-019742",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 92.0
+        },
+        {
+          "account_id": "TX-IEEE-019720",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 75.0
+        },
+        {
+          "account_id": "TX-IEEE-019674",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 92.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-044",
+      "cluster_size": 5,
+      "fraud_count": 5,
+      "flagged_count": 5,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-005794",
+          "device_id": "Unknown Device",
+          "ip_subnet": "194.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 226.0
+        },
+        {
+          "account_id": "TX-IEEE-005799",
+          "device_id": "Unknown Device",
+          "ip_subnet": "194.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 171.0
+        },
+        {
+          "account_id": "TX-IEEE-008705",
+          "device_id": "Unknown Device",
+          "ip_subnet": "194.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 171.0
+        },
+        {
+          "account_id": "TX-IEEE-005760",
+          "device_id": "Unknown Device",
+          "ip_subnet": "194.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 186.0
+        },
+        {
+          "account_id": "TX-IEEE-010136",
+          "device_id": "Unknown Device",
+          "ip_subnet": "194.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 171.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-055",
+      "cluster_size": 5,
+      "fraud_count": 5,
+      "flagged_count": 5,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-023547",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 60.0
+        },
+        {
+          "account_id": "TX-IEEE-009858",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 50.0
+        },
+        {
+          "account_id": "TX-IEEE-062387",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-062394",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-023559",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 77.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-054",
+      "cluster_size": 4,
+      "fraud_count": 4,
+      "flagged_count": 4,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-074300",
+          "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 49.55500030517578
+        },
+        {
+          "account_id": "TX-IEEE-008711",
+          "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 41.32699966430664
+        },
+        {
+          "account_id": "TX-IEEE-074312",
+          "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 49.55500030517578
+        },
+        {
+          "account_id": "TX-IEEE-008707",
+          "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 41.32699966430664
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-094",
+      "cluster_size": 4,
+      "fraud_count": 4,
+      "flagged_count": 4,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-040973",
+          "device_id": "Z835 Build/NMF26V",
+          "ip_subnet": "472.0_87.0",
+          "os_version": "Android 7.1.1",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 150.0
+        },
+        {
+          "account_id": "TX-IEEE-053636",
+          "device_id": "Z835 Build/NMF26V",
+          "ip_subnet": "337.0_87.0",
+          "os_version": "Android 7.1.1",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 150.0
+        },
+        {
+          "account_id": "TX-IEEE-040977",
+          "device_id": "Z835 Build/NMF26V",
+          "ip_subnet": "472.0_87.0",
+          "os_version": "Android 7.1.1",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 150.0
+        },
+        {
+          "account_id": "TX-IEEE-042360",
+          "device_id": "Z835 Build/NMF26V",
+          "ip_subnet": "472.0_87.0",
+          "os_version": "Android 7.1.1",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 150.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-097",
+      "cluster_size": 4,
+      "fraud_count": 4,
+      "flagged_count": 4,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-055282",
+          "device_id": "SM-J700M Build/MMB29K",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 59.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 51.5369987487793
+        },
+        {
+          "account_id": "TX-IEEE-055261",
+          "device_id": "SM-J700M Build/MMB29K",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 59.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 51.5369987487793
+        },
+        {
+          "account_id": "TX-IEEE-055272",
+          "device_id": "SM-J700M Build/MMB29K",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 59.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 51.5369987487793
+        },
+        {
+          "account_id": "TX-IEEE-055258",
+          "device_id": "SM-J700M Build/MMB29K",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 59.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 51.5369987487793
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-004",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-000243",
+          "device_id": "Redmi Note 4 Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 54.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 37.097999572753906
+        },
+        {
+          "account_id": "TX-IEEE-000240",
+          "device_id": "Redmi Note 4 Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 54.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 37.097999572753906
+        },
+        {
+          "account_id": "TX-IEEE-000245",
+          "device_id": "Redmi Note 4 Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 54.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 37.097999572753906
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-015",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-030801",
+          "device_id": "Unknown Device",
+          "ip_subnet": "325.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 35.0
+        },
+        {
+          "account_id": "TX-IEEE-001612",
+          "device_id": "Unknown Device",
+          "ip_subnet": "325.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 80.0
+        },
+        {
+          "account_id": "TX-IEEE-001704",
+          "device_id": "Unknown Device",
+          "ip_subnet": "325.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 15.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-039",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-011697",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 90.0
+        },
+        {
+          "account_id": "TX-IEEE-011666",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 112.98999786376953
+        },
+        {
+          "account_id": "TX-IEEE-004800",
+          "device_id": "Unknown Device",
+          "ip_subnet": "143.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 80.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-056",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-025462",
+          "device_id": "QTASUN1 Build/NRD90M",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Android 7.0",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 25.0
+        },
+        {
+          "account_id": "TX-IEEE-033135",
+          "device_id": "QTASUN1 Build/NRD90M",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Android 7.0",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 30.0
+        },
+        {
+          "account_id": "TX-IEEE-010259",
+          "device_id": "QTASUN1 Build/NRD90M",
+          "ip_subnet": "272.0_87.0",
+          "os_version": "Android 7.0",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 20.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-057",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-010322",
+          "device_id": "SM-G550T Build/MMB29K",
+          "ip_subnet": "225.0_87.0",
+          "os_version": "Android 6.0.1",
+          "browser": "chrome 59.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 150.0
+        },
+        {
+          "account_id": "TX-IEEE-010339",
+          "device_id": "SM-G550T Build/MMB29K",
+          "ip_subnet": "325.0_87.0",
+          "os_version": "Android 6.0.1",
+          "browser": "chrome 59.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 150.0
+        },
+        {
+          "account_id": "TX-IEEE-011019",
+          "device_id": "SM-G550T Build/MMB29K",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Android 6.0.1",
+          "browser": "chrome 59.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 150.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-059",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-010868",
+          "device_id": "Unknown Device",
+          "ip_subnet": "191.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-014024",
+          "device_id": "Unknown Device",
+          "ip_subnet": "191.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 117.0
+        },
+        {
+          "account_id": "TX-IEEE-041232",
+          "device_id": "Unknown Device",
+          "ip_subnet": "191.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 77.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-074",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-019407",
+          "device_id": "SM-G925T Build/NRD90M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Android 7.0",
+          "browser": "chrome 61.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 250.0
+        },
+        {
+          "account_id": "TX-IEEE-019399",
+          "device_id": "SM-G925T Build/NRD90M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Android 7.0",
+          "browser": "chrome 61.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 250.0
+        },
+        {
+          "account_id": "TX-IEEE-019403",
+          "device_id": "SM-G925T Build/NRD90M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Android 7.0",
+          "browser": "chrome 61.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 250.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-087",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-026311",
+          "device_id": "TA-1039 Build/N2G47H",
+          "ip_subnet": "511.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 39.87699890136719
+        },
+        {
+          "account_id": "TX-IEEE-028253",
+          "device_id": "TA-1039 Build/N2G47H",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 38.47800064086914
+        },
+        {
+          "account_id": "TX-IEEE-028250",
+          "device_id": "TA-1039 Build/N2G47H",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 38.47800064086914
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-092",
+      "cluster_size": 3,
+      "fraud_count": 3,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.92,
+      "members": [
+        {
+          "account_id": "TX-IEEE-037524",
+          "device_id": "MacOS",
+          "ip_subnet": "325.0_87.0",
+          "os_version": "Mac OS X 10_9_5",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 175.0
+        },
+        {
+          "account_id": "TX-IEEE-037188",
+          "device_id": "MacOS",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "Mac OS X 10_9_5",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 275.0
+        },
+        {
+          "account_id": "TX-IEEE-037517",
+          "device_id": "MacOS",
+          "ip_subnet": "315.0_87.0",
+          "os_version": "Mac OS X 10_9_5",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.92,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 175.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-077",
+      "cluster_size": 22,
+      "fraud_count": 21,
+      "flagged_count": 22,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.8951,
+      "members": [
+        {
+          "account_id": "TX-IEEE-064817",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 47.0
+        },
+        {
+          "account_id": "TX-IEEE-048264",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 83.5
+        },
+        {
+          "account_id": "TX-IEEE-047250",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 54.5
+        },
+        {
+          "account_id": "TX-IEEE-060920",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 90.0
+        },
+        {
+          "account_id": "TX-IEEE-047211",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 57.0
+        },
+        {
+          "account_id": "TX-IEEE-044497",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 90.0
+        },
+        {
+          "account_id": "TX-IEEE-043164",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 92.0
+        },
+        {
+          "account_id": "TX-IEEE-060933",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 92.0
+        },
+        {
+          "account_id": "TX-IEEE-061016",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 57.0
+        },
+        {
+          "account_id": "TX-IEEE-064835",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 13.0
+        },
+        {
+          "account_id": "TX-IEEE-036282",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 59.0
+        },
+        {
+          "account_id": "TX-IEEE-036275",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 59.0
+        },
+        {
+          "account_id": "TX-IEEE-064775",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 83.5
+        },
+        {
+          "account_id": "TX-IEEE-020812",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 59.0
+        },
+        {
+          "account_id": "TX-IEEE-046287",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 54.5
+        },
+        {
+          "account_id": "TX-IEEE-064830",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 22.0
+        },
+        {
+          "account_id": "TX-IEEE-064822",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 32.0
+        },
+        {
+          "account_id": "TX-IEEE-032559",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 34.0
+        },
+        {
+          "account_id": "TX-IEEE-046146",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 59.0
+        },
+        {
+          "account_id": "TX-IEEE-066300",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 34.0
+        },
+        {
+          "account_id": "TX-IEEE-026419",
+          "device_id": "Unknown Device",
+          "ip_subnet": "420.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.913,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 92.0
+        },
+        {
+          "account_id": "TX-IEEE-071129",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 179.9499969482422
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-042",
+      "cluster_size": 11,
+      "fraud_count": 10,
+      "flagged_count": 11,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.8702,
+      "members": [
+        {
+          "account_id": "TX-IEEE-005617",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.33599853515625
+        },
+        {
+          "account_id": "TX-IEEE-005626",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.33599853515625
+        },
+        {
+          "account_id": "TX-IEEE-005615",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.33599853515625
+        },
+        {
+          "account_id": "TX-IEEE-011745",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 24.167999267578125
+        },
+        {
+          "account_id": "TX-IEEE-005621",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.33599853515625
+        },
+        {
+          "account_id": "TX-IEEE-011638",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 24.167999267578125
+        },
+        {
+          "account_id": "TX-IEEE-005631",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.33599853515625
+        },
+        {
+          "account_id": "TX-IEEE-005608",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.33599853515625
+        },
+        {
+          "account_id": "TX-IEEE-005632",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.33599853515625
+        },
+        {
+          "account_id": "TX-IEEE-011645",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.9053,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 24.167999267578125
+        },
+        {
+          "account_id": "TX-IEEE-020999",
+          "device_id": "LG-D680 Build/KOT49I",
+          "ip_subnet": "167.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 72.86699676513672
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-072",
+      "cluster_size": 8,
+      "fraud_count": 7,
+      "flagged_count": 8,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.8516,
+      "members": [
+        {
+          "account_id": "TX-IEEE-018422",
+          "device_id": "Unknown Device",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.899,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 12.567000389099121
+        },
+        {
+          "account_id": "TX-IEEE-018411",
+          "device_id": "Unknown Device",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.899,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 12.567000389099121
+        },
+        {
+          "account_id": "TX-IEEE-020676",
+          "device_id": "Unknown Device",
+          "ip_subnet": "167.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "safari generic",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.899,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 56.31100082397461
+        },
+        {
+          "account_id": "TX-IEEE-035599",
+          "device_id": "Unknown Device",
+          "ip_subnet": "161.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.899,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 81.97000122070312
+        },
+        {
+          "account_id": "TX-IEEE-020710",
+          "device_id": "Unknown Device",
+          "ip_subnet": "161.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.899,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 56.31100082397461
+        },
+        {
+          "account_id": "TX-IEEE-036128",
+          "device_id": "Unknown Device",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.899,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 81.97000122070312
+        },
+        {
+          "account_id": "TX-IEEE-018416",
+          "device_id": "Unknown Device",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.899,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 12.567000389099121
+        },
+        {
+          "account_id": "TX-IEEE-033240",
+          "device_id": "Trident/7.0",
+          "ip_subnet": "161.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "ie 11.0 for desktop",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 12.826000213623047
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-038",
+      "cluster_size": 5,
+      "fraud_count": 4,
+      "flagged_count": 5,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.8105,
+      "members": [
+        {
+          "account_id": "TX-IEEE-022398",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 49.0
+        },
+        {
+          "account_id": "TX-IEEE-023406",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 68.5
+        },
+        {
+          "account_id": "TX-IEEE-026350",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 88.5
+        },
+        {
+          "account_id": "TX-IEEE-023341",
+          "device_id": "Unknown Device",
+          "ip_subnet": "264.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 82.0
+        },
+        {
+          "account_id": "TX-IEEE-004769",
+          "device_id": "iOS Device",
+          "ip_subnet": "472.0_87.0",
+          "os_version": "iOS 11.1.2",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 50.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-050",
+      "cluster_size": 5,
+      "fraud_count": 4,
+      "flagged_count": 5,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.8105,
+      "members": [
+        {
+          "account_id": "TX-IEEE-008979",
+          "device_id": "SM-A300H Build/LRX22G",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 30.632999420166016
+        },
+        {
+          "account_id": "TX-IEEE-007379",
+          "device_id": "SM-A300H Build/LRX22G",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 14.137999534606934
+        },
+        {
+          "account_id": "TX-IEEE-007382",
+          "device_id": "SM-A300H Build/LRX22G",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 14.137999534606934
+        },
+        {
+          "account_id": "TX-IEEE-008976",
+          "device_id": "SM-A300H Build/LRX22G",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8833,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 30.632999420166016
+        },
+        {
+          "account_id": "TX-IEEE-021071",
+          "device_id": "SM-A300H Build/LRX22G",
+          "ip_subnet": "161.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 5.61899995803833
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-091",
+      "cluster_size": 4,
+      "fraud_count": 3,
+      "flagged_count": 4,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.7832,
+      "members": [
+        {
+          "account_id": "TX-IEEE-067424",
+          "device_id": "Unknown Device",
+          "ip_subnet": "110.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.43000030517578
+        },
+        {
+          "account_id": "TX-IEEE-034543",
+          "device_id": "Unknown Device",
+          "ip_subnet": "110.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 26.299999237060547
+        },
+        {
+          "account_id": "TX-IEEE-050673",
+          "device_id": "Unknown Device",
+          "ip_subnet": "110.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 48.43000030517578
+        },
+        {
+          "account_id": "TX-IEEE-039306",
+          "device_id": "Unknown Device",
+          "ip_subnet": "110.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 59.630001068115234
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-096",
+      "cluster_size": 7,
+      "fraud_count": 5,
+      "flagged_count": 7,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.7636,
+      "members": [
+        {
+          "account_id": "TX-IEEE-054309",
+          "device_id": "HUAWEI G7-L03 Build/HuaweiG7-L03",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 54.21900177001953
+        },
+        {
+          "account_id": "TX-IEEE-058517",
+          "device_id": "HUAWEI G7-L03 Build/HuaweiG7-L03",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 29.033000946044922
+        },
+        {
+          "account_id": "TX-IEEE-058400",
+          "device_id": "HUAWEI G7-L03 Build/HuaweiG7-L03",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 29.033000946044922
+        },
+        {
+          "account_id": "TX-IEEE-054317",
+          "device_id": "HUAWEI G7-L03 Build/HuaweiG7-L03",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 54.21900177001953
+        },
+        {
+          "account_id": "TX-IEEE-058392",
+          "device_id": "HUAWEI G7-L03 Build/HuaweiG7-L03",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8711,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 29.033000946044922
+        },
+        {
+          "account_id": "TX-IEEE-060575",
+          "device_id": "HUAWEI G7-L03 Build/HuaweiG7-L03",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.495,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 52.81999969482422
+        },
+        {
+          "account_id": "TX-IEEE-052427",
+          "device_id": "HUAWEI G7-L03 Build/HuaweiG7-L03",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.495,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 31.48200035095215
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-034",
+      "cluster_size": 6,
+      "fraud_count": 4,
+      "flagged_count": 6,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.7376,
+      "members": [
+        {
+          "account_id": "TX-IEEE-066505",
+          "device_id": "Windows",
+          "ip_subnet": "204.0_87.0",
+          "os_version": "Windows 10",
+          "browser": "edge 15.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 250.0
+        },
+        {
+          "account_id": "TX-IEEE-066506",
+          "device_id": "Windows",
+          "ip_subnet": "204.0_87.0",
+          "os_version": "Windows 10",
+          "browser": "edge 15.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 250.0
+        },
+        {
+          "account_id": "TX-IEEE-066518",
+          "device_id": "Windows",
+          "ip_subnet": "126.0_87.0",
+          "os_version": "Windows 10",
+          "browser": "edge 15.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-066517",
+          "device_id": "Windows",
+          "ip_subnet": "126.0_87.0",
+          "os_version": "Windows 10",
+          "browser": "edge 15.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 200.0
+        },
+        {
+          "account_id": "TX-IEEE-013530",
+          "device_id": "Unknown Device",
+          "ip_subnet": "191.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.4901,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 57.95000076293945
+        },
+        {
+          "account_id": "TX-IEEE-003434",
+          "device_id": "Unknown Device",
+          "ip_subnet": "181.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.4901,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 85.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-064",
+      "cluster_size": 6,
+      "fraud_count": 4,
+      "flagged_count": 6,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.7376,
+      "members": [
+        {
+          "account_id": "TX-IEEE-052770",
+          "device_id": "HTC Desire 10 lifestyle Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 40.810001373291016
+        },
+        {
+          "account_id": "TX-IEEE-052768",
+          "device_id": "HTC Desire 10 lifestyle Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 40.810001373291016
+        },
+        {
+          "account_id": "TX-IEEE-055291",
+          "device_id": "HTC Desire 10 lifestyle Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 40.810001373291016
+        },
+        {
+          "account_id": "TX-IEEE-052769",
+          "device_id": "HTC Desire 10 lifestyle Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8613,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 40.810001373291016
+        },
+        {
+          "account_id": "TX-IEEE-030719",
+          "device_id": "HTC Desire 10 lifestyle Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.4901,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 71.47599792480469
+        },
+        {
+          "account_id": "TX-IEEE-012903",
+          "device_id": "HTC Desire 10 lifestyle Build/MMB29M",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 62.0 for android",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.4901,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 25.860000610351562
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-012",
+      "cluster_size": 3,
+      "fraud_count": 2,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.7376,
+      "members": [
+        {
+          "account_id": "TX-IEEE-001173",
+          "device_id": "Unknown Device",
+          "ip_subnet": "330.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 97.0
+        },
+        {
+          "account_id": "TX-IEEE-001169",
+          "device_id": "Unknown Device",
+          "ip_subnet": "330.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 80.0
+        },
+        {
+          "account_id": "TX-IEEE-010827",
+          "device_id": "Unknown Device",
+          "ip_subnet": "330.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "Unknown Browser",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 60.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-016",
+      "cluster_size": 3,
+      "fraud_count": 2,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_card_cluster"
+      ],
+      "average_ring_risk": 0.7376,
+      "members": [
+        {
+          "account_id": "TX-IEEE-001702",
+          "device_id": "iOS Device",
+          "ip_subnet": "325.0_87.0",
+          "os_version": "iOS 11.1.2",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 450.0
+        },
+        {
+          "account_id": "TX-IEEE-001706",
+          "device_id": "iOS Device",
+          "ip_subnet": "325.0_87.0",
+          "os_version": "iOS 11.1.2",
+          "browser": "mobile safari 11.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 450.0
+        },
+        {
+          "account_id": "TX-IEEE-054210",
+          "device_id": "rv:11.0",
+          "ip_subnet": "441.0_87.0",
+          "os_version": "Windows 7",
+          "browser": "ie 11.0 for desktop",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 100.0
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-030",
+      "cluster_size": 3,
+      "fraud_count": 2,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_device_fingerprint"
+      ],
+      "average_ring_risk": 0.7376,
+      "members": [
+        {
+          "account_id": "TX-IEEE-019164",
+          "device_id": "Moto C Plus Build/NRD90M.05.022",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 59.090999603271484
+        },
+        {
+          "account_id": "TX-IEEE-019064",
+          "device_id": "Moto C Plus Build/NRD90M.05.022",
+          "ip_subnet": "161.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 78.78800201416016
+        },
+        {
+          "account_id": "TX-IEEE-003019",
+          "device_id": "Moto C Plus Build/NRD90M.05.022",
+          "ip_subnet": "299.0_87.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 56.0 for android",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 14.199000358581543
+        }
+      ]
+    },
+    {
+      "ring_id": "RING-IEEE-071",
+      "cluster_size": 3,
+      "fraud_count": 2,
+      "flagged_count": 3,
+      "linkage_mechanisms": [
+        "shared_network_addr"
+      ],
+      "average_ring_risk": 0.7376,
+      "members": [
+        {
+          "account_id": "TX-IEEE-018382",
+          "device_id": "Unknown Device",
+          "ip_subnet": "508.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 49.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 30.089000701904297
+        },
+        {
+          "account_id": "TX-IEEE-018373",
+          "device_id": "Unknown Device",
+          "ip_subnet": "508.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "chrome 49.0",
+          "xgb_score": 0.92,
+          "ring_risk_score": 0.8466,
+          "is_xgb_flagged": true,
+          "true_class": 1,
+          "amount": 30.089000701904297
+        },
+        {
+          "account_id": "TX-IEEE-028992",
+          "device_id": "Unknown Device",
+          "ip_subnet": "508.0_60.0",
+          "os_version": "Unknown OS",
+          "browser": "firefox 57.0",
+          "xgb_score": 0.03,
+          "ring_risk_score": 0.5195,
+          "is_xgb_flagged": true,
+          "true_class": 0,
+          "amount": 136.30599975585938
+        }
+      ]
+    }
+  ],
+  "subgraph": {
+    "nodes": [
+      {
+        "id": "TX-IEEE-000243",
+        "label": "TX-IEEE-000243",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Redmi Note 4 Build/MMB29M",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-004",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-005799",
+        "label": "TX-IEEE-005799",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "194.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-044",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-000240",
+        "label": "TX-IEEE-000240",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Redmi Note 4 Build/MMB29M",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-004",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-000245",
+        "label": "TX-IEEE-000245",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Redmi Note 4 Build/MMB29M",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-004",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-019720",
+        "label": "TX-IEEE-019720",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "264.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-068",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-011697",
+        "label": "TX-IEEE-011697",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-039",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-019674",
+        "label": "TX-IEEE-019674",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "264.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-068",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-005760",
+        "label": "TX-IEEE-005760",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "194.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-044",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-022041",
+        "label": "TX-IEEE-022041",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "iOS Device",
+        "ip_subnet": "315.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-080",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-010136",
+        "label": "TX-IEEE-010136",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "194.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-044",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-055258",
+        "label": "TX-IEEE-055258",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "SM-J700M Build/MMB29K",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-097",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-034829",
+        "label": "TX-IEEE-034829",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-040973",
+        "label": "TX-IEEE-040973",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Z835 Build/NMF26V",
+        "ip_subnet": "472.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-094",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-005794",
+        "label": "TX-IEEE-005794",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "194.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-044",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-023547",
+        "label": "TX-IEEE-023547",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-055",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-035194",
+        "label": "TX-IEEE-035194",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Windows",
+        "ip_subnet": "315.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-080",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-004800",
+        "label": "TX-IEEE-004800",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-039",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-030801",
+        "label": "TX-IEEE-030801",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "325.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-015",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-033135",
+        "label": "TX-IEEE-033135",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "QTASUN1 Build/NRD90M",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-056",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-009858",
+        "label": "TX-IEEE-009858",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-055",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-062394",
+        "label": "TX-IEEE-062394",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-055",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-041812",
+        "label": "TX-IEEE-041812",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-035189",
+        "label": "TX-IEEE-035189",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Windows",
+        "ip_subnet": "315.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-080",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-055272",
+        "label": "TX-IEEE-055272",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "SM-J700M Build/MMB29K",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-097",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-011666",
+        "label": "TX-IEEE-011666",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-039",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-037119",
+        "label": "TX-IEEE-037119",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-074300",
+        "label": "TX-IEEE-074300",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-054",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-040977",
+        "label": "TX-IEEE-040977",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Z835 Build/NMF26V",
+        "ip_subnet": "472.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-094",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-022051",
+        "label": "TX-IEEE-022051",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "iOS Device",
+        "ip_subnet": "315.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-080",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-014792",
+        "label": "TX-IEEE-014792",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "264.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-068",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-019652",
+        "label": "TX-IEEE-019652",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "264.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-068",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-074312",
+        "label": "TX-IEEE-074312",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-054",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-037784",
+        "label": "TX-IEEE-037784",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-053636",
+        "label": "TX-IEEE-053636",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Z835 Build/NMF26V",
+        "ip_subnet": "337.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-094",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-023559",
+        "label": "TX-IEEE-023559",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-055",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-008707",
+        "label": "TX-IEEE-008707",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-054",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-010259",
+        "label": "TX-IEEE-010259",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "QTASUN1 Build/NRD90M",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-056",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-022046",
+        "label": "TX-IEEE-022046",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "iOS Device",
+        "ip_subnet": "315.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-080",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-022160",
+        "label": "TX-IEEE-022160",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Windows",
+        "ip_subnet": "315.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-080",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-003583",
+        "label": "TX-IEEE-003583",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-022162",
+        "label": "TX-IEEE-022162",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Windows",
+        "ip_subnet": "315.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-080",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-027662",
+        "label": "TX-IEEE-027662",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "264.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-068",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-042360",
+        "label": "TX-IEEE-042360",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Z835 Build/NMF26V",
+        "ip_subnet": "472.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-094",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-010419",
+        "label": "TX-IEEE-010419",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-030543",
+        "label": "TX-IEEE-030543",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-019742",
+        "label": "TX-IEEE-019742",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "264.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-068",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-008711",
+        "label": "TX-IEEE-008711",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Moto Z2 Play Build/NPS26.74-16-1",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-054",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-002302",
+        "label": "TX-IEEE-002302",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-055282",
+        "label": "TX-IEEE-055282",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "SM-J700M Build/MMB29K",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-097",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-002367",
+        "label": "TX-IEEE-002367",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-023",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-062387",
+        "label": "TX-IEEE-062387",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "143.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-055",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-008705",
+        "label": "TX-IEEE-008705",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "194.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-044",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-001612",
+        "label": "TX-IEEE-001612",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "325.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-015",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-001704",
+        "label": "TX-IEEE-001704",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "Unknown Device",
+        "ip_subnet": "325.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-015",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-055261",
+        "label": "TX-IEEE-055261",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "SM-J700M Build/MMB29K",
+        "ip_subnet": "299.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-097",
+        "color": "#F2B8C6",
+        "val": 14
+      },
+      {
+        "id": "TX-IEEE-025462",
+        "label": "TX-IEEE-025462",
+        "role": "Flagged Fraud Attack",
+        "xgb_score": 0.92,
+        "ring_risk": 0.92,
+        "device_id": "QTASUN1 Build/NRD90M",
+        "ip_subnet": "272.0_87.0",
+        "is_flagged": true,
+        "true_class": true,
+        "ring_id": "RING-IEEE-056",
+        "color": "#F2B8C6",
+        "val": 14
+      }
+    ],
+    "links": [
+      {
+        "source": "TX-IEEE-000243",
+        "target": "TX-IEEE-000240",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-000243",
+        "target": "TX-IEEE-000245",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-005799",
+        "target": "TX-IEEE-005760",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-005799",
+        "target": "TX-IEEE-005794",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-005799",
+        "target": "TX-IEEE-008705",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-005799",
+        "target": "TX-IEEE-010136",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-000240",
+        "target": "TX-IEEE-000245",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-019720",
+        "target": "TX-IEEE-014792",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019720",
+        "target": "TX-IEEE-019652",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019720",
+        "target": "TX-IEEE-019674",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019720",
+        "target": "TX-IEEE-019742",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019720",
+        "target": "TX-IEEE-027662",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-011697",
+        "target": "TX-IEEE-004800",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-011697",
+        "target": "TX-IEEE-011666",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019674",
+        "target": "TX-IEEE-014792",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019674",
+        "target": "TX-IEEE-019652",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019674",
+        "target": "TX-IEEE-019742",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019674",
+        "target": "TX-IEEE-027662",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-005760",
+        "target": "TX-IEEE-005794",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-005760",
+        "target": "TX-IEEE-008705",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-005760",
+        "target": "TX-IEEE-010136",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022041",
+        "target": "TX-IEEE-022046",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022041",
+        "target": "TX-IEEE-022051",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022041",
+        "target": "TX-IEEE-022160",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022041",
+        "target": "TX-IEEE-022162",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022041",
+        "target": "TX-IEEE-035189",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022041",
+        "target": "TX-IEEE-035194",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-010136",
+        "target": "TX-IEEE-005794",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-010136",
+        "target": "TX-IEEE-008705",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-055258",
+        "target": "TX-IEEE-055261",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-055258",
+        "target": "TX-IEEE-055272",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-055258",
+        "target": "TX-IEEE-055282",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-002302",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-003583",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-010419",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-030543",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-037119",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-037784",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-034829",
+        "target": "TX-IEEE-041812",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-040973",
+        "target": "TX-IEEE-040977",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-040973",
+        "target": "TX-IEEE-042360",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-040973",
+        "target": "TX-IEEE-053636",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-005794",
+        "target": "TX-IEEE-008705",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-023547",
+        "target": "TX-IEEE-009858",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-023547",
+        "target": "TX-IEEE-023559",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-023547",
+        "target": "TX-IEEE-062387",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-023547",
+        "target": "TX-IEEE-062394",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035194",
+        "target": "TX-IEEE-022046",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035194",
+        "target": "TX-IEEE-022051",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035194",
+        "target": "TX-IEEE-022160",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035194",
+        "target": "TX-IEEE-022162",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035194",
+        "target": "TX-IEEE-035189",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-004800",
+        "target": "TX-IEEE-011666",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-030801",
+        "target": "TX-IEEE-001612",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-030801",
+        "target": "TX-IEEE-001704",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-033135",
+        "target": "TX-IEEE-010259",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-033135",
+        "target": "TX-IEEE-025462",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-009858",
+        "target": "TX-IEEE-023559",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-009858",
+        "target": "TX-IEEE-062387",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-009858",
+        "target": "TX-IEEE-062394",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-062394",
+        "target": "TX-IEEE-023559",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-062394",
+        "target": "TX-IEEE-062387",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-041812",
+        "target": "TX-IEEE-002302",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-041812",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-041812",
+        "target": "TX-IEEE-003583",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-041812",
+        "target": "TX-IEEE-010419",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-041812",
+        "target": "TX-IEEE-030543",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-041812",
+        "target": "TX-IEEE-037119",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-041812",
+        "target": "TX-IEEE-037784",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035189",
+        "target": "TX-IEEE-022046",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035189",
+        "target": "TX-IEEE-022051",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035189",
+        "target": "TX-IEEE-022160",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-035189",
+        "target": "TX-IEEE-022162",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-055272",
+        "target": "TX-IEEE-055261",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-055272",
+        "target": "TX-IEEE-055282",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-037119",
+        "target": "TX-IEEE-002302",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037119",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037119",
+        "target": "TX-IEEE-003583",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037119",
+        "target": "TX-IEEE-010419",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037119",
+        "target": "TX-IEEE-030543",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037119",
+        "target": "TX-IEEE-037784",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-074300",
+        "target": "TX-IEEE-008707",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-074300",
+        "target": "TX-IEEE-008711",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-074300",
+        "target": "TX-IEEE-074312",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-040977",
+        "target": "TX-IEEE-042360",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-040977",
+        "target": "TX-IEEE-053636",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-022051",
+        "target": "TX-IEEE-022046",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022051",
+        "target": "TX-IEEE-022160",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022051",
+        "target": "TX-IEEE-022162",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-014792",
+        "target": "TX-IEEE-019652",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-014792",
+        "target": "TX-IEEE-019742",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-014792",
+        "target": "TX-IEEE-027662",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019652",
+        "target": "TX-IEEE-019742",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-019652",
+        "target": "TX-IEEE-027662",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-074312",
+        "target": "TX-IEEE-008707",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-074312",
+        "target": "TX-IEEE-008711",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-037784",
+        "target": "TX-IEEE-002302",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037784",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037784",
+        "target": "TX-IEEE-003583",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037784",
+        "target": "TX-IEEE-010419",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-037784",
+        "target": "TX-IEEE-030543",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-053636",
+        "target": "TX-IEEE-042360",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-023559",
+        "target": "TX-IEEE-062387",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-008707",
+        "target": "TX-IEEE-008711",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-010259",
+        "target": "TX-IEEE-025462",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-022046",
+        "target": "TX-IEEE-022160",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022046",
+        "target": "TX-IEEE-022162",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-022160",
+        "target": "TX-IEEE-022162",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-003583",
+        "target": "TX-IEEE-002302",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-003583",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-003583",
+        "target": "TX-IEEE-010419",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-003583",
+        "target": "TX-IEEE-030543",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-027662",
+        "target": "TX-IEEE-019742",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-010419",
+        "target": "TX-IEEE-002302",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-010419",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-010419",
+        "target": "TX-IEEE-030543",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-030543",
+        "target": "TX-IEEE-002302",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-030543",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-002302",
+        "target": "TX-IEEE-002367",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      },
+      {
+        "source": "TX-IEEE-055282",
+        "target": "TX-IEEE-055261",
+        "link_type": "Shared Hardware Device Fingerprint",
+        "color": "#F2B8C6",
+        "width": 2.4
+      },
+      {
+        "source": "TX-IEEE-001612",
+        "target": "TX-IEEE-001704",
+        "link_type": "Shared Card Fingerprint Hash",
+        "color": "#A8B5E0",
+        "width": 2.0
+      }
+    ]
+  }
+}

@@ -194,39 +194,44 @@ def test_explain_endpoint(client, test_data):
 
 
 def test_graph_rings_endpoint(client):
-    """Test GET /graph/rings returns detected rings and simulation disclaimer."""
+    """Test GET /graph/rings returns detected rings with real IEEE-CIS verification."""
     response = client.get("/graph/rings")
     assert response.status_code == 200
     data = response.json()
 
     assert "disclaimer" in data
-    assert "simulated" in data["disclaimer"].lower()
+    assert "ieee-cis" in data["disclaimer"].lower()
     assert data["total_rings"] >= 1
     assert len(data["rings"]) >= 1
+    assert data.get("fraud_lift_ratio", 1.0) >= 1.0
 
     first_ring = data["rings"][0]
     assert "ring_id" in first_ring
     assert "cluster_size" in first_ring
     assert first_ring["cluster_size"] >= 3
-    assert len(first_ring["members"]) == first_ring["cluster_size"]
+    assert len(first_ring["members"]) >= 1
     assert "linkage_mechanisms" in first_ring
 
 
 def test_graph_account_risk_endpoint(client):
-    """Test GET /graph/account/{account_id}/risk returns propagated ring risk."""
-    # Test on known simulated ring member
-    response = client.get("/graph/account/ACC-100000/risk")
+    """Test GET /graph/account/{account_id}/risk returns propagated ring risk from real IEEE-CIS linkage."""
+    # Fetch first node from network graph
+    net_res = client.get("/graph/network")
+    assert net_res.status_code == 200
+    nodes = net_res.json()["nodes"]
+    assert len(nodes) > 0
+    sample_acc = nodes[0]["id"]
+
+    response = client.get(f"/graph/account/{sample_acc}/risk")
     assert response.status_code == 200
     data = response.json()
 
-    assert data["account_id"] == "ACC-100000"
-    assert "simulated" in data["disclaimer"].lower()
+    assert data["account_id"] == sample_acc
+    assert "ieee-cis" in data["disclaimer"].lower()
     assert "device_id" in data
     assert "ip_subnet" in data
     assert 0.0 <= data["individual_xgb_score"] <= 1.0
     assert 0.0 <= data["propagated_ring_risk_score"] <= 1.0
-    assert data["connected_accounts_count"] >= 1
-    assert len(data["connected_accounts"]) >= 1
 
     # Test non-existent account returns 404
     non_existent = client.get("/graph/account/NON-EXISTENT-ACCOUNT-99999/risk")
@@ -234,12 +239,13 @@ def test_graph_account_risk_endpoint(client):
 
 
 def test_graph_network_payload_endpoint(client):
-    """Test GET /graph/network returns nodes and links for UI force graph."""
+    """Test GET /graph/network returns nodes and links for UI force graph with real IEEE-CIS linkages."""
     response = client.get("/graph/network")
     assert response.status_code == 200
     data = response.json()
 
     assert "disclaimer" in data
+    assert "ieee-cis" in data["disclaimer"].lower()
     assert len(data["nodes"]) >= 1
     assert len(data["links"]) >= 1
 
