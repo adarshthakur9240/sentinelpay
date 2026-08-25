@@ -16,6 +16,12 @@
 
 ---
 
+> ### 💬 Why I Built This
+>
+> I wanted to work on fraud detection because the 0.17% class imbalance makes it a genuinely unforgiving problem — standard metrics like accuracy are meaningless, and textbook solutions like SMOTE can actually degrade decision boundaries in practice. Building the sliding-window streaming consumer and the IEEE-CIS entity graph taught me that most real-world fraud isn't an isolated anomaly; it's coordinated across shared hardware fingerprints and rapid velocity spikes that single-transaction classifiers completely miss. Given more time, I'd replace the in-memory window state with distributed RocksDB state stores so velocity buffers survive consumer restarts without state loss.
+
+---
+
 ## 📑 Table of Contents
 
 1. [The Bar We're Answering (Track 02 Criteria Mapping)](#1-the-bar-were-answering)
