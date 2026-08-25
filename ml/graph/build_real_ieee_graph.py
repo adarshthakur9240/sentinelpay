@@ -53,8 +53,8 @@ def resolve_paths():
 
 
 def load_ieee_linkage_subset(parquet_path: Path, sample_size: int = 75000) -> pd.DataFrame:
-    """Ingest a representative sample from Kaggle IEEE-CIS dataset."""
-    logger.info(f"Ingesting {sample_size:,} transactions from {parquet_path}...")
+    """Ingest a representative sample from Kaggle IEEE-CIS dataset using pandas.read_parquet()."""
+    logger.info(f"Ingesting {sample_size:,} transactions from {parquet_path} via pandas.read_parquet()...")
     cols = [
         "isFraud", "TransactionDT", "TransactionAmt", "ProductCD",
         "card1", "card2", "card3", "card4", "card5", "card6",
@@ -62,8 +62,7 @@ def load_ieee_linkage_subset(parquet_path: Path, sample_size: int = 75000) -> pd
         "DeviceInfo", "id_30", "id_31", "id_33", "id_34", "id_38",
     ]
 
-    table = pq.read_table(parquet_path, columns=cols)
-    df = table.to_pandas().head(sample_size).copy()
+    df = pd.read_parquet(parquet_path, columns=cols).head(sample_size).copy()
 
     df["account_id"] = [f"TX-IEEE-{i:06d}" for i in range(len(df))]
     logger.info(f"Loaded DataFrame with shape {df.shape}. Fraud base rate: {df['isFraud'].mean():.4%}")
@@ -430,7 +429,7 @@ def export_reports_and_artifacts(
             f"`{r['average_ring_risk']:.4f}` | {mechanisms} |\n"
         )
 
-    md_content = f"""# SentinelPay - Empirical Multi-Account Fraud Ring Analysis (Kaggle IEEE-CIS)
+    md_content = fr"""# SentinelPay - Empirical Multi-Account Fraud Ring Analysis (Kaggle IEEE-CIS)
 
 > [!IMPORTANT]
 > **Empirical Real-Data Verification Notice**:
