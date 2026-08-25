@@ -1,6 +1,7 @@
 # SentinelPay 🛡️
 > **Real-Time Fraud Intelligence Engine & Dispute Evidence Generator for Extreme Class Imbalance (0.17%)**
 
+[![Tests](https://github.com/adarshthakur9240/sentinelpay/actions/workflows/tests.yml/badge.svg)](https://github.com/adarshthakur9240/sentinelpay/actions/workflows/tests.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.14-3776AB?logo=python&logoColor=white)](https://python.org)
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.1.4-EB5424?logo=xgboost&logoColor=white)](https://xgboost.readthedocs.io)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)

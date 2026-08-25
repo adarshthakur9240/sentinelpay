@@ -1,0 +1,2 @@
+# SentinelPay Core Backend & ML Dependencies
+-r ml/requirements.txt
