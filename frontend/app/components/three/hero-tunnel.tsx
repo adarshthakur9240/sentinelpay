@@ -299,14 +299,14 @@ function FullPageCameraController({
 }) {
   const { camera } = useThree();
 
-  // Unified single parametric 3D flight spline in X-Y-Z space with substantial amplitude
+  // Unified single parametric 3D flight spline in strictly X-Z plane (Y locked at 0.0)
   const flightSpline = useMemo(() => {
     const waypoints = [
       new THREE.Vector3(0, 0, 10),           // 0.00: Hero (Start Centered)
-      new THREE.Vector3(12.5, 1.8, -25.0),    // 0.20: The 0.17% Challenge (Sweeps deep Right)
-      new THREE.Vector3(-13.5, -1.5, -60.0),  // 0.42: Empirical Metrics (Curves deep Left)
-      new THREE.Vector3(11.0, 1.2, -95.0),   // 0.68: Architecture Grid (Sweeps back Right)
-      new THREE.Vector3(-6.5, -0.8, -125.0),  // 0.85: Pre-CTA Approach (Gentle counter curve)
+      new THREE.Vector3(12.5, 0, -25.0),     // 0.20: The 0.17% Challenge (Sweeps deep Right)
+      new THREE.Vector3(-13.5, 0, -60.0),    // 0.42: Empirical Metrics (Curves deep Left)
+      new THREE.Vector3(11.0, 0, -95.0),     // 0.68: Architecture Grid (Sweeps back Right)
+      new THREE.Vector3(-6.5, 0, -125.0),    // 0.85: Pre-CTA Approach (Gentle counter curve)
       new THREE.Vector3(0, 0, -150.0),       // 1.00: Concluding Destination (Settles Centered)
     ];
     return new THREE.CatmullRomCurve3(waypoints, false, "catmullrom", 0.5);
@@ -334,9 +334,11 @@ function FullPageCameraController({
       };
     }
 
-    // Continuous GSAP ScrollTrigger driving unified Catmull-Rom 3D flight trajectory + banking
+    const triggerEl = document.getElementById("landing-scroll-stage") || document.body;
+
+    // Continuous GSAP ScrollTrigger driving unified Catmull-Rom 3D flight trajectory in XZ plane
     const st = ScrollTrigger.create({
-      trigger: typeof document !== "undefined" ? document.body : undefined,
+      trigger: triggerEl,
       start: "top top",
       end: "bottom bottom",
       scrub: 1.2,
@@ -345,7 +347,7 @@ function FullPageCameraController({
         const point = flightSpline.getPointAt(progress);
         const tangent = flightSpline.getTangentAt(progress).normalize();
 
-        // 1. Move camera position exactly along the 3D parametric curve
+        // 1. Move camera position exactly along the XZ parametric curve
         perspCam.position.copy(point);
 
         // 2. Orient camera forward along the flight trajectory via look-ahead

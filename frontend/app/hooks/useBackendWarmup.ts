@@ -29,8 +29,8 @@ const getBaseUrl = (): string => {
   return "http://localhost:8000";
 };
 
-const INITIAL_GRACE_PERIOD_MS = 2500; // 2.5s threshold
-const RETRY_INTERVAL_MS = 3500; // 3.5s polling loop during cold boot
+const INITIAL_GRACE_PERIOD_MS = 2000; // Exact 2.0s inactivity threshold before HUD appears
+const RETRY_INTERVAL_MS = 1500; // 1.5s polling loop to quickly detect when backend comes online
 
 export function useBackendWarmup(): UseBackendWarmupReturn {
   const [isWarmingUp, setIsWarmingUp] = useState<boolean>(false);
@@ -62,7 +62,7 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
 
     const controller = new AbortController();
     abortControllerRef.current = controller;
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
 
     const baseUrl = getBaseUrl();
 
@@ -90,21 +90,21 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
         setApiHealthData(data);
         setIsReady(true);
 
-        // Cancel grace period immediately so HUD never opens if response was fast
+        // Cancel grace period immediately so HUD never opens if response was fast (<2s)
         if (graceTimerRef.current) {
           clearTimeout(graceTimerRef.current);
           graceTimerRef.current = null;
         }
 
         if (hasEverShownHudRef.current) {
-          // If HUD is already visible, show success for 1.5s then fade out
+          // If HUD was already visible due to >2s inactivity, show quick ready state then auto-disappear
           setTimeout(() => {
             if (isMountedRef.current) {
               setIsWarmingUp(false);
             }
-          }, 1500);
+          }, 700);
         } else {
-          // Fast response (< 2.5s): HUD stays completely hidden
+          // Fast response (<2s): HUD stays completely hidden
           setIsWarmingUp(false);
         }
 
@@ -116,7 +116,7 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
         return;
       }
     } catch {
-      // Backend is cold or still waking
+      // Backend is cold, inactive, or still waking
     }
 
     // Schedule next poll if still unresolved
@@ -132,7 +132,7 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
     hasEverShownHudRef.current = false;
     startTimeRef.current = Date.now();
 
-    // 1. Grace Period: Only show HUD if backend has NOT completed within 2.5s
+    // 1. Grace Period: Only show HUD if backend has NOT completed within 2.0s
     graceTimerRef.current = setTimeout(() => {
       if (!isResolvedRef.current && isMountedRef.current) {
         hasEverShownHudRef.current = true;
@@ -151,7 +151,7 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
     // 3. Kick off immediate health ping
     pingHealth();
 
-    // 4. Global fallback listener: if any other component (e.g. /score) successfully talks to backend
+    // 4. Global fallback listener: if any other component successfully talks to backend
     const onApiSuccess = () => {
       if (!isResolvedRef.current) {
         isResolvedRef.current = true;
@@ -160,7 +160,7 @@ export function useBackendWarmup(): UseBackendWarmupReturn {
         if (hasEverShownHudRef.current) {
           setTimeout(() => {
             if (isMountedRef.current) setIsWarmingUp(false);
-          }, 1500);
+          }, 700);
         } else {
           setIsWarmingUp(false);
         }
