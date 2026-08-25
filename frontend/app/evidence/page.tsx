@@ -20,6 +20,7 @@ import {
   ChevronDown,
   ChevronUp,
   Info,
+  FileDown,
 } from "lucide-react";
 import { SAMPLE_TRANSACTIONS } from "../data/metricsData";
 import SpringOvershootCounter from "../components/ui/SpringOvershootCounter";
@@ -208,11 +209,59 @@ export default function EvidencePage() {
     }
   };
 
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState<boolean>(false);
+
   const handleCopySummary = () => {
     if (!explainData) return;
     navigator.clipboard.writeText(explainData.evidence_summary);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!explainData) return;
+    setIsDownloadingPdf(true);
+
+    const activeTx = currentTx || SAMPLE_TRANSACTIONS.confirmed_fraud || {
+      id: "TXN-TEST-00404",
+      label: "Real Fraud Attack (Test Set #404)",
+      ground_truth: "FRAUD (Class 1)",
+      amount_usd: 122.21,
+      features: {},
+    };
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/evidence/pdf`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          transaction_id: explainData.transaction_id || activeTx.id,
+          merchant_id: "MERCH-DEMO-01",
+          amount_usd: activeTx.amount_usd,
+          features: activeTx.features,
+          top_k: 5,
+          threshold_override: 0.10,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`PDF endpoint returned HTTP ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = `dispute-evidence-${explainData.transaction_id || activeTx.id}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (err) {
+      console.error("Failed to download dispute PDF:", err);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
   };
 
   return (
@@ -391,8 +440,8 @@ export default function EvidencePage() {
                   </p>
                 </div>
 
-                {/* Single Copy Action */}
-                <div className="pt-2">
+                {/* Action Buttons: Copy Evidence & Download PDF */}
+                <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -408,6 +457,26 @@ export default function EvidencePage() {
                       <>
                         <Copy className="h-3.5 w-3.5 text-[#8E8E98]" />
                         <span>Copy Evidence for Dispute</span>
+                      </>
+                    )}
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleDownloadPdf}
+                    disabled={isDownloadingPdf}
+                    className="clay-btn-surface w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-medium flex items-center justify-center gap-2 cursor-pointer text-[#F7F6F3] hover:border-[#F2B8C6]/40 disabled:opacity-50"
+                  >
+                    {isDownloadingPdf ? (
+                      <>
+                        <RotateCcw className="h-3.5 w-3.5 animate-spin text-[#F2B8C6]" />
+                        <span>Generating PDF...</span>
+                      </>
+                    ) : (
+                      <>
+                        <FileDown className="h-3.5 w-3.5 text-[#F2B8C6]" />
+                        <span>Download PDF</span>
                       </>
                     )}
                   </motion.button>

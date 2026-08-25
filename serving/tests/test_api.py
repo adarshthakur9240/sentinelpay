@@ -193,6 +193,24 @@ def test_explain_endpoint(client, test_data):
     assert "SHAP" in narrative
 
 
+def test_explain_pdf_endpoint(client, test_data):
+    """Test POST /evidence/pdf generates binary PDF dispute dossier."""
+    payload = {
+        "transaction_id": "TXN-TEST-PDF-001",
+        "merchant_id": "MERCH-4811",
+        "amount_usd": 389.50,
+        "features": test_data["fraud_sample"],
+        "top_k": 5,
+        "threshold_override": 0.10,
+    }
+    response = client.post("/evidence/pdf", json=payload)
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+    assert "dispute-evidence-TXN-TEST-PDF-001.pdf" in response.headers.get("content-disposition", "")
+    assert len(response.content) > 1000
+    assert response.content.startswith(b"%PDF")
+
+
 def test_graph_rings_endpoint(client):
     """Test GET /graph/rings returns detected rings with real IEEE-CIS verification."""
     response = client.get("/graph/rings")
