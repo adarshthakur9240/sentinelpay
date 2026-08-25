@@ -57,11 +57,14 @@ function MagneticPortal({ children, strength = 0.25, className = "" }: MagneticP
   );
 }
 
+import { useBackendWarmup } from "../hooks/useBackendWarmup";
+
 // ─── Main Floating Kinetic Capsule Navbar (Hover-Only Expand) ───────────────────
 export default function Navbar() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [hoveredPortal, setHoveredPortal] = useState<string | null>(null);
+  const { status, elapsedSeconds, isReady, showWarmup } = useBackendWarmup();
 
   const navItems = [
     {
@@ -221,15 +224,46 @@ export default function Navbar() {
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Engine Status Indicator */}
           <MagneticPortal strength={0.2}>
-            <div
-              className={`flex items-center gap-1.5 rounded-2xl clay-card-inset text-xs font-mono transition-all ${
+            <button
+              onClick={() => {
+                if (status === "waking-up") showWarmup();
+              }}
+              className={`flex items-center gap-1.5 rounded-2xl clay-card-inset text-xs font-mono transition-all cursor-pointer ${
                 isCompact ? "p-2" : "px-2.5 py-1.5 text-[11px]"
-              } text-[#A8B5E0]`}
-              title="FastAPI Sub-10ms Engine Active"
+              } ${
+                isReady
+                  ? "text-[#A8B5E0]"
+                  : status === "waking-up"
+                  ? "text-[#F2B8C6] hover:bg-[#F2B8C6]/10"
+                  : "text-[#8E8E98]"
+              }`}
+              title={
+                isReady
+                  ? "FastAPI Sub-10ms Engine Active"
+                  : status === "waking-up"
+                  ? `Inference Node Spinning Up (${elapsedSeconds}s elapsed) · Click for status`
+                  : "Checking Backend Connection..."
+              }
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A8B5E0] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#A8B5E0]"></span>
+                <span
+                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                    isReady
+                      ? "bg-[#A8B5E0]"
+                      : status === "waking-up"
+                      ? "bg-[#F2B8C6]"
+                      : "bg-[#8E8E98]"
+                  }`}
+                ></span>
+                <span
+                  className={`relative inline-flex rounded-full h-2 w-2 ${
+                    isReady
+                      ? "bg-[#A8B5E0]"
+                      : status === "waking-up"
+                      ? "bg-[#F2B8C6]"
+                      : "bg-[#8E8E98]"
+                  }`}
+                ></span>
               </span>
               <AnimatePresence>
                 {!isCompact && (
@@ -240,11 +274,15 @@ export default function Navbar() {
                     transition={{ duration: 0.2 }}
                     className="hidden sm:inline overflow-hidden whitespace-nowrap font-medium"
                   >
-                    Active
+                    {isReady
+                      ? "Active"
+                      : status === "waking-up"
+                      ? `Waking (${elapsedSeconds}s)`
+                      : "Checking"}
                   </motion.span>
                 )}
               </AnimatePresence>
-            </div>
+            </button>
           </MagneticPortal>
 
           {/* OpenAPI Docs Portal */}

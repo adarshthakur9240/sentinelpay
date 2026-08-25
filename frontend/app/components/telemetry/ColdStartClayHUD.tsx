@@ -13,45 +13,76 @@ import {
   X,
   CheckCircle2,
   Server,
+  Zap,
+  Clock,
 } from "lucide-react";
 import { useBackendWarmup } from "../../hooks/useBackendWarmup";
 
-// Realistic Cold Start Terminal Logs
-const TERMINAL_LOGS = [
-  { prefix: "[SYS]", text: "Handshaking FastAPI container gateway...", color: "text-[#8E8E98]" },
-  { prefix: "[HOST]", text: "Waking Render free-tier inference instance...", color: "text-[#A8B5E0]" },
-  { prefix: "[ENV]", text: "Allocating Python 3.11 runtime & libgomp...", color: "text-[#8E8E98]" },
-  { prefix: "[ML]", text: "Loading XGBoost model (scale_pos_weight=578.55)...", color: "text-[#F2B8C6]" },
-  { prefix: "[SHAP]", text: "Pre-warming shap.TreeExplainer for zero cold-start...", color: "text-[#F2B8C6]" },
-  { prefix: "[GRAPH]", text: "Initializing entity linkage & ring detector...", color: "text-[#A8B5E0]" },
-  { prefix: "[STREAM]", text: "Binding in-memory sliding window ring buffer...", color: "text-[#8E8E98]" },
-  { prefix: "[READY]", text: "Cluster online · Sub-10ms decision SLA ready", color: "text-[#A8B5E0]" },
+// Rotating status messages framed positively, explaining WHY with honesty regarding free-tier hosting
+const ROTATING_STATUS_MESSAGES = [
+  {
+    prefix: "[INIT]",
+    text: "Spinning up the inference engine container…",
+    color: "text-[#F2B8C6]",
+    detail: "Allocating Python 3.11 container & libgomp runtime",
+  },
+  {
+    prefix: "[ENGINE]",
+    text: "Loading XGBoost + SHAP TreeExplainer…",
+    color: "text-[#A8B5E0]",
+    detail: "Pre-warming cost-sensitive tree splits (scale_pos_weight=578.55)",
+  },
+  {
+    prefix: "[GRAPH]",
+    text: "Initializing entity linkage & fraud-ring detector…",
+    color: "text-[#F2B8C6]",
+    detail: "Mounting high-speed in-memory transaction buffer",
+  },
+  {
+    prefix: "[HOST]",
+    text: "Almost there — free-tier hosting naps after 15 minutes idle",
+    color: "text-[#A8B5E0]",
+    detail: "Free-tier spins down to conserve compute; waking takes ~30-45s",
+  },
+  {
+    prefix: "[READY]",
+    text: "Finalizing sub-10ms decision pipeline & health checks…",
+    color: "text-[#F2B8C6]",
+    detail: "Handshaking FastAPI gateway for sub-10ms decision SLA",
+  },
 ];
 
-// 3D Soft Matte Clay Capsule/Orb Component
-function ClayWarmupObject({ isReady }: { isReady: boolean }) {
+// 3D Soft Matte Clay Capsule / Orb Component with Dynamic "Charging Up" Glow
+function ClayWarmupObject({
+  isReady,
+  progressPercent,
+}: {
+  isReady: boolean;
+  progressPercent: number;
+}) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const ringRef = useRef<THREE.Mesh>(null!);
 
   useFrame((state, delta) => {
-    const speed = isReady ? 3.0 : 1.2;
+    const speed = isReady ? 3.2 : 1.0 + (progressPercent / 100) * 0.8;
     if (meshRef.current) {
       meshRef.current.rotation.y += delta * 0.8 * speed;
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 1.5) * 0.25;
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 1.6) * 0.25;
     }
     if (ringRef.current) {
-      ringRef.current.rotation.x += delta * 0.5 * speed;
-      ringRef.current.rotation.z += delta * 0.6 * speed;
+      ringRef.current.rotation.x += delta * 0.6 * speed;
+      ringRef.current.rotation.z += delta * 0.7 * speed;
     }
   });
 
   const bodyColor = isReady ? "#A8B5E0" : "#F2B8C6";
   const ringColor = isReady ? "#F2B8C6" : "#A8B5E0";
+  const emissiveInt = isReady ? 0.35 : 0.12 + (progressPercent / 100) * 0.25;
 
   return (
     <Float speed={2.5} rotationIntensity={0.8} floatIntensity={0.8}>
       <group position={[0, 0, 0]}>
-        {/* Central Smooth Clay Pill / Rounded Cylinder */}
+        {/* Central Smooth Clay Pill */}
         <mesh ref={meshRef}>
           <capsuleGeometry args={[0.55, 0.75, 16, 32]} />
           <meshStandardMaterial
@@ -59,19 +90,19 @@ function ClayWarmupObject({ isReady }: { isReady: boolean }) {
             roughness={0.58}
             metalness={0.12}
             emissive={bodyColor}
-            emissiveIntensity={0.15}
+            emissiveIntensity={emissiveInt}
           />
         </mesh>
 
         {/* Orbiting Clay Torus Ring */}
-        <mesh ref={ringRef} scale={[0.85, 0.85, 0.85]}>
-          <torusGeometry args={[0.95, 0.12, 16, 48]} />
+        <mesh ref={ringRef} scale={[0.88, 0.88, 0.88]}>
+          <torusGeometry args={[0.98, 0.12, 16, 48]} />
           <meshStandardMaterial
             color={ringColor}
             roughness={0.62}
             metalness={0.15}
             emissive={ringColor}
-            emissiveIntensity={0.18}
+            emissiveIntensity={emissiveInt * 1.1}
           />
         </mesh>
       </group>
@@ -89,38 +120,57 @@ export default function ColdStartClayHUD() {
   } = useBackendWarmup();
 
   const [isMinimized, setIsMinimized] = useState<boolean>(false);
-  const [logIndex, setLogIndex] = useState<number>(0);
+  const [msgIndex, setMsgIndex] = useState<number>(0);
 
-  // Progressive terminal logs
+  // Rotate through explanatory status messages every 4.5s
   useEffect(() => {
     if (isReady) {
-      setLogIndex(TERMINAL_LOGS.length - 1);
+      setMsgIndex(ROTATING_STATUS_MESSAGES.length - 1);
       return;
     }
 
     const interval = setInterval(() => {
-      setLogIndex((prev) => (prev + 1) % (TERMINAL_LOGS.length - 1));
-    }, 2800);
+      setMsgIndex((prev) => (prev + 1) % ROTATING_STATUS_MESSAGES.length);
+    }, 4500);
 
     return () => clearInterval(interval);
   }, [isReady]);
+
+  // Estimate progress based on typical 40-45s Render free-tier cold boot
+  const estimatedTotal = 45;
+  const progressPercent = isReady
+    ? 100
+    : Math.min(94, Math.max(8, Math.round((elapsedSeconds / estimatedTotal) * 100)));
+
+  // SVG Circular progress calculations (Radius = 38, Perimeter = 2 * PI * 38 = ~238.76)
+  const radius = 38;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
+
+  const currentMsg = ROTATING_STATUS_MESSAGES[msgIndex];
 
   return (
     <AnimatePresence mode="wait">
       {isWarmingUp && (
         <motion.aside
           key="cold-start-clay-hud"
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 30, scale: 0.9, filter: "blur(6px)" }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 36, scale: 0.92, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          exit={{
+            opacity: 0,
+            y: 28,
+            scale: 0.92,
+            filter: "blur(10px)",
+            transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+          }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           aria-live="polite"
-          className="fixed bottom-6 right-6 z-50 w-[360px] sm:w-[390px] select-none pointer-events-auto"
+          className="fixed bottom-6 right-6 z-50 w-[370px] sm:w-[410px] select-none pointer-events-auto"
         >
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#070709]/95 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] transition-all">
-            {/* Ambient clay glow gradient backdrop */}
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#070709]/95 backdrop-blur-2xl shadow-[0_24px_60px_rgba(0,0,0,0.92),0_0_30px_rgba(242,184,198,0.12)] transition-all">
+            {/* Ambient pastel glow gradient backdrop */}
             <div
-              className={`absolute -top-12 -right-12 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none transition-colors duration-700 ${
+              className={`absolute -top-14 -right-14 w-44 h-44 rounded-full blur-3xl opacity-25 pointer-events-none transition-colors duration-700 ${
                 isReady ? "bg-[#A8B5E0]" : "bg-[#F2B8C6]"
               }`}
             />
@@ -141,7 +191,7 @@ export default function ColdStartClayHUD() {
                   />
                 </span>
                 <span className="font-mono text-[11px] font-bold tracking-wider uppercase text-[#F7F6F3]">
-                  {isReady ? "Cluster Connected" : "Inference Node Warmup"}
+                  {isReady ? "Inference Engine Online" : "Inference Node Warmup"}
                 </span>
               </div>
 
@@ -152,7 +202,7 @@ export default function ColdStartClayHUD() {
                 <button
                   onClick={() => setIsMinimized(!isMinimized)}
                   title={isMinimized ? "Expand HUD" : "Minimize HUD"}
-                  className="p-1 rounded-lg text-[#8E8E98] hover:text-[#F7F6F3] hover:bg-white/5 transition-colors"
+                  className="p-1 rounded-lg text-[#8E8E98] hover:text-[#F7F6F3] hover:bg-white/5 transition-colors cursor-pointer"
                 >
                   {isMinimized ? (
                     <Maximize2 className="w-3.5 h-3.5" />
@@ -162,8 +212,8 @@ export default function ColdStartClayHUD() {
                 </button>
                 <button
                   onClick={dismissWarmup}
-                  title="Dismiss HUD"
-                  className="p-1 rounded-lg text-[#8E8E98] hover:text-[#F7F6F3] hover:bg-white/5 transition-colors"
+                  title="Dismiss HUD (will auto-reopen on error)"
+                  className="p-1 rounded-lg text-[#8E8E98] hover:text-[#F7F6F3] hover:bg-white/5 transition-colors cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -173,28 +223,65 @@ export default function ColdStartClayHUD() {
             {/* Minimized Compact View */}
             {isMinimized ? (
               <div className="px-4 py-3 flex items-center justify-between text-xs font-mono text-[#8E8E98]">
-                <span>Waking cluster: {elapsedSeconds}s</span>
-                <span className="text-[#F2B8C6] font-bold">Attempt #{retryCount + 1}</span>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-3.5 h-3.5 text-[#F2B8C6]" />
+                  <span>Waking up: <strong className="text-[#F7F6F3]">{elapsedSeconds}s</strong> elapsed</span>
+                </div>
+                <span className="text-[#F2B8C6] font-bold text-[11px]">{progressPercent}%</span>
               </div>
             ) : (
               /* Expanded Rich Telemetry View */
               <div className="p-4 space-y-4">
-                {/* 3D Clay Orb + Live Metrics Row */}
-                <div className="flex items-center gap-3">
-                  {/* 3D Canvas viewport */}
-                  <div className="relative w-20 h-20 rounded-2xl bg-[#0B0B10] border border-white/5 overflow-hidden flex-shrink-0 shadow-inner">
-                    <Canvas
-                      camera={{ position: [0, 0, 3], fov: 42 }}
-                      gl={{ antialias: true, alpha: true }}
-                    >
-                      <ambientLight intensity={1.2} />
-                      <directionalLight position={[3, 4, 3]} intensity={1.8} />
-                      <pointLight position={[-3, -2, -1]} intensity={0.6} color="#A8B5E0" />
-                      <ClayWarmupObject isReady={isReady} />
-                    </Canvas>
+                {/* 3D Clay Orb with Surrounding Radial Progress Ring */}
+                <div className="flex items-center gap-4">
+                  {/* Radial Progress Ring with embedded 3D Three.js Canvas */}
+                  <div className="relative w-22 h-22 flex-shrink-0 flex items-center justify-center">
+                    {/* SVG Circular Progress Meter */}
+                    <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 88 88">
+                      {/* Background track */}
+                      <circle
+                        cx="44"
+                        cy="44"
+                        r={radius}
+                        className="stroke-white/10"
+                        strokeWidth="3.5"
+                        fill="none"
+                      />
+                      {/* Animated Filling Progress Ring */}
+                      <motion.circle
+                        cx="44"
+                        cy="44"
+                        r={radius}
+                        stroke={isReady ? "#A8B5E0" : "#F2B8C6"}
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                        fill="none"
+                        style={{
+                          strokeDasharray: circumference,
+                          strokeDashoffset: strokeDashoffset,
+                          transition: "stroke-dashoffset 0.6s ease, stroke 0.4s ease",
+                        }}
+                      />
+                    </svg>
+
+                    {/* Embedded 3D Canvas */}
+                    <div className="w-17 h-17 rounded-full bg-[#0B0B10] overflow-hidden flex items-center justify-center shadow-inner">
+                      <Canvas
+                        camera={{ position: [0, 0, 3], fov: 42 }}
+                        gl={{ antialias: true, alpha: true }}
+                      >
+                        <ambientLight intensity={1.2} />
+                        <directionalLight position={[3, 4, 3]} intensity={1.8} />
+                        <pointLight position={[-3, -2, -1]} intensity={0.6} color="#A8B5E0" />
+                        <ClayWarmupObject
+                          isReady={isReady}
+                          progressPercent={progressPercent}
+                        />
+                      </Canvas>
+                    </div>
                   </div>
 
-                  {/* Telemetry Stats */}
+                  {/* Telemetry Stats & Live Counter */}
                   <div className="flex-1 min-w-0 space-y-1.5">
                     <div className="flex items-baseline justify-between">
                       <span className="text-xs font-heading font-black text-[#F7F6F3] truncate flex items-center gap-1.5">
@@ -214,28 +301,19 @@ export default function ColdStartClayHUD() {
 
                     <p className="text-[11px] font-mono text-[#8E8E98] leading-tight line-clamp-2">
                       {isReady
-                        ? "FastAPI server & SHAP TreeExplainer pre-warmed. Initializing..."
-                        : "Container instance waking from spin-down. Cold start takes ~30-45s on free tier."}
+                        ? "FastAPI server & TreeExplainer online. Sub-10ms decision pipeline ready."
+                        : currentMsg.detail}
                     </p>
 
-                    {/* Progress indicator bar */}
-                    <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-                      <motion.div
-                        className={`h-full rounded-full ${
-                          isReady ? "bg-[#A8B5E0]" : "bg-gradient-to-r from-[#F2B8C6] to-[#A8B5E0]"
-                        }`}
-                        animate={{
-                          width: isReady
-                            ? "100%"
-                            : `${Math.min(95, Math.max(15, (elapsedSeconds / 45) * 100))}%`,
-                        }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                      />
+                    {/* Progress Percentage & Estimated Time bar */}
+                    <div className="flex items-center justify-between text-[10px] font-mono pt-1 text-[#8E8E98]">
+                      <span>{isReady ? "Ready" : "Charging cache..."}</span>
+                      <span className="font-bold text-[#F7F6F3]">{progressPercent}%</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Simulated Real-Time Terminal Log Ticker */}
+                {/* Rotating Positive Status Message Banner */}
                 <div className="rounded-2xl bg-[#040406] border border-white/5 p-3 space-y-1.5 shadow-inner">
                   <div className="flex items-center justify-between text-[10px] font-mono text-[#8E8E98] pb-1 border-b border-white/5">
                     <span className="flex items-center gap-1.5">
@@ -246,34 +324,34 @@ export default function ColdStartClayHUD() {
                     </span>
                   </div>
 
-                  <div className="h-8 flex items-center">
+                  <div className="min-h-7 flex items-center">
                     <AnimatePresence mode="wait">
                       <motion.div
-                        key={logIndex}
-                        initial={{ opacity: 0, y: 4 }}
+                        key={msgIndex}
+                        initial={{ opacity: 0, y: 5 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -4 }}
-                        transition={{ duration: 0.25 }}
-                        className="text-[10px] font-mono flex items-center gap-1.5 truncate"
+                        exit={{ opacity: 0, y: -5 }}
+                        transition={{ duration: 0.28 }}
+                        className="text-[11px] font-mono flex items-center gap-1.5 leading-snug"
                       >
-                        <span className="font-bold text-[#A8B5E0]">
-                          {TERMINAL_LOGS[logIndex].prefix}
+                        <span className="font-bold text-[#A8B5E0] text-[10px]">
+                          {currentMsg.prefix}
                         </span>
-                        <span className={TERMINAL_LOGS[logIndex].color}>
-                          {TERMINAL_LOGS[logIndex].text}
+                        <span className={currentMsg.color}>
+                          {currentMsg.text}
                         </span>
                       </motion.div>
                     </AnimatePresence>
                   </div>
                 </div>
 
-                {/* Footer Micro-Badge */}
-                <div className="flex items-center justify-between text-[10px] font-mono text-[#8E8E98] pt-1">
+                {/* Footer Micro-Badge with Fast SLA Info */}
+                <div className="flex items-center justify-between text-[10px] font-mono text-[#8E8E98] pt-0.5">
                   <span className="flex items-center gap-1">
                     <Cpu className="w-3 h-3 text-[#8E8E98]" /> 0.17% Class-Ratio Engine
                   </span>
                   <span className="text-[#A8B5E0] font-bold">
-                    {isReady ? "Ready for Traffic" : "Initializing..."}
+                    {isReady ? "Sub-10ms Decision SLA" : "Auto-waking..."}
                   </span>
                 </div>
               </div>
