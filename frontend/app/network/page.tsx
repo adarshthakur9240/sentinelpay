@@ -202,6 +202,36 @@ export default function RingNetworkPage() {
     fetchGraphData();
   }, []);
 
+  const [hoverNode, setHoverNode] = useState<NodeObject | null>(null);
+  const [highlightNodes, setHighlightNodes] = useState<Set<string>>(new Set());
+  const [highlightLinks, setHighlightLinks] = useState<Set<any>>(new Set());
+
+  // Dynamic hover handler to smoothly focus incident edges & neighbors
+  const handleNodeHover = (node: any) => {
+    setHoverNode(node || null);
+    if (node) {
+      const neighbors = new Set<string>();
+      const links = new Set<any>();
+      neighbors.add(node.id);
+
+      graphData.links.forEach((link: any) => {
+        const sourceId = typeof link.source === "object" ? link.source.id : link.source;
+        const targetId = typeof link.target === "object" ? link.target.id : link.target;
+        if (sourceId === node.id || targetId === node.id) {
+          links.add(link);
+          neighbors.add(sourceId);
+          neighbors.add(targetId);
+        }
+      });
+
+      setHighlightNodes(neighbors);
+      setHighlightLinks(links);
+    } else {
+      setHighlightNodes(new Set());
+      setHighlightLinks(new Set());
+    }
+  };
+
   // Filter nodes for search query
   const filteredNodes = useMemo(() => {
     if (!filterQuery.trim()) return graphData.nodes;
@@ -381,13 +411,28 @@ export default function RingNetworkPage() {
                 nodeLabel={(n: any) => `${n.id} (${n.role}) - Ring Risk: ${(n.ring_risk * 100).toFixed(1)}%`}
                 nodeColor={(n: any) => n.color}
                 nodeRelSize={6}
-                linkColor={(l: any) => l.color || "#A8B5E0"}
-                linkWidth={(l: any) => l.width || 1.5}
-                linkDirectionalParticles={2}
-                linkDirectionalParticleSpeed={0.005}
-                linkDirectionalParticleWidth={1.5}
+                linkColor={(l: any) => {
+                  if (!hoverNode) return l.color || "#A8B5E0";
+                  return highlightLinks.has(l)
+                    ? (l.color || "#F2B8C6")
+                    : "rgba(255, 255, 255, 0.05)";
+                }}
+                linkWidth={(l: any) => {
+                  if (!hoverNode) return l.width || 1.5;
+                  return highlightLinks.has(l) ? 3.0 : 0.6;
+                }}
+                linkDirectionalParticles={(l: any) => {
+                  if (!hoverNode) return 2;
+                  return highlightLinks.has(l) ? 4 : 0;
+                }}
+                linkDirectionalParticleSpeed={(l: any) => {
+                  if (!hoverNode) return 0.005;
+                  return highlightLinks.has(l) ? 0.015 : 0;
+                }}
+                linkDirectionalParticleWidth={(l: any) => (highlightLinks.has(l) ? 2.5 : 1.5)}
                 linkDirectionalParticleColor={(l: any) => l.color || "#F2B8C6"}
                 backgroundColor="#050505"
+                onNodeHover={handleNodeHover}
                 onNodeClick={(node: any) => {
                   setSelectedNode(node);
                   if (fgRef.current && node.x !== undefined && node.y !== undefined) {
@@ -398,9 +443,26 @@ export default function RingNetworkPage() {
                   const label = node.id;
                   const fontSize = 11 / globalScale;
                   ctx.font = `${fontSize}px JetBrains Mono, monospace`;
+
+                  // Determine if node is dimmed by hover
+                  const isHovered = hoverNode && hoverNode.id === node.id;
+                  const isNeighbor = hoverNode && highlightNodes.has(node.id);
+                  const isDimmed = hoverNode && !isNeighbor;
+
+                  ctx.save();
+                  if (isDimmed) {
+                    ctx.globalAlpha = 0.2;
+                  } else {
+                    ctx.globalAlpha = 1.0;
+                  }
                   
-                  // Outer subtle pulse ring for flagged nodes
-                  if (node.is_flagged || node.true_class === 1) {
+                  // Outer subtle pulse or hover halo
+                  if (isHovered) {
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.val + 5, 0, 2 * Math.PI, false);
+                    ctx.fillStyle = "rgba(242, 184, 198, 0.35)";
+                    ctx.fill();
+                  } else if (node.is_flagged || node.true_class === 1) {
                     ctx.beginPath();
                     ctx.arc(node.x, node.y, node.val + 2, 0, 2 * Math.PI, false);
                     ctx.fillStyle = "rgba(242, 184, 198, 0.15)";
@@ -412,15 +474,21 @@ export default function RingNetworkPage() {
                   ctx.arc(node.x, node.y, node.val, 0, 2 * Math.PI, false);
                   ctx.fillStyle = node.color || "#F2B8C6";
                   ctx.fill();
-                  ctx.lineWidth = 1.5 / globalScale;
-                  ctx.strokeStyle = node.id === selectedNode?.id ? "#FFFFFF" : "rgba(255, 255, 255, 0.4)";
+                  ctx.lineWidth = (isHovered ? 2.5 : 1.5) / globalScale;
+                  ctx.strokeStyle =
+                    isHovered || node.id === selectedNode?.id
+                      ? "#FFFFFF"
+                      : "rgba(255, 255, 255, 0.4)";
                   ctx.stroke();
 
                   // Text Label
                   ctx.textAlign = "center";
                   ctx.textBaseline = "middle";
-                  ctx.fillStyle = node.id === selectedNode?.id ? "#FFFFFF" : "#8E8E98";
+                  ctx.fillStyle =
+                    isHovered || node.id === selectedNode?.id ? "#FFFFFF" : "#8E8E98";
                   ctx.fillText(label, node.x, node.y + node.val + fontSize + 2);
+
+                  ctx.restore();
                 }}
               />
             </div>

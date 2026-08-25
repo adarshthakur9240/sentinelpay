@@ -726,12 +726,33 @@ export default function LiveFeedView() {
                           ev.velocity_risk_flag ? "bg-[#A8B5E0]/[0.03]" : ""
                         }`}
                       >
-                        {/* Transaction ID */}
-                        <td className="py-3 px-4">
-                          <div className="font-bold text-[#F7F6F3]">{ev.transaction_id}</div>
-                          <div className="text-[10px] text-[#8E8E98] flex items-center gap-1">
-                            <Clock className="w-2.5 h-2.5" />
-                            {ev.time_offset_seconds ? `t+${ev.time_offset_seconds.toFixed(0)}s` : "live"}
+                        {/* Transaction ID with Signature Impact Ripple */}
+                        <td className="py-3 px-4 relative">
+                          {/* Brief Pastel Impact Ripple Animation */}
+                          <div className="absolute left-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+                            <motion.span
+                              initial={{ scale: 0.2, opacity: 0.9 }}
+                              animate={{ scale: 3.2, opacity: 0 }}
+                              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+                              className={`absolute w-3.5 h-3.5 rounded-full border ${
+                                isFlagged
+                                  ? "border-[#F2B8C6] bg-[#F2B8C6]/20"
+                                  : "border-[#A8B5E0] bg-[#A8B5E0]/20"
+                              }`}
+                            />
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full ${
+                                isFlagged ? "bg-[#F2B8C6]" : "bg-[#A8B5E0]"
+                              }`}
+                            />
+                          </div>
+
+                          <div className="pl-4">
+                            <div className="font-bold text-[#F7F6F3]">{ev.transaction_id}</div>
+                            <div className="text-[10px] text-[#8E8E98] flex items-center gap-1">
+                              <Clock className="w-2.5 h-2.5" />
+                              {ev.time_offset_seconds ? `t+${ev.time_offset_seconds.toFixed(0)}s` : "live"}
+                            </div>
                           </div>
                         </td>
 

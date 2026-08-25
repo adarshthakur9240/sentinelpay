@@ -22,6 +22,7 @@ import {
   Info,
 } from "lucide-react";
 import { SAMPLE_TRANSACTIONS } from "../data/metricsData";
+import SpringOvershootCounter from "../components/ui/SpringOvershootCounter";
 
 // Lazy-load ambient 3D backdrop
 const AmbientClayBackground = dynamic(
@@ -338,8 +339,14 @@ export default function EvidencePage() {
                     <span className="text-xs text-[#8E8E98] uppercase tracking-wider font-semibold block">
                       Dispute Verdict
                     </span>
-                    <div className="text-3xl font-heading font-black text-[#F7F6F3] mt-1">
-                      {(explainData.risk_score * 100).toFixed(1)}% Fraud Probability
+                    <div className="text-3xl font-heading font-black text-[#F7F6F3] mt-1 flex items-baseline gap-2">
+                      <SpringOvershootCounter
+                        targetValue={explainData.risk_score}
+                        decimals={1}
+                        suffix="%"
+                        className="text-[#F7F6F3]"
+                      />
+                      <span className="text-lg font-bold text-[#8E8E98]">Fraud Probability</span>
                     </div>
                   </div>
 

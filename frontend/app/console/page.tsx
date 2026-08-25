@@ -39,6 +39,7 @@ import {
   type ThresholdPoint,
 } from "../data/metricsData";
 import LiveFeedView from "./live-feed";
+import MagneticTiltCard from "../components/ui/MagneticTiltCard";
 
 // Lazy-load ambient 3D backdrop
 const AmbientClayBackground = dynamic(
@@ -245,6 +246,7 @@ export default function RiskConsolePage() {
                   amount: "$122.21",
                   status: "Suspected Anomaly",
                   isRisk: true,
+                  glow: "rose" as const,
                 },
                 {
                   key: "legitimate_regular",
@@ -252,23 +254,23 @@ export default function RiskConsolePage() {
                   amount: "$88.29",
                   status: "Expected Pattern",
                   isRisk: false,
+                  glow: "periwinkle" as const,
                 },
               ].map((tx) => {
                 const isSelected = selectedTxKey === tx.key;
                 return (
-                  <motion.button
+                  <MagneticTiltCard
                     key={tx.key}
-                    type="button"
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
+                    isSelected={isSelected}
+                    glowColor={tx.glow}
                     onClick={() => {
                       setSelectedTxKey(tx.key as keyof typeof SAMPLE_TRANSACTIONS);
                       setScoreResult(null);
                     }}
-                    className={`flex flex-col justify-between p-5 rounded-2xl text-left transition-all cursor-pointer ${
+                    className={`flex flex-col justify-between p-5 rounded-2xl ${
                       isSelected
-                        ? "clay-card-selected"
-                        : "clay-card-interactive"
+                        ? "clay-card-selected ring-1 ring-[#F2B8C6]/50 shadow-[0_12px_32px_rgba(242,184,198,0.15)]"
+                        : "clay-card-interactive hover:border-white/20"
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -286,7 +288,7 @@ export default function RiskConsolePage() {
                     <div className="mt-3 text-lg font-heading font-bold text-[#F7F6F3]">
                       {tx.amount}
                     </div>
-                  </motion.button>
+                  </MagneticTiltCard>
                 );
               })}
             </div>
