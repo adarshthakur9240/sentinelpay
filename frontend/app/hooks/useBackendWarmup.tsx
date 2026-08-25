@@ -41,9 +41,12 @@ const getBaseUrl = (): string => {
   return "http://localhost:8000";
 };
 
+// Timing constants
 const INITIAL_GRACE_PERIOD_MS = 2000; // 2.0s timeout before declaring "waking-up"
 const RETRY_INTERVAL_MS = 1500; // 1.5s active retry loop while waking up
 const IDLE_BACKGROUND_POLL_MS = 25000; // 25s periodic background health check
+const MAX_WARMUP_TIMEOUT_SECONDS = 60; // Strict hard timeout constraint: 60s max wait
+const MAX_CONSECUTIVE_ERRORS = 25; // Stop retrying if backend is completely down
 
 const BackendWarmupContext = createContext<BackendWarmupContextType | null>(null);
 
@@ -57,7 +60,7 @@ export function BackendWarmupProvider({ children }: { children: ReactNode }) {
   const startTimeRef = useRef<number>(Date.now());
   const isMountedRef = useRef<boolean>(true);
   const statusRef = useRef<WarmupStatus>("not-yet-checked");
-  const hasEverShownHudRef = useRef<boolean>(false);
+  const errorCountRef = useRef<number>(0);
 
   const pollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const elapsedIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -70,6 +73,33 @@ export function BackendWarmupProvider({ children }: { children: ReactNode }) {
     statusRef.current = status;
   }, [status]);
 
+  // Clean helper to cancel all active timers
+  const clearAllTimers = useCallback(() => {
+    if (graceTimerRef.current) {
+      clearTimeout(graceTimerRef.current);
+      graceTimerRef.current = null;
+    }
+    if (elapsedIntervalRef.current) {
+      clearInterval(elapsedIntervalRef.current);
+      elapsedIntervalRef.current = null;
+    }
+    if (pollTimeoutRef.current) {
+      clearTimeout(pollTimeoutRef.current);
+      pollTimeoutRef.current = null;
+    }
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+  }, []);
+
+  // Gracefully degrade and hide HUD
+  const handleGracefulDegrade = useCallback(() => {
+    clearAllTimers();
+    setStatus("ready");
+    setIsDismissed(true);
+  }, [clearAllTimers]);
+
   const dismissWarmup = useCallback(() => {
     setIsDismissed(true);
   }, []);
@@ -78,101 +108,113 @@ export function BackendWarmupProvider({ children }: { children: ReactNode }) {
     setIsDismissed(false);
   }, []);
 
-  const pingHealth = useCallback(async (isPeriodic = false) => {
-    if (!isMountedRef.current) return;
+  // Start elapsed timer with strict 60s hard timeout constraint
+  const startElapsedTimer = useCallback(() => {
+    if (elapsedIntervalRef.current) return;
 
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
+    elapsedIntervalRef.current = setInterval(() => {
+      if (!isMountedRef.current) return;
 
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
+      const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      setElapsedSeconds(elapsed);
 
-    const baseUrl = getBaseUrl();
+      // Hard Timeout Constraint: If elapsed reaches 60s, force stop and gracefully degrade
+      if (elapsed >= MAX_WARMUP_TIMEOUT_SECONDS) {
+        handleGracefulDegrade();
+      }
+    }, 1000);
+  }, [handleGracefulDegrade]);
 
-    try {
-      const response = await fetch(`${baseUrl}/health`, {
-        method: "GET",
-        signal: controller.signal,
-        cache: "no-store",
-        headers: {
-          Accept: "application/json",
-        },
-      });
+  const pingHealth = useCallback(
+    async (isPeriodic = false) => {
+      if (!isMountedRef.current) return;
 
-      clearTimeout(timeoutId);
-
-      if (response.ok && isMountedRef.current) {
-        let data: BackendHealthResponse = { status: "ok" };
-        try {
-          data = await response.json();
-        } catch {
-          // Non-json 200 is still healthy
-        }
-
-        setApiHealthData(data);
-        setStatus("ready");
-
-        // Cancel grace timer
-        if (graceTimerRef.current) {
-          clearTimeout(graceTimerRef.current);
-          graceTimerRef.current = null;
-        }
-
-        // Stop elapsed timer
-        if (elapsedIntervalRef.current) {
-          clearInterval(elapsedIntervalRef.current);
-          elapsedIntervalRef.current = null;
-        }
-
-        // Clear active polling loop
-        if (pollTimeoutRef.current) {
-          clearTimeout(pollTimeoutRef.current);
-          pollTimeoutRef.current = null;
-        }
-
-        // Schedule next idle background poll
-        if (backgroundPollRef.current) clearTimeout(backgroundPollRef.current);
-        backgroundPollRef.current = setTimeout(() => {
-          if (isMountedRef.current) pingHealth(true);
-        }, IDLE_BACKGROUND_POLL_MS);
-
+      // If hard timeout has passed, do not initiate further pings
+      const currentElapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      if (currentElapsed >= MAX_WARMUP_TIMEOUT_SECONDS) {
+        handleGracefulDegrade();
         return;
       }
-    } catch {
-      // Backend is offline, cold, or waking up
-    }
 
-    if (!isMountedRef.current) return;
-
-    // If periodic poll failed while was ready, backend has spun down
-    if (isPeriodic || statusRef.current === "ready") {
-      startTimeRef.current = Date.now();
-      setElapsedSeconds(0);
-      setRetryCount(0);
-      setIsDismissed(false);
-      setStatus("waking-up");
-      hasEverShownHudRef.current = true;
-
-      // Start elapsed timer
-      if (!elapsedIntervalRef.current) {
-        elapsedIntervalRef.current = setInterval(() => {
-          if (isMountedRef.current) {
-            const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
-            setElapsedSeconds(elapsed);
-          }
-        }, 1000);
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
       }
-    }
 
-    // Schedule active retry poll while not ready
-    if (statusRef.current !== "ready") {
-      setRetryCount((prev) => prev + 1);
-      if (pollTimeoutRef.current) clearTimeout(pollTimeoutRef.current);
-      pollTimeoutRef.current = setTimeout(() => pingHealth(false), RETRY_INTERVAL_MS);
-    }
-  }, []);
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+      const baseUrl = getBaseUrl();
+
+      try {
+        const response = await fetch(`${baseUrl}/health`, {
+          method: "GET",
+          signal: controller.signal,
+          cache: "no-store",
+          headers: {
+            Accept: "application/json",
+          },
+        });
+
+        clearTimeout(timeoutId);
+
+        if (response.ok && isMountedRef.current) {
+          errorCountRef.current = 0;
+          let data: BackendHealthResponse = { status: "ok" };
+          try {
+            data = await response.json();
+          } catch {
+            // Non-json 200 is still healthy
+          }
+
+          setApiHealthData(data);
+          setStatus("ready");
+          clearAllTimers();
+
+          // Schedule next idle background poll
+          if (backgroundPollRef.current) clearTimeout(backgroundPollRef.current);
+          backgroundPollRef.current = setTimeout(() => {
+            if (isMountedRef.current) pingHealth(true);
+          }, IDLE_BACKGROUND_POLL_MS);
+
+          return;
+        } else {
+          // Server returned 500 or error status
+          errorCountRef.current += 1;
+        }
+      } catch {
+        // Robust Catch Block: Backend is offline (ERR_CONNECTION_REFUSED), cold, or unreachable
+        clearTimeout(timeoutId);
+        errorCountRef.current += 1;
+      }
+
+      if (!isMountedRef.current) return;
+
+      // Check if maximum consecutive errors exceeded -> Graceful degradation
+      if (errorCountRef.current >= MAX_CONSECUTIVE_ERRORS) {
+        handleGracefulDegrade();
+        return;
+      }
+
+      // If periodic poll failed while was ready, backend has spun down
+      if (isPeriodic || statusRef.current === "ready") {
+        startTimeRef.current = Date.now();
+        setElapsedSeconds(0);
+        setRetryCount(0);
+        setIsDismissed(false);
+        setStatus("waking-up");
+        startElapsedTimer();
+      }
+
+      // Schedule active retry poll while not ready
+      if (statusRef.current !== "ready" && isMountedRef.current) {
+        setRetryCount((prev) => prev + 1);
+        if (pollTimeoutRef.current) clearTimeout(pollTimeoutRef.current);
+        pollTimeoutRef.current = setTimeout(() => pingHealth(false), RETRY_INTERVAL_MS);
+      }
+    },
+    [clearAllTimers, handleGracefulDegrade, startElapsedTimer]
+  );
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -181,18 +223,8 @@ export function BackendWarmupProvider({ children }: { children: ReactNode }) {
     // 1. Grace Period: If not resolved within 2.0s, transition to "waking-up"
     graceTimerRef.current = setTimeout(() => {
       if (statusRef.current !== "ready" && isMountedRef.current) {
-        hasEverShownHudRef.current = true;
         setStatus("waking-up");
-
-        // Start elapsed timer
-        if (!elapsedIntervalRef.current) {
-          elapsedIntervalRef.current = setInterval(() => {
-            if (isMountedRef.current && statusRef.current !== "ready") {
-              const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
-              setElapsedSeconds(elapsed);
-            }
-          }, 1000);
-        }
+        startElapsedTimer();
       }
     }, INITIAL_GRACE_PERIOD_MS);
 
@@ -202,8 +234,7 @@ export function BackendWarmupProvider({ children }: { children: ReactNode }) {
     // 3. Listen for global API success events across app
     const onApiSuccess = () => {
       setStatus("ready");
-      if (graceTimerRef.current) clearTimeout(graceTimerRef.current);
-      if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current);
+      clearAllTimers();
     };
     window.addEventListener("sentinelpay:backend-success", onApiSuccess);
 
@@ -216,24 +247,25 @@ export function BackendWarmupProvider({ children }: { children: ReactNode }) {
     document.addEventListener("visibilitychange", onVisibilityChange);
     window.addEventListener("focus", onVisibilityChange);
 
+    // 5. Mount Check & Cleanup: Clear all intervals, timeouts, and listeners
     return () => {
       isMountedRef.current = false;
-      if (graceTimerRef.current) clearTimeout(graceTimerRef.current);
-      if (pollTimeoutRef.current) clearTimeout(pollTimeoutRef.current);
-      if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current);
-      if (backgroundPollRef.current) clearTimeout(backgroundPollRef.current);
-      if (abortControllerRef.current) abortControllerRef.current.abort();
+      clearAllTimers();
+      if (backgroundPollRef.current) {
+        clearTimeout(backgroundPollRef.current);
+        backgroundPollRef.current = null;
+      }
       window.removeEventListener("sentinelpay:backend-success", onApiSuccess);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("focus", onVisibilityChange);
     };
-  }, [pingHealth]);
+  }, [clearAllTimers, pingHealth, startElapsedTimer]);
 
-  const isWarmingUp = status === "waking-up" && !isDismissed;
-  const isReady = status === "ready";
+  const isWarmingUp = status === "waking-up" && !isDismissed && elapsedSeconds < MAX_WARMUP_TIMEOUT_SECONDS;
+  const isReady = status === "ready" || elapsedSeconds >= MAX_WARMUP_TIMEOUT_SECONDS;
 
   const value: BackendWarmupContextType = {
-    status,
+    status: isReady ? "ready" : status,
     isWarmingUp,
     isReady,
     elapsedSeconds,
@@ -256,9 +288,9 @@ export function useBackendWarmup(): BackendWarmupContextType {
   if (!context) {
     // Fallback if rendered outside provider
     return {
-      status: "not-yet-checked",
+      status: "ready",
       isWarmingUp: false,
-      isReady: false,
+      isReady: true,
       elapsedSeconds: 0,
       retryCount: 0,
       apiHealthData: null,
