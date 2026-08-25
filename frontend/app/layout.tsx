@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Plus_Jakarta_Sans, Poppins } from "next/font/google"
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import LenisProvider from "./providers/LenisProvider";
+import { BackendWarmupProvider } from "./hooks/useBackendWarmup";
 import OnboardingGuide from "./components/onboarding/OnboardingGuide";
 import ColdStartClayHUD from "./components/telemetry/ColdStartClayHUD";
 
@@ -53,13 +54,15 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-[#050505] text-[#F7F6F3] flex flex-col font-sans selection:bg-[#F2B8C6]/25 selection:text-[#FCE2E9]">
         <LenisProvider>
-          {/* Navbar sits on top with backdrop-blur */}
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          {/* First-time visitor onboarding guided walkthrough overlay */}
-          <OnboardingGuide />
-          {/* Global backend cold start / cloud warmup telemetry HUD */}
-          <ColdStartClayHUD />
+          <BackendWarmupProvider>
+            {/* Navbar sits on top with backdrop-blur */}
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            {/* First-time visitor onboarding guided walkthrough overlay */}
+            <OnboardingGuide />
+            {/* Global backend cold start / cloud warmup telemetry HUD */}
+            <ColdStartClayHUD />
+          </BackendWarmupProvider>
         </LenisProvider>
       </body>
     </html>

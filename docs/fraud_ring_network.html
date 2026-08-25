@@ -2,199 +2,12 @@
     <head>
         <meta charset="utf-8">
         
-            <script>
-function neighbourhoodHighlight(params) {
-  // console.log("in nieghbourhoodhighlight");
-  allNodes = nodes.get({ returnType: "Object" });
-  // originalNodes = JSON.parse(JSON.stringify(allNodes));
-  // if something is selected:
-  if (params.nodes.length > 0) {
-    highlightActive = true;
-    var i, j;
-    var selectedNode = params.nodes[0];
-    var degrees = 2;
-
-    // mark all nodes as hard to read.
-    for (let nodeId in allNodes) {
-      // nodeColors[nodeId] = allNodes[nodeId].color;
-      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
-      if (allNodes[nodeId].hiddenLabel === undefined) {
-        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
-        allNodes[nodeId].label = undefined;
-      }
-    }
-    var connectedNodes = network.getConnectedNodes(selectedNode);
-    var allConnectedNodes = [];
-
-    // get the second degree nodes
-    for (i = 1; i < degrees; i++) {
-      for (j = 0; j < connectedNodes.length; j++) {
-        allConnectedNodes = allConnectedNodes.concat(
-          network.getConnectedNodes(connectedNodes[j])
-        );
-      }
-    }
-
-    // all second degree nodes get a different color and their label back
-    for (i = 0; i < allConnectedNodes.length; i++) {
-      // allNodes[allConnectedNodes[i]].color = "pink";
-      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
-      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
-        allNodes[allConnectedNodes[i]].label =
-          allNodes[allConnectedNodes[i]].hiddenLabel;
-        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
-      }
-    }
-
-    // all first degree nodes get their own color and their label back
-    for (i = 0; i < connectedNodes.length; i++) {
-      // allNodes[connectedNodes[i]].color = undefined;
-      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
-      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
-        allNodes[connectedNodes[i]].label =
-          allNodes[connectedNodes[i]].hiddenLabel;
-        allNodes[connectedNodes[i]].hiddenLabel = undefined;
-      }
-    }
-
-    // the main node gets its own color and its label back.
-    // allNodes[selectedNode].color = undefined;
-    allNodes[selectedNode].color = nodeColors[selectedNode];
-    if (allNodes[selectedNode].hiddenLabel !== undefined) {
-      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
-      allNodes[selectedNode].hiddenLabel = undefined;
-    }
-  } else if (highlightActive === true) {
-    // console.log("highlightActive was true");
-    // reset all nodes
-    for (let nodeId in allNodes) {
-      // allNodes[nodeId].color = "purple";
-      allNodes[nodeId].color = nodeColors[nodeId];
-      // delete allNodes[nodeId].color;
-      if (allNodes[nodeId].hiddenLabel !== undefined) {
-        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
-        allNodes[nodeId].hiddenLabel = undefined;
-      }
-    }
-    highlightActive = false;
-  }
-
-  // transform the object into an array
-  var updateArray = [];
-  if (params.nodes.length > 0) {
-    for (let nodeId in allNodes) {
-      if (allNodes.hasOwnProperty(nodeId)) {
-        // console.log(allNodes[nodeId]);
-        updateArray.push(allNodes[nodeId]);
-      }
-    }
-    nodes.update(updateArray);
-  } else {
-    // console.log("Nothing was selected");
-    for (let nodeId in allNodes) {
-      if (allNodes.hasOwnProperty(nodeId)) {
-        // console.log(allNodes[nodeId]);
-        // allNodes[nodeId].color = {};
-        updateArray.push(allNodes[nodeId]);
-      }
-    }
-    nodes.update(updateArray);
-  }
-}
-
-function filterHighlight(params) {
-  allNodes = nodes.get({ returnType: "Object" });
-  // if something is selected:
-  if (params.nodes.length > 0) {
-    filterActive = true;
-    let selectedNodes = params.nodes;
-
-    // hiding all nodes and saving the label
-    for (let nodeId in allNodes) {
-      allNodes[nodeId].hidden = true;
-      if (allNodes[nodeId].savedLabel === undefined) {
-        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
-        allNodes[nodeId].label = undefined;
-      }
-    }
-
-    for (let i=0; i < selectedNodes.length; i++) {
-      allNodes[selectedNodes[i]].hidden = false;
-      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
-        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
-        allNodes[selectedNodes[i]].savedLabel = undefined;
-      }
-    }
-
-  } else if (filterActive === true) {
-    // reset all nodes
-    for (let nodeId in allNodes) {
-      allNodes[nodeId].hidden = false;
-      if (allNodes[nodeId].savedLabel !== undefined) {
-        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
-        allNodes[nodeId].savedLabel = undefined;
-      }
-    }
-    filterActive = false;
-  }
-
-  // transform the object into an array
-  var updateArray = [];
-  if (params.nodes.length > 0) {
-    for (let nodeId in allNodes) {
-      if (allNodes.hasOwnProperty(nodeId)) {
-        updateArray.push(allNodes[nodeId]);
-      }
-    }
-    nodes.update(updateArray);
-  } else {
-    for (let nodeId in allNodes) {
-      if (allNodes.hasOwnProperty(nodeId)) {
-        updateArray.push(allNodes[nodeId]);
-      }
-    }
-    nodes.update(updateArray);
-  }
-}
-
-function selectNode(nodes) {
-  network.selectNodes(nodes);
-  neighbourhoodHighlight({ nodes: nodes });
-  return nodes;
-}
-
-function selectNodes(nodes) {
-  network.selectNodes(nodes);
-  filterHighlight({nodes: nodes});
-  return nodes;
-}
-
-function highlightFilter(filter) {
-  let selectedNodes = []
-  let selectedProp = filter['property']
-  if (filter['item'] === 'node') {
-    let allNodes = nodes.get({ returnType: "Object" });
-    for (let nodeId in allNodes) {
-      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
-        selectedNodes.push(nodeId)
-      }
-    }
-  }
-  else if (filter['item'] === 'edge'){
-    let allEdges = edges.get({returnType: 'object'});
-    // check if the selected property exists for selected edge and select the nodes connected to the edge
-    for (let edge in allEdges) {
-      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
-        selectedNodes.push(allEdges[edge]['from'])
-        selectedNodes.push(allEdges[edge]['to'])
-      }
-    }
-  }
-  selectNodes(selectedNodes)
-}
-</script>
+            <script src="lib/bindings/utils.js"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
             
         
 <center>
@@ -224,7 +37,7 @@ function highlightFilter(filter) {
              #mynetwork {
                  width: 100%;
                  height: 750px;
-                 background-color: #050505;
+                 background-color: #070709;
                  border: 1px solid lightgray;
                  position: relative;
                  float: left;
@@ -241,6 +54,138 @@ function highlightFilter(filter) {
 
     <body>
         <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="TX-IEEE-055282">TX-IEEE-055282</option>
+                                
+                                    <option value="TX-IEEE-014792">TX-IEEE-014792</option>
+                                
+                                    <option value="TX-IEEE-022046">TX-IEEE-022046</option>
+                                
+                                    <option value="TX-IEEE-055272">TX-IEEE-055272</option>
+                                
+                                    <option value="TX-IEEE-009858">TX-IEEE-009858</option>
+                                
+                                    <option value="TX-IEEE-037784">TX-IEEE-037784</option>
+                                
+                                    <option value="TX-IEEE-062387">TX-IEEE-062387</option>
+                                
+                                    <option value="TX-IEEE-074312">TX-IEEE-074312</option>
+                                
+                                    <option value="TX-IEEE-003583">TX-IEEE-003583</option>
+                                
+                                    <option value="TX-IEEE-019742">TX-IEEE-019742</option>
+                                
+                                    <option value="TX-IEEE-062394">TX-IEEE-062394</option>
+                                
+                                    <option value="TX-IEEE-030801">TX-IEEE-030801</option>
+                                
+                                    <option value="TX-IEEE-023547">TX-IEEE-023547</option>
+                                
+                                    <option value="TX-IEEE-011666">TX-IEEE-011666</option>
+                                
+                                    <option value="TX-IEEE-023559">TX-IEEE-023559</option>
+                                
+                                    <option value="TX-IEEE-000240">TX-IEEE-000240</option>
+                                
+                                    <option value="TX-IEEE-000243">TX-IEEE-000243</option>
+                                
+                                    <option value="TX-IEEE-008711">TX-IEEE-008711</option>
+                                
+                                    <option value="TX-IEEE-011697">TX-IEEE-011697</option>
+                                
+                                    <option value="TX-IEEE-033135">TX-IEEE-033135</option>
+                                
+                                    <option value="TX-IEEE-010259">TX-IEEE-010259</option>
+                                
+                                    <option value="TX-IEEE-030543">TX-IEEE-030543</option>
+                                
+                                    <option value="TX-IEEE-055258">TX-IEEE-055258</option>
+                                
+                                    <option value="TX-IEEE-000245">TX-IEEE-000245</option>
+                                
+                                    <option value="TX-IEEE-035194">TX-IEEE-035194</option>
+                                
+                                    <option value="TX-IEEE-055261">TX-IEEE-055261</option>
+                                
+                                    <option value="TX-IEEE-022160">TX-IEEE-022160</option>
+                                
+                                    <option value="TX-IEEE-001612">TX-IEEE-001612</option>
+                                
+                                    <option value="TX-IEEE-004800">TX-IEEE-004800</option>
+                                
+                                    <option value="TX-IEEE-041812">TX-IEEE-041812</option>
+                                
+                                    <option value="TX-IEEE-005760">TX-IEEE-005760</option>
+                                
+                                    <option value="TX-IEEE-010136">TX-IEEE-010136</option>
+                                
+                                    <option value="TX-IEEE-002302">TX-IEEE-002302</option>
+                                
+                                    <option value="TX-IEEE-074300">TX-IEEE-074300</option>
+                                
+                                    <option value="TX-IEEE-008705">TX-IEEE-008705</option>
+                                
+                                    <option value="TX-IEEE-001704">TX-IEEE-001704</option>
+                                
+                                    <option value="TX-IEEE-034829">TX-IEEE-034829</option>
+                                
+                                    <option value="TX-IEEE-042360">TX-IEEE-042360</option>
+                                
+                                    <option value="TX-IEEE-010419">TX-IEEE-010419</option>
+                                
+                                    <option value="TX-IEEE-022051">TX-IEEE-022051</option>
+                                
+                                    <option value="TX-IEEE-005799">TX-IEEE-005799</option>
+                                
+                                    <option value="TX-IEEE-040973">TX-IEEE-040973</option>
+                                
+                                    <option value="TX-IEEE-022041">TX-IEEE-022041</option>
+                                
+                                    <option value="TX-IEEE-005794">TX-IEEE-005794</option>
+                                
+                                    <option value="TX-IEEE-019674">TX-IEEE-019674</option>
+                                
+                                    <option value="TX-IEEE-027662">TX-IEEE-027662</option>
+                                
+                                    <option value="TX-IEEE-040977">TX-IEEE-040977</option>
+                                
+                                    <option value="TX-IEEE-037119">TX-IEEE-037119</option>
+                                
+                                    <option value="TX-IEEE-019720">TX-IEEE-019720</option>
+                                
+                                    <option value="TX-IEEE-035189">TX-IEEE-035189</option>
+                                
+                                    <option value="TX-IEEE-022162">TX-IEEE-022162</option>
+                                
+                                    <option value="TX-IEEE-008707">TX-IEEE-008707</option>
+                                
+                                    <option value="TX-IEEE-053636">TX-IEEE-053636</option>
+                                
+                                    <option value="TX-IEEE-019652">TX-IEEE-019652</option>
+                                
+                                    <option value="TX-IEEE-002367">TX-IEEE-002367</option>
+                                
+                                    <option value="TX-IEEE-025462">TX-IEEE-025462</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
             
             
             <div id="mynetwork" class="card-body"></div>
@@ -268,6 +213,14 @@ function highlightFilter(filter) {
               };
 
               
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
 
               
 
@@ -278,8 +231,8 @@ function highlightFilter(filter) {
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100404", "label": "\ud83d\udea8 ACC-100404", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100404\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 94.5%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-FARM-9901\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.51.100.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#444455", "border": "#666677"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100010", "label": "\ud83d\udc64 ACC-100010", "shape": "dot", "size": 12, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100010\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-HOME-1001\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 10.0.50.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e LEGITIMATE (0)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-101866", "label": "\ud83d\udea8 ACC-101866", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-101866\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 99.9%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 85.4%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-PROXY-4412\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 203.0.113.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-105904", "label": "\ud83d\udea8 ACC-105904", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-105904\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-BOTNET-7721\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 192.0.2.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-107416", "label": "\ud83d\udea8 ACC-107416", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-107416\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 95.8%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 90.4%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-EMULATOR-8830\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.18.0.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-105649", "label": "\ud83d\udea8 ACC-105649", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-105649\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-BOTNET-7721\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 192.0.2.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#444455", "border": "#666677"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100011", "label": "\ud83d\udc64 ACC-100011", "shape": "dot", "size": 12, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100011\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-HOME-1001\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 10.0.50.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e LEGITIMATE (0)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-106936", "label": "\ud83d\udea8 ACC-106936", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-106936\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 92.3%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-EMULATOR-8830\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.18.0.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-105890", "label": "\ud83d\udea8 ACC-105890", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-105890\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-BOTNET-7721\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 192.0.2.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#A8B5E0", "border": "#F2B8C6"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100000", "label": "\ud83d\udd17 ACC-100000", "shape": "dot", "size": 18, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100000\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 48.3%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-FARM-9901\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.51.100.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e LEGITIMATE (0)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-106114", "label": "\ud83d\udea8 ACC-106114", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-106114\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 92.3%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-EMULATOR-8830\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.18.0.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-103751", "label": "\ud83d\udea8 ACC-103751", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-103751\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 88.5%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 84.2%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-PROXY-4413\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 203.0.113.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100805", "label": "\ud83d\udea8 ACC-100805", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100805\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 94.5%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-FARM-9901\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.51.100.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#A8B5E0", "border": "#F2B8C6"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100002", "label": "\ud83d\udd17 ACC-100002", "shape": "dot", "size": 18, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100002\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 46.1%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-EMULATOR-8830\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.18.0.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e LEGITIMATE (0)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-101210", "label": "\ud83d\udea8 ACC-101210", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-101210\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 54.1%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 73.3%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-FARM-9901\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.51.100.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-105078", "label": "\ud83d\udea8 ACC-105078", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-105078\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-BOTNET-7721\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 192.0.2.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#A8B5E0", "border": "#F2B8C6"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100003", "label": "\ud83d\udd17 ACC-100003", "shape": "dot", "size": 18, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100003\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 46.1%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-EMULATOR-8830\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.18.0.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e LEGITIMATE (0)"}, {"color": {"background": "#A8B5E0", "border": "#F2B8C6"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100001", "label": "\ud83d\udd17 ACC-100001", "shape": "dot", "size": 18, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100001\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 44.4%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-PROXY-4413\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 203.0.113.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e LEGITIMATE (0)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-100809", "label": "\ud83d\udea8 ACC-100809", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-100809\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 100.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 94.5%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-FARM-9901\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 198.51.100.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}, {"color": {"background": "#F2B8C6", "border": "#FFFFFF"}, "font": {"color": "#F7F6F3"}, "id": "ACC-103115", "label": "\ud83d\udea8 ACC-103115", "shape": "dot", "size": 24, "title": "\u003cb\u003eAccount:\u003c/b\u003e ACC-103115\u003cbr\u003e\u003cb\u003eIndividual XGBoost Score:\u003c/b\u003e 0.0%\u003cbr\u003e\u003cb\u003ePropagated Ring Risk:\u003c/b\u003e 44.4%\u003cbr\u003e\u003cb\u003eDevice:\u003c/b\u003e DEV-PROXY-4412\u003cbr\u003e\u003cb\u003eIP Subnet:\u003c/b\u003e 203.0.113.0/24\u003cbr\u003e\u003cb\u003eGround Truth:\u003c/b\u003e FRAUD (1)"}]);
-                  edges = new vis.DataSet([{"color": "#F2B8C6", "from": "ACC-100404", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100000", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100404", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100805", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100404", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100809", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100404", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-101210", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100010", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100011", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-101866", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-103115", "width": 3.5}, {"color": "#A8B5E0", "from": "ACC-101866", "title": "Shared IP Subnet", "to": "ACC-100001", "width": 2.0}, {"color": "#A8B5E0", "from": "ACC-101866", "title": "Shared IP Subnet", "to": "ACC-103751", "width": 2.0}, {"color": "#F2B8C6", "from": "ACC-105904", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-105078", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-105904", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-105649", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-105904", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-105890", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-107416", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100002", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-107416", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100003", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-107416", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-106114", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-107416", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-106936", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-105649", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-105078", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-105649", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-105890", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-106936", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100002", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-106936", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100003", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-106936", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-106114", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-105890", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-105078", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100000", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100805", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100000", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100809", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100000", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-101210", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-106114", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100002", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-106114", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100003", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-103751", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100001", "width": 3.5}, {"color": "#A8B5E0", "from": "ACC-103751", "title": "Shared IP Subnet", "to": "ACC-103115", "width": 2.0}, {"color": "#F2B8C6", "from": "ACC-100805", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100809", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100805", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-101210", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-100002", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100003", "width": 3.5}, {"color": "#F2B8C6", "from": "ACC-101210", "title": "Shared Device \u0026 IP Subnet", "to": "ACC-100809", "width": 3.5}, {"color": "#A8B5E0", "from": "ACC-100001", "title": "Shared IP Subnet", "to": "ACC-103115", "width": 2.0}]);
+                  nodes = new vis.DataSet([{"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-055282", "label": "TX-IEEE-055282", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-055282\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: SM-J700M Build/MMB29K"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-014792", "label": "TX-IEEE-014792", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-014792\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-022046", "label": "TX-IEEE-022046", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-022046\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: iOS Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-055272", "label": "TX-IEEE-055272", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-055272\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: SM-J700M Build/MMB29K"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-009858", "label": "TX-IEEE-009858", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-009858\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-037784", "label": "TX-IEEE-037784", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-037784\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-062387", "label": "TX-IEEE-062387", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-062387\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-074312", "label": "TX-IEEE-074312", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-074312\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Moto Z2 Play Build/NPS26.74-16-1"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-003583", "label": "TX-IEEE-003583", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-003583\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-019742", "label": "TX-IEEE-019742", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-019742\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-062394", "label": "TX-IEEE-062394", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-062394\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-030801", "label": "TX-IEEE-030801", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-030801\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-023547", "label": "TX-IEEE-023547", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-023547\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-011666", "label": "TX-IEEE-011666", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-011666\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-023559", "label": "TX-IEEE-023559", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-023559\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-000240", "label": "TX-IEEE-000240", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-000240\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Redmi Note 4 Build/MMB29M"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-000243", "label": "TX-IEEE-000243", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-000243\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Redmi Note 4 Build/MMB29M"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-008711", "label": "TX-IEEE-008711", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-008711\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Moto Z2 Play Build/NPS26.74-16-1"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-011697", "label": "TX-IEEE-011697", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-011697\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-033135", "label": "TX-IEEE-033135", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-033135\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: QTASUN1 Build/NRD90M"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-010259", "label": "TX-IEEE-010259", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-010259\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: QTASUN1 Build/NRD90M"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-030543", "label": "TX-IEEE-030543", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-030543\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-055258", "label": "TX-IEEE-055258", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-055258\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: SM-J700M Build/MMB29K"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-000245", "label": "TX-IEEE-000245", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-000245\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Redmi Note 4 Build/MMB29M"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-035194", "label": "TX-IEEE-035194", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-035194\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Windows"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-055261", "label": "TX-IEEE-055261", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-055261\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: SM-J700M Build/MMB29K"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-022160", "label": "TX-IEEE-022160", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-022160\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Windows"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-001612", "label": "TX-IEEE-001612", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-001612\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-004800", "label": "TX-IEEE-004800", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-004800\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-041812", "label": "TX-IEEE-041812", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-041812\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-005760", "label": "TX-IEEE-005760", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-005760\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-010136", "label": "TX-IEEE-010136", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-010136\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-002302", "label": "TX-IEEE-002302", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-002302\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-074300", "label": "TX-IEEE-074300", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-074300\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Moto Z2 Play Build/NPS26.74-16-1"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-008705", "label": "TX-IEEE-008705", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-008705\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-001704", "label": "TX-IEEE-001704", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-001704\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-034829", "label": "TX-IEEE-034829", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-034829\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-042360", "label": "TX-IEEE-042360", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-042360\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Z835 Build/NMF26V"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-010419", "label": "TX-IEEE-010419", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-010419\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-022051", "label": "TX-IEEE-022051", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-022051\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: iOS Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-005799", "label": "TX-IEEE-005799", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-005799\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-040973", "label": "TX-IEEE-040973", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-040973\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Z835 Build/NMF26V"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-022041", "label": "TX-IEEE-022041", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-022041\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: iOS Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-005794", "label": "TX-IEEE-005794", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-005794\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-019674", "label": "TX-IEEE-019674", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-019674\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-027662", "label": "TX-IEEE-027662", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-027662\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-040977", "label": "TX-IEEE-040977", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-040977\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Z835 Build/NMF26V"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-037119", "label": "TX-IEEE-037119", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-037119\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-019720", "label": "TX-IEEE-019720", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-019720\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-035189", "label": "TX-IEEE-035189", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-035189\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Windows"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-022162", "label": "TX-IEEE-022162", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-022162\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Windows"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-008707", "label": "TX-IEEE-008707", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-008707\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Moto Z2 Play Build/NPS26.74-16-1"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-053636", "label": "TX-IEEE-053636", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-053636\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Z835 Build/NMF26V"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-019652", "label": "TX-IEEE-019652", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-019652\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-002367", "label": "TX-IEEE-002367", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-002367\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: Unknown Device"}, {"color": "#F2B8C6", "font": {"color": "#F7F6F3"}, "id": "TX-IEEE-025462", "label": "TX-IEEE-025462", "shape": "dot", "size": 21.0, "title": "Account: TX-IEEE-025462\nRole: Flagged Fraud Attack\nRing Risk: 0.92\nDevice: QTASUN1 Build/NRD90M"}]);
+                  edges = new vis.DataSet([{"color": "#F2B8C6", "from": "TX-IEEE-055282", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-055258", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-055282", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-055261", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-055282", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-055272", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-014792", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019652", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-014792", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019674", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-014792", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019720", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-014792", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019742", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-014792", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-027662", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022046", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022041", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022046", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022051", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022046", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022160", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022046", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022162", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022046", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-035189", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022046", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-035194", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-055272", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-055258", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-055272", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-055261", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-009858", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-023547", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-009858", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-023559", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-009858", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-062387", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-009858", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-062394", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002302", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-003583", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-010419", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-030543", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-034829", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-037119", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-037784", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-041812", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-062387", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-023547", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-062387", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-023559", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-062387", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-062394", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-074312", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-008707", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-074312", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-008711", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-074312", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-074300", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-003583", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002302", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-003583", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-003583", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-010419", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-003583", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-030543", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-003583", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-034829", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-003583", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-037119", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-003583", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-041812", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019742", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019652", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019742", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019674", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019742", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019720", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019742", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-027662", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-062394", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-023547", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-062394", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-023559", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-030801", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-001612", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-030801", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-001704", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-023547", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-023559", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-011666", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-004800", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-011666", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-011697", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-000240", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-000243", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-000240", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-000245", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-000243", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-000245", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-008711", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-008707", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-008711", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-074300", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-011697", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-004800", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-033135", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-010259", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-033135", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-025462", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-010259", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-025462", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-030543", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002302", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-030543", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-030543", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-010419", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-030543", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-034829", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-030543", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-037119", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-030543", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-041812", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-055258", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-055261", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-035194", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022041", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-035194", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022051", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-035194", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022160", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-035194", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022162", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-035194", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-035189", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022160", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022041", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022160", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022051", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022160", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022162", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022160", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-035189", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-001612", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-001704", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-041812", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002302", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-041812", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-041812", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-010419", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-041812", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-034829", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-041812", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-037119", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-005760", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-005794", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-005760", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-005799", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-005760", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-008705", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-005760", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-010136", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-010136", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-005794", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-010136", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-005799", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-010136", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-008705", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-002302", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-002302", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-010419", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-002302", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-034829", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-002302", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-037119", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-074300", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-008707", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-008705", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-005794", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-008705", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-005799", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-034829", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-034829", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-010419", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-034829", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-037119", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-042360", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-040973", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-042360", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-040977", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-042360", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-053636", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-010419", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-010419", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-037119", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022051", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022041", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022051", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022162", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022051", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-035189", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-005799", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-005794", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-040973", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-040977", "width": 2.4}, {"color": "#F2B8C6", "from": "TX-IEEE-040973", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-053636", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-022041", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022162", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-022041", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-035189", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019674", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019652", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019674", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019720", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019674", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-027662", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-027662", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019652", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-027662", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019720", "width": 2.0}, {"color": "#F2B8C6", "from": "TX-IEEE-040977", "title": "Shared Hardware Device Fingerprint", "to": "TX-IEEE-053636", "width": 2.4}, {"color": "#A8B5E0", "from": "TX-IEEE-037119", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-002367", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-019720", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-019652", "width": 2.0}, {"color": "#A8B5E0", "from": "TX-IEEE-035189", "title": "Shared Card Fingerprint Hash", "to": "TX-IEEE-022162", "width": 2.0}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });
@@ -290,7 +243,44 @@ function highlightFilter(filter) {
                   // adding nodes and edges to the graph
                   data = {nodes: nodes, edges: edges};
 
-                  var options = {"nodes": {"borderWidth": 2, "font": {"size": 11, "face": "monospace", "color": "#F7F6F3"}}, "edges": {"smooth": {"type": "continuous"}, "width": 2}, "physics": {"barnesHut": {"gravitationalConstant": -4000, "centralGravity": 0.3, "springLength": 95, "springConstant": 0.04}, "minVelocity": 0.75}};
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
 
                   
 
@@ -301,6 +291,8 @@ function highlightFilter(filter) {
 
                   
 
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
                   
 
                   

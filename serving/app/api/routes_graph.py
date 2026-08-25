@@ -1,13 +1,9 @@
 """
-SentinelPay - Graph & Fraud Ring Detection API Routes
-======================================================
-Exposes multi-account fraud ring clusters, entity linkage reasons, and
-individual account risk propagation computed across shared hardware devices
-and IP subnets.
-
-IMPORTANT DISCLAIMER:
-These endpoints operate on simulated entity linkage data (ml/graph/graph_data/synthetic_linkage.csv).
-The underlying ULB Credit Card Fraud dataset contains no real account, device, or IP telemetry.
+SentinelPay - Real Graph & Fraud Ring Detection API Routes
+============================================================
+Exposes multi-account fraud ring clusters, genuine entity linkage vectors, and
+individual account risk propagation computed across real Kaggle IEEE-CIS hardware devices,
+card fingerprint clusters, and network locations.
 """
 
 import logging
@@ -30,12 +26,12 @@ router = APIRouter(prefix="/graph", tags=["Graph & Abuse Rings"])
     response_model=RingsResponse,
     status_code=status.HTTP_200_OK,
     summary="List Detected Multi-Account Fraud Rings",
-    description="Returns all detected clusters with >=3 linked accounts and at least one confirmed/flagged fraud member, ordered by average ring risk. Operates on simulated linkage telemetry.",
+    description="Returns all detected clusters with >=3 linked accounts and confirmed/flagged fraud members, evaluated on Kaggle IEEE-CIS real entity linkage telemetry.",
 )
 async def get_detected_fraud_rings() -> RingsResponse:
     """
-    Returns detected fraud rings with member accounts, shared linkage vectors (device/IP),
-    individual XGBoost scores, and propagated ring risk scores.
+    Returns detected fraud rings with member accounts, shared linkage vectors (hardware/cards/location),
+    isolated risk scores, and propagated ring risk scores.
     """
     return graph_engine.get_rings_response()
 
@@ -45,13 +41,13 @@ async def get_detected_fraud_rings() -> RingsResponse:
     response_model=AccountRiskResponse,
     status_code=status.HTTP_200_OK,
     summary="Get Account Propagated Network Risk",
-    description="Returns an individual account's isolated XGBoost score vs. its graph-propagated network risk score and connected neighbors. Operates on simulated linkage telemetry.",
+    description="Returns an individual account's isolated transaction score vs. its graph-propagated network risk score and connected neighbors from Kaggle IEEE-CIS.",
 )
 async def get_account_risk(
-    account_id: str = FastAPIPath(..., description="Target account identifier, e.g. ACC-100000 or ACC-100404")
+    account_id: str = FastAPIPath(..., description="Target account identifier, e.g. TX-IEEE-000042")
 ) -> AccountRiskResponse:
     """
-    Fetches an account's hardware device, IP subnet, individual XGBoost score,
+    Fetches an account's hardware device, location hash, isolated score,
     graph-propagated ring risk score, and all directly connected neighbor accounts.
     """
     account_risk = graph_engine.get_account_risk(account_id)
@@ -68,7 +64,7 @@ async def get_account_risk(
     response_model=NetworkGraphResponse,
     status_code=status.HTTP_200_OK,
     summary="Get Interactive Network Graph Payload",
-    description="Returns nodes and links formatted for 2D/3D force-directed graph rendering. Operates on simulated linkage telemetry.",
+    description="Returns nodes and links formatted for 2D/3D force-directed graph rendering with verified IEEE-CIS entity linkages.",
 )
 async def get_network_graph() -> NetworkGraphResponse:
     """

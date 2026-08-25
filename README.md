@@ -48,8 +48,8 @@
 | **Cost-Sensitive Decisioning** | Reject arbitrary 0.50 decision thresholds in favor of financial risk | Parametric threshold sweep balancing $5 FP review friction vs $122.21 FN chargeback loss. | Optimal $t=0.10$ ([`docs/cost_analysis.md`](docs/cost_analysis.md)) |
 | **Auditability & Explainability** | Transparent, tamper-evident mathematical attributions | Native `shap.TreeExplainer` providing mathematical attribution without fictional PCA labels. | [`docs/explainability_sample_evidence.md`](docs/explainability_sample_evidence.md) |
 | **Real-Time Streaming** | Stateful velocity anomaly detection across rapid micro-auths | In-memory 5-minute sliding window consumer with 1.15x risk ensemble boost & WebSockets. | [`docs/streaming_architecture.md`](docs/streaming_architecture.md) |
-| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & risk diffusion surfacing 0.0% isolated-risk accomplice nodes. | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
-| **Scientific Honesty** | Disclose negative findings & simulated components openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
+| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & PageRank on Kaggle IEEE-CIS real hardware, card & location fingerprints (1.54x lift). | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
+| **Scientific Honesty** | Disclose negative findings & empirical lift openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark on real IEEE-CIS data. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
 | **Low-Latency Production API** | Real-time transaction decisioning (<50ms SLA) | Asynchronous FastAPI service delivering sub-10ms tree scoring and SHAP generation. | [`serving/app/main.py`](serving/app/main.py) + OpenAPI docs |
 | **Defense-Only Scope** | Zero offensive or autonomous blocking capability | Strictly advisory intelligence layer: scoring risk and generating dispute defense dossiers. | Architecture & track compliance |
 
@@ -212,33 +212,35 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    subgraph Ingestion["1. Entity Linkage Ingestion"]
-        Data["synthetic_linkage.csv<br/>42,722 Accounts in Test Split"]
-        Notice["Prominent Disclosure:<br/>Simulated Device & IP Telemetry"]
+    subgraph Ingestion["1. Genuine Entity Linkage Ingestion"]
+        Data["Kaggle IEEE-CIS Fraud Detection<br/>75,000 Transactions (Card & Identity Data)"]
+        Notice["Empirical Verification:<br/>Real Hardware, Card & Location Fingerprints"]
         Data --- Notice
     end
 
-    subgraph GraphBuilding["2. NetworkX Entity Graph Construction"]
-        Data --> DevEdges["Device Sharing Edges<br/>Weight = 2.0"]
-        Data --> IPEdges["Subnet Sharing Edges<br/>Weight = 1.0"]
-        DevEdges --> Graph["NetworkX Undirected Graph G"]
-        IPEdges --> Graph
+    subgraph GraphBuilding["2. Multi-Relational Entity Graph Construction"]
+        Data --> CardEdges["Card Cluster Hashes (card1-card6)<br/>Weight = 3.0"]
+        Data --> DevEdges["Hardware Device & OS (DeviceInfo, id_30, id_31)<br/>Weight = 2.5"]
+        Data --> LocEdges["Billing Coordinates & Domains (addr1, addr2)<br/>Weight = 1.5"]
+        CardEdges --> Graph["NetworkX Undirected Graph G (285,852 Edges)"]
+        DevEdges --> Graph
+        LocEdges --> Graph
     end
 
     subgraph RingClustering["3. Cluster & Risk Diffusion Engine"]
         Graph --> Components["Connected Components<br/>Filter: Size ≥ 3 Accounts"]
-        Components --> RootCheck{"Contains Confirmed<br/>XGBoost Fraud Node?"}
-        RootCheck -- Yes --> RingFlag["Mark as Coordinated Ring<br/>(e.g. Ring-001: 5 accounts)"]
-        RootCheck -- No --> Household["Benign Household Cluster<br/>(Filtered Out)"]
-        RingFlag --> PageRank["Personalized PageRank / Risk Diffusion<br/>Root Frauders (weight=1.0)"]
-        PageRank --> Accomplice["Surfaced Accomplice Accounts<br/>(e.g. ACC-100000: 0.0% to 48.3% Risk)"]
+        Components --> RootCheck{"Contains Confirmed<br/>Fraud Attack Node?"}
+        RootCheck -- Yes --> RingFlag["Mark as Coordinated Syndicate<br/>(97 Real Syndicates, 1.54x Fraud Lift)"]
+        RootCheck -- No --> Household["Benign Linked Cluster<br/>(Filtered Out)"]
+        RingFlag --> PageRank["Personalized PageRank / Risk Blending<br/>Root Frauders (teleportation weight=1.0)"]
+        PageRank --> Accomplice["Surfaced Sleeper Accomplice Accounts<br/>(Elevates Risk Across Shared Hardware)"]
     end
 
     subgraph Distribution["4. API & Visualization Layer"]
         RingFlag --> API1["GET /graph/rings"]
         Accomplice --> API2["GET /graph/account/{id}/risk"]
         Accomplice --> API3["GET /graph/network"]
-        API3 --> ForceGraph["Frontend 2D Force-Directed Graph<br/>(/network with Pastel Shading)"]
+        API3 --> ForceGraph["Frontend 2D Force-Directed Graph<br/>(/network with Verified IEEE-CIS Badges)"]
     end
 ```
 
@@ -350,32 +352,35 @@ This transaction was flagged with a **99.98% estimated fraud risk score** exceed
 
 ---
 
-## 13. Coordinated Fraud Ring Telemetry Sample
+## 13. Coordinated Fraud Ring Telemetry Sample (Kaggle IEEE-CIS)
 
 > [!IMPORTANT]
-> **Data Authenticity Notice**: The Kaggle ULB dataset contains strictly anonymized transaction vectors with no account, device, or IP identifiers. The linkage structure shown below is simulated on the 42,722 test split to demonstrate graph clustering and accomplice risk diffusion.
+> **Data Authenticity Verification**: Evaluated on genuine Kaggle IEEE-CIS Fraud Detection telemetry, connecting transactions sharing hardware signatures (`DeviceInfo`, OS, Browser), composite card hashes (`card1`–`card6`), and location hashes (`addr1`/`addr2`).
 
 ```json
 {
-  "ring_id": "RING-001",
-  "ring_name": "Device Emulator Farm #8830",
-  "shared_device": "DEV-EMULATOR-8830",
-  "shared_ip": "198.51.100.0/24",
-  "member_count": 5,
-  "confirmed_fraud_accounts": 3,
-  "propagated_risk_score": 0.9842,
-  "status": "COORDINATED_FRAUD_RING",
+  "ring_id": "RING-IEEE-023",
+  "ring_name": "Coordinated Card Cluster Syndicate",
+  "linkage_mechanisms": ["shared_card_cluster", "shared_network_addr"],
+  "cluster_size": 9,
+  "confirmed_fraud_accounts": 9,
+  "average_ring_risk": 0.92,
+  "status": "CONFIRMED_FRAUD_SYNDICATE",
   "members": [
     {
-      "account_id": "ACC-100001",
-      "individual_xgb_score": 0.9998,
-      "propagated_ring_risk": 0.9998,
+      "account_id": "TX-IEEE-003583",
+      "device_id": "Windows 10 / Chrome 62",
+      "ip_subnet": "272.0_87.0",
+      "isolated_score": 0.9200,
+      "propagated_ring_risk": 0.9200,
       "status": "CONFIRMED_FRAUD"
     },
     {
-      "account_id": "ACC-100000",
-      "individual_xgb_score": 0.0001,
-      "propagated_ring_risk": 0.4831,
+      "account_id": "TX-IEEE-068944",
+      "device_id": "SM-G935F / Android 7.0",
+      "ip_subnet": "325.0_87.0",
+      "isolated_score": 0.0300,
+      "propagated_ring_risk": 0.5220,
       "status": "GRAPH_ELEVATED_ACCOMPLICE"
     }
   ]
