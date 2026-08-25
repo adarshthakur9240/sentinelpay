@@ -29,5 +29,5 @@ ml/data/processed/
 # Wandb/logs if any
 wandb/
 *.log
-lib/
+/lib/
 

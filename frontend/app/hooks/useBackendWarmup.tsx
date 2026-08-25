@@ -9,6 +9,7 @@ import React, {
   useCallback,
   ReactNode,
 } from "react";
+import { API_BASE_URL } from "@/lib/config";
 
 export type WarmupStatus = "not-yet-checked" | "waking-up" | "ready";
 
@@ -33,13 +34,7 @@ export interface BackendWarmupContextType {
   showWarmup: () => void;
 }
 
-const getBaseUrl = (): string => {
-  const envUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (envUrl && envUrl.trim() !== "") {
-    return envUrl.replace(/\/$/, "");
-  }
-  return "http://localhost:8000";
-};
+const getBaseUrl = (): string => API_BASE_URL;
 
 // Timing constants
 const INITIAL_GRACE_PERIOD_MS = 2000; // 2.0s timeout before declaring "waking-up"

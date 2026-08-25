@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { SAMPLE_TRANSACTIONS } from "../data/metricsData";
 import SpringOvershootCounter from "../components/ui/SpringOvershootCounter";
+import { API_BASE_URL } from "@/lib/config";
 
 // Lazy-load ambient 3D backdrop
 const AmbientClayBackground = dynamic(
@@ -75,7 +76,7 @@ export default function EvidencePage() {
     };
 
     try {
-      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
+      const baseUrl = API_BASE_URL;
       const response = await fetch(`${baseUrl}/explain`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

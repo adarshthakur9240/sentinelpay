@@ -20,6 +20,7 @@ import {
   AlertTriangle,
   SlidersHorizontal,
 } from "lucide-react";
+import { getApiWsUrl } from "@/lib/config";
 
 export interface StreamEvent {
   transaction_id: string;
@@ -430,7 +431,7 @@ export default function LiveFeedView() {
   useEffect(() => {
     let ws: WebSocket | null = null;
     try {
-      ws = new WebSocket("ws://localhost:8000/ws/live-feed");
+      ws = new WebSocket(getApiWsUrl());
 
       ws.onopen = () => {
         setWsStatus("connected");

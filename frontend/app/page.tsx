@@ -24,6 +24,7 @@ import {
   CheckCircle2,
   Lock,
 } from "lucide-react";
+import { API_DOCS_URL } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -819,7 +820,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <a
-                    href="http://localhost:8000/docs"
+                    href={API_DOCS_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1 text-[#F2B8C6] hover:underline"

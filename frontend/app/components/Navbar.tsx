@@ -11,6 +11,7 @@ import {
   NeumorphicSpikeIcon,
 } from "@/components/icons/NeumorphicIcons";
 import { Terminal, ExternalLink } from "lucide-react";
+import { API_DOCS_URL } from "@/lib/config";
 
 // ─── Magnetic Portal Component with Cursor Tracking ───────────────────────────
 interface MagneticPortalProps {
@@ -288,7 +289,7 @@ export default function Navbar() {
           {/* OpenAPI Docs Portal */}
           <MagneticPortal strength={0.25}>
             <a
-              href="http://localhost:8000/docs"
+              href={API_DOCS_URL}
               target="_blank"
               rel="noreferrer"
               className={`flex items-center gap-1.5 rounded-2xl clay-card-interactive text-xs font-mono text-[#8E8E98] hover:text-[#F7F6F3] transition-colors ${

@@ -40,6 +40,7 @@ import {
 } from "../data/metricsData";
 import LiveFeedView from "./live-feed";
 import MagneticTiltCard from "../components/ui/MagneticTiltCard";
+import { API_BASE_URL } from "@/lib/config";
 
 // Lazy-load ambient 3D backdrop
 const AmbientClayBackground = dynamic(
@@ -125,7 +126,7 @@ export default function RiskConsolePage() {
     };
 
     try {
-      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
+      const baseUrl = API_BASE_URL;
       const response = await fetch(`${baseUrl}/score`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

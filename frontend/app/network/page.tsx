@@ -19,6 +19,7 @@ import {
   Search,
 } from "lucide-react";
 import Navbar from "@/app/components/Navbar";
+import { API_BASE_URL } from "@/lib/config";
 
 // Dynamically import ForceGraph2D to prevent SSR canvas issues
 const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
@@ -133,7 +134,7 @@ export default function RingNetworkPage() {
   useEffect(() => {
     async function fetchGraphData() {
       try {
-        const baseUrl = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
+        const baseUrl = API_BASE_URL;
         const [ringsRes, netRes] = await Promise.all([
           fetch(`${baseUrl}/graph/rings`).catch(() => null),
           fetch(`${baseUrl}/graph/network`).catch(() => null),
