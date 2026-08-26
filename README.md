@@ -519,9 +519,9 @@ These represent what a production deployment at Razorpay's scale would eventuall
 
 ## 17. What We'd Add Next (Immediate Hackathon Horizons)
 
-1. **Merchant-Specific Threshold Profiles**:
-   - Allow merchants to configure bespoke cost profiles ($C_{FP}$ and $C_{FN}$) dynamically via API, recalculating their unique optimal operating threshold $t^*$ on the fly.
-2. **Automated PDF Dispute Bundle Export**:
-   - Generate cryptographically timestamped PDF evidence dossiers directly from `/evidence` for one-click attachment to payment gateway dispute portals.
-3. **Multi-Region Health Monitoring**:
-   - Add automated synthetic transaction probes from multiple cloud regions to track edge scoring latency and cold-start wake metrics in real time.
+1. **Merchant-Specific Threshold Profiles:**
+   * Allow merchants to configure bespoke cost profiles ($C_{FP}$ and $C_{FN}$) dynamically via API, recalculating their unique optimal operating threshold $t^*$ on the fly.
+2. **Automated Gateway Webhook Integration (VROL/MasterCom):**
+   * We already generate PDF evidence dossiers. The next immediate step is to bypass manual merchant downloads and push these cryptographic dossiers directly into Visa Resolve Online and Mastercard MasterCom dispute APIs via automated webhooks.
+3. **Multi-Region Health Monitoring:**
+   * Add automated synthetic transaction probes from multiple cloud regions to track edge scoring latency and cold-start wake metrics in real time.
