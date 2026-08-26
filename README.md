@@ -14,6 +14,7 @@
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)](https://sentinelpay-seven.vercel.app)
 [![Render](https://img.shields.io/badge/Render-Inference_Service-46E3B7?logo=render&logoColor=white)](https://render.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Medium](https://img.shields.io/badge/Medium-Read_the_Engineering_Deep__Dive-black?logo=medium&logoColor=white)](https://medium.com/@singhadadarsh9240/i-built-a-complex-graph-neural-network-for-fraud-detection-and-then-deleted-it-bf647a022d3b)
 
 > **⚠️ STRICTLY ADVISORY ONLY:** This system has zero write access to any payment gateway, ledger, or account status. It cannot auto-block or reverse transactions. It is a defense-only scoring and evidence-generation layer.
 
@@ -22,6 +23,8 @@
 > ### 💬 Why I Built This
 >
 > I wanted to work on fraud detection because the 0.17% class imbalance makes it a genuinely unforgiving problem — standard metrics like accuracy are meaningless, and textbook solutions like SMOTE can actually degrade decision boundaries in practice. Building the sliding-window streaming consumer and the IEEE-CIS entity graph taught me that most real-world fraud isn't an isolated anomaly; it's coordinated across shared hardware fingerprints and rapid velocity spikes that single-transaction classifiers completely miss. Given more time, I'd replace the in-memory window state with distributed RocksDB state stores so velocity buffers survive consumer restarts without state loss.
+>
+> 📖 **Building in Public:** I documented the hardest architectural choices for this project—including why I deleted a complex Graph Neural Network in favor of a simpler classical algorithm. [Read the full technical deep-dive on Medium ➔](https://medium.com/@singhadadarsh9240/i-built-a-complex-graph-neural-network-for-fraud-detection-and-then-deleted-it-bf647a022d3b)
 
 ---
 
