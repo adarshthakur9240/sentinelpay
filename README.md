@@ -475,7 +475,7 @@ pip install -r ml/requirements.txt -r serving/requirements.txt
 # Start FastAPI serving server
 uvicorn serving.app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
-*API documentation available at [`http://localhost:8000/docs`](http://localhost:8000/docs)*
+*API documentation available at [`https://sentinelpay-0as3.onrender.com/docs`](https://sentinelpay-0as3.onrender.com/docs)*
 
 ### 2. Run Real-Time Streaming Pipeline (Optional)
 ```bash
@@ -493,7 +493,7 @@ cd frontend
 npm install
 npm run dev
 ```
-*Web dashboard available at [`http://localhost:3000`](http://localhost:3000)*
+*Web dashboard available at [`https://sentinelpay-seven.vercel.app/`](https://sentinelpay-seven.vercel.app/)*
 
 ### 4. Execute Test Suite (11/11 Passing)
 ```bash
