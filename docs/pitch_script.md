@@ -17,7 +17,7 @@
 ## 🎬 Step-by-Step Spoken Script & Screen Actions
 
 ### Act 1: The Problem & The Core Insight (0:00 - 0:35)
-**Screen**: Landing Page (`http://localhost:3000`) with 3D flight corridor.
+**Screen**: Landing Page (`https://sentinelpay-seven.vercel.app/`) with 3D flight corridor.
 
 > **Spoken**:  
 > *"In real-world credit card fraud detection, fraudulent transactions account for only 492 out of 284,807 events — exactly 0.17%.  
@@ -27,11 +27,11 @@
 ---
 
 ### Act 2: Baseline Discipline & Parametric Cost Matrix (0:35 - 1:15)
-**Screen**: Operational Risk Console (`http://localhost:3000/console`) → Threshold Matrix.
+**Screen**: Operational Risk Console (`https://sentinelpay-seven.vercel.app/console`) → Threshold Matrix.
 
 > **Spoken**:  
 > *"We didn't jump straight to a complex model. We first built a classical Logistic Regression baseline, which achieved only 6.73% precision with 901 false alarms.  
-> We then built a cost-weighted XGBoost model with `scale_pos_weight=578.55` tuned to the true empirical ratio, reaching 79.75% precision and 85.14% recall — a 98% reduction in false alarms.  
+> We then built a cost-weighted XGBoost model with scale_pos_weight=578.55 tuned to the true empirical ratio. We maintained an 85.14% recall, reduced false alarms by 98%, and hit a final production PR-AUC of 0.8424.  
 > More importantly, we reject default 0.50 thresholds. Using empirical fraud costs — $122.21 per missed fraud versus $5.00 customer re-verification friction — we parameterized an optimal operating threshold at t = 0.10, minimizing total operational loss to $1,424.31."*
 
 ---
@@ -42,7 +42,7 @@
 > **Spoken**:  
 > *"Watch our sub-10ms inference in action. When we evaluate an incoming transaction, SentinelPay delivers an instant risk score.  
 > When flagged, human dispute operators cannot rely on black-box opacity. SentinelPay utilizes native `shap.TreeExplainer` to compute exact mathematical feature attributions.  
-> Unlike tools that invent fictional labels for anonymized PCA components, SentinelPay delivers a tamper-evident, audit-ready chargeback evidence packet with quantitative directional drivers ready for immediate banking representation."*
+> Unlike tools that invent fictional labels for anonymized PCA components, SentinelPay delivers a tamper-evident, audit-ready chargeback evidence packet with quantitative directional drivers ready for immediate banking representation. And because this is a production system, this entire evidence generation is driven by our live FastAPI /evidence/pdf endpoint, which acts as the automated responder for the chargeback team."*
 
 ---
 
