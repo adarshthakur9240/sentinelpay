@@ -582,7 +582,7 @@ export default function HomePage() {
                 {
                   name: "XGBoost + SMOTE",
                   badge: "Oversampled",
-                  prauc: "0.7421",
+                  prauc: "0.7947",
                   fp: "172",
                   strategy: "Synthetic interpolation",
                   isWinner: false,

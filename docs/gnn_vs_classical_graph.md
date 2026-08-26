@@ -2,8 +2,7 @@
 
 > [!IMPORTANT]
 > **Engineering Honesty & Empirical Rigor Notice**:
-> In fraud detection research, deep Graph Neural Networks (GNNs) are frequently assumed to be strictly superior to classical graph algorithms. 
-> This document provides an **honest empirical comparison** between a 2-layer **GraphSAGE (PyTorch Geometric)** model and SentinelPay's **Classical Connected-Components + PageRank Baseline** evaluated on **genuine Kaggle IEEE-CIS Fraud Detection entity linkage telemetry** (75,000 transactions with real device, card, and network identifiers).
+> This document provides a comparative analysis between a 2-layer **GraphSAGE (PyTorch Geometric)** model and SentinelPay's **Classical Connected-Components + PageRank Baseline** evaluated on the industry-standard **Kaggle IEEE-CIS Fraud Detection dataset** (75,000 transactions with device, card, and network linkage attributes). The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ---
 

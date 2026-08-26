@@ -6,7 +6,7 @@ Honest engineering log of the real decisions and failures behind SentinelPay —
 
 ### 1. SMOTE looked good on paper, made the model worse in practice
 
-Our first instinct for the 0.17% class imbalance was SMOTE oversampling — the textbook answer. It raised recall, but PR-AUC actually *dropped* from 0.7904 (balanced baseline) to 0.7421, and false positives only fell to 172 (vs. 16 with cost-sensitive weighting). Synthetic interpolation between rare fraud points was inventing patterns that don't exist in real transaction geometry.
+Our first instinct for the 0.17% class imbalance was SMOTE oversampling — the textbook answer. It raised recall, but PR-AUC only reached 0.7947 (barely above the 0.7904 balanced baseline, and far below 0.8424 for native cost-weighting), while false positives remained high at 172 (vs. 16 with cost-sensitive weighting). Synthetic interpolation between rare fraud points was inventing patterns that don't exist in real transaction geometry.
 
 We rejected it and moved to `scale_pos_weight=578.55` on the raw distribution instead — training directly on the real decision boundary rather than a synthetic one. PR-AUC recovered to 0.8424. Lesson: the popular fix for imbalance isn't always the right fix for *this* imbalance.
 

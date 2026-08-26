@@ -15,6 +15,8 @@
 [![Render](https://img.shields.io/badge/Render-Inference_Service-46E3B7?logo=render&logoColor=white)](https://render.com)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+> **⚠️ STRICTLY ADVISORY ONLY:** This system has zero write access to any payment gateway, ledger, or account status. It cannot auto-block or reverse transactions. It is a defense-only scoring and evidence-generation layer.
+
 ---
 
 > ### 💬 Why I Built This
@@ -47,7 +49,7 @@
 
 ## 1. The Bar We're Answering
 
-| Evaluation Dimension | Challenge Standard | SentinelPay Implementation | Empirical Verification Evidence |
+| Evaluation Dimension | Challenge Standard | SentinelPay Implementation | Verification & Reference Docs |
 | :--- | :--- | :--- | :--- |
 | **Class Imbalance Rigor** | Prevent misleading accuracy metrics on extreme sparse labels | Trained on 284,807 transactions (only 492 / 0.17% fraud). Optimized strictly on PR-AUC. | `0.8424` PR-AUC ([`docs/xgboost_results.md`](docs/xgboost_results.md)) |
 | **Empirical Discipline** | Establish clear classical baselines before introducing complex models | Evaluated Logistic Regression baseline first (6.73% precision, 901 false positives). | [`docs/baseline_results.md`](docs/baseline_results.md) |
@@ -55,8 +57,8 @@
 | **Cost-Sensitive Decisioning** | Reject arbitrary 0.50 decision thresholds in favor of financial risk | Parametric threshold sweep balancing $5 FP review friction vs $122.21 FN chargeback loss. | Optimal $t=0.10$ ([`docs/cost_analysis.md`](docs/cost_analysis.md)) |
 | **Auditability & Explainability** | Transparent, tamper-evident mathematical attributions | Native `shap.TreeExplainer` providing mathematical attribution without fictional PCA labels. | [`docs/explainability_sample_evidence.md`](docs/explainability_sample_evidence.md) |
 | **Real-Time Streaming** | Stateful velocity anomaly detection across rapid micro-auths | In-memory 5-minute sliding window consumer with 1.15x risk ensemble boost & WebSockets. | [`docs/streaming_architecture.md`](docs/streaming_architecture.md) |
-| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & PageRank on Kaggle IEEE-CIS real hardware, card & location fingerprints (1.54x lift). | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
-| **Scientific Honesty** | Disclose negative findings & empirical lift openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark on real IEEE-CIS data. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
+| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & PageRank on Kaggle IEEE-CIS card and device linkage attributes (1.54x lift). | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
+| **Scientific Honesty** | Disclose negative findings & empirical lift openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark evaluated on the industry-standard Kaggle credit-card-fraud and IEEE-CIS datasets. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
 | **Low-Latency Production API** | Real-time transaction decisioning (<50ms SLA) | Asynchronous FastAPI service delivering sub-10ms tree scoring and SHAP generation. | [`serving/app/main.py`](serving/app/main.py) + OpenAPI docs |
 | **Defense-Only Scope** | Zero offensive or autonomous blocking capability | Strictly advisory intelligence layer: scoring risk and generating dispute defense dossiers. | Architecture & track compliance |
 
@@ -217,11 +219,13 @@ sequenceDiagram
 
 ## 7. Coordinated Fraud Ring Detection & Risk Diffusion
 
+> **Dataset Evaluation**: Evaluated on the industry-standard Kaggle credit-card-fraud and IEEE-CIS datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+
 ```mermaid
 flowchart TD
-    subgraph Ingestion["1. Genuine Entity Linkage Ingestion"]
+    subgraph Ingestion["1. Entity Linkage Ingestion"]
         Data["Kaggle IEEE-CIS Fraud Detection<br/>75,000 Transactions (Card & Identity Data)"]
-        Notice["Empirical Verification:<br/>Real Hardware, Card & Location Fingerprints"]
+        Notice["Dataset Evaluation:<br/>Card & Device Linkage Features"]
         Data --- Notice
     end
 
@@ -276,6 +280,8 @@ flowchart LR
 ---
 
 ## 9. GraphSAGE GNN vs. Classical Graph Benchmark Study
+
+> **Dataset Structure**: The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ```mermaid
 flowchart TD
@@ -361,8 +367,7 @@ This transaction was flagged with a **99.98% estimated fraud risk score** exceed
 
 ## 13. Coordinated Fraud Ring Telemetry Sample (Kaggle IEEE-CIS)
 
-> [!IMPORTANT]
-> **Data Authenticity Verification**: Evaluated on genuine Kaggle IEEE-CIS Fraud Detection telemetry, connecting transactions sharing hardware signatures (`DeviceInfo`, OS, Browser), composite card hashes (`card1`–`card6`), and location hashes (`addr1`/`addr2`).
+> **Dataset Evaluation**: Evaluated on the industry-standard Kaggle credit-card-fraud and IEEE-CIS datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ```json
 {
