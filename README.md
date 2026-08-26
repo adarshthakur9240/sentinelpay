@@ -79,6 +79,11 @@
 
 ![SentinelPay Live Console](./docs/console_ui.png)
 
+### ⚙️ Production API & Auto-Responder
+The backend is a fully documented async FastAPI microservice. The `/evidence/pdf` endpoint directly answers the Track 02 requirement for an **auto-responder**, instantly generating defensible, SHAP-backed PDF dispute dossiers for chargeback teams.
+
+<img src="./docs/api_docs.png" width="800" alt="FastAPI Swagger Documentation">
+
 ---
 
 ## 3. The Core Insight: Why Accuracy is the Wrong Metric
