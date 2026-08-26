@@ -84,6 +84,10 @@ The backend is a fully documented async FastAPI microservice. The `/evidence/pdf
 
 <img src="./docs/api_docs.png" width="800" alt="FastAPI Swagger Documentation">
 
+*The frontend automatically consumes this endpoint to generate human-readable narratives and downloadable dispute PDFs for the merchant:*
+
+<img src="./docs/evidence_dossier.png" width="800" alt="Generated Chargeback Evidence Dossier with PDF Export">
+
 ---
 
 ## 3. The Core Insight: Why Accuracy is the Wrong Metric
