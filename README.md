@@ -69,15 +69,13 @@
 
 ## 2. Live Demo & Production Endpoints
 
-- **Production Web Application**: [`https://sentinelpay-seven.vercel.app`](https://sentinelpay-seven.vercel.app)
-- **Local Web Client**: [`http://localhost:3000`](http://localhost:3000)
-- **Operational Risk Console & Live Stream Feed**: [`http://localhost:3000/console`](http://localhost:3000/console)
-- **Interactive Fraud Ring Network Graph**: [`http://localhost:3000/network`](http://localhost:3000/network)
-- **SHAP Dispute Evidence Dossier**: [`http://localhost:3000/evidence`](http://localhost:3000/evidence)
-- **Interactive OpenAPI Documentation**: [`http://localhost:8000/docs`](http://localhost:8000/docs)
-- **Real-Time WebSocket Stream Feed**: `ws://localhost:8000/ws/live-feed`
-- **FastAPI Health & Telemetry**: [`http://localhost:8000/health`](http://localhost:8000/health)
-- **Judge Pitch & Live Walkthrough Script**: [`docs/pitch_script.md`](docs/pitch_script.md)
+*   **Production Web Application:** [https://sentinelpay-seven.vercel.app](https://sentinelpay-seven.vercel.app)
+*   **Operational Risk Console:** [https://sentinelpay-seven.vercel.app/console](https://sentinelpay-seven.vercel.app/console)
+*   **Interactive Fraud Ring Network Graph:** [https://sentinelpay-seven.vercel.app/network](https://sentinelpay-seven.vercel.app/network)
+*   **SHAP Dispute Evidence Dossier:** [https://sentinelpay-seven.vercel.app/evidence](https://sentinelpay-seven.vercel.app/evidence)
+*   **Interactive OpenAPI Documentation:** [https://sentinelpay-0as3.onrender.com/docs](https://sentinelpay-0as3.onrender.com/docs)
+*   **FastAPI Health & Telemetry:** [https://sentinelpay-0as3.onrender.com/health](https://sentinelpay-0as3.onrender.com/health)
+*   **Judge Pitch & Live Walkthrough Script:** [docs/pitch_script.md](docs/pitch_script.md)
 
 ![SentinelPay Live Console](./docs/console_ui.png)
 
