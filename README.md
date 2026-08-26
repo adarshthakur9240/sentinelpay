@@ -79,6 +79,8 @@
 - **FastAPI Health & Telemetry**: [`http://localhost:8000/health`](http://localhost:8000/health)
 - **Judge Pitch & Live Walkthrough Script**: [`docs/pitch_script.md`](docs/pitch_script.md)
 
+![SentinelPay Live Console](./docs/console_ui.png)
+
 ---
 
 ## 3. The Core Insight: Why Accuracy is the Wrong Metric
@@ -316,6 +318,8 @@ flowchart TD
 
 Evaluated on the identical held-out test split of **42,722 transactions** (74 fraud cases, 42,648 legitimate cases):
 
+![Precision-Recall Curve Comparison](./docs/pr_curve_comparison.png)
+
 | Architecture / Configuration | PR-AUC (Primary) | ROC-AUC | Recall (% Caught) | Precision | False Positives | FP per 10k tx |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Baseline (Logistic Regression)** | `0.7904` | `0.9675` | `87.84%` (65/74) | `6.73%` | `901` | `210.9` |
@@ -331,6 +335,8 @@ Evaluated on the identical held-out test split of **42,722 transactions** (74 fr
 SentinelPay rejects default $0.50$ thresholds. We parameterize financial loss using empirical data ($C_{FN} = \$122.21$, average fraud transaction size) and customer friction ($C_{FP} = \$5.00$, re-verification & review overhead):
 
 $$\text{Total Operational Cost} = (\text{FN} \times \$122.21) + (\text{FP} \times \$5.00)$$
+
+![Cost Tradeoff Analysis](./docs/cost_tradeoff_curve.png)
 
 | Operating Threshold | Recall (% Fraud Caught) | Precision | False Positives / 10k | FP Count | FN Count | Fraud Losses (FN) | Friction Cost (FP) | Total Estimated Cost |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
