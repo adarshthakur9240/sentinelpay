@@ -283,6 +283,8 @@ flowchart LR
 
 > **Dataset Structure**: The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
+> 📖 **Read my Engineering Deep-Dive on Medium:** "I actually wrote a Medium article about this specific engineering decision because I realized how easy it is for developers to fall into the AI hype trap. I wanted to share why choosing the simpler, faster algorithm is often the better business choice." [Read the full story here ➔](https://medium.com/@singhadadarsh9240/i-built-a-complex-graph-neural-network-for-fraud-detection-and-then-deleted-it-bf647a022d3b)
+
 ```mermaid
 flowchart TD
     subgraph InputData["Entity Network: 42,722 Accounts, 18 Ring Members"]
