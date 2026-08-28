@@ -326,10 +326,10 @@ export default function RingNetworkPage() {
             </div>
             <div className="space-y-0.5 text-xs text-[#8E8E98]">
               <p className="font-bold text-[#F7F6F3] tracking-tight">
-                Empirical Verification: Kaggle IEEE-CIS Real Entity Linkage Dataset
+                Empirical Verification: <a href="https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset" target="_blank" rel="noopener noreferrer" className="hover:underline text-[#A8B5E0] transition-colors">Kaggle IEEE-CIS Real Entity Linkage Dataset</a>
               </p>
               <p className="leading-relaxed">
-                Validated on <strong className="text-[#A8B5E0]">Kaggle IEEE-CIS Real Entity Linkage Dataset (Hardware, Card & Network Fingerprints)</strong>. Ingests genuine hardware device telemetry (`DeviceInfo`, `id_30`, `id_31`, `id_33`), composite card hashes (`card1`–`card6`), and billing location coordinates across 75,000 transactions. Identified 1,647 multi-account clusters and 97 high-density fraud syndicates with an empirical <strong className="text-[#F2B8C6]">1.54x fraud risk lift</strong> over the global random baseline.
+                Validated on <a href="https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#A8B5E0] underline underline-offset-2 hover:text-[#C4D0F8] transition-colors">Kaggle IEEE-CIS Real Entity Linkage Dataset (Hardware, Card & Network Fingerprints)</a>. Ingests genuine hardware device telemetry (`DeviceInfo`, `id_30`, `id_31`, `id_33`), composite card hashes (`card1`–`card6`), and billing location coordinates across 75,000 transactions. Identified 1,647 multi-account clusters and 97 high-density fraud syndicates with an empirical <strong className="text-[#F2B8C6]">1.54x fraud risk lift</strong> over the global random baseline.
               </p>
             </div>
           </div>
