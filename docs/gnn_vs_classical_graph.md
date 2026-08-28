@@ -2,7 +2,7 @@
 
 > [!IMPORTANT]
 > **Engineering Honesty & Empirical Rigor Notice**:
-> This document provides a comparative analysis between a 2-layer **GraphSAGE (PyTorch Geometric)** model and SentinelPay's **Classical Connected-Components + PageRank Baseline** evaluated on the industry-standard **Kaggle IEEE-CIS Fraud Detection dataset** (75,000 transactions with device, card, and network linkage attributes). The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+> This document provides a comparative analysis between a 2-layer **GraphSAGE (PyTorch Geometric)** model and SentinelPay's **Classical Connected-Components + PageRank Baseline** evaluated on the industry-standard [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset) dataset (75,000 transactions with device, card, and network linkage attributes). The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ---
 
