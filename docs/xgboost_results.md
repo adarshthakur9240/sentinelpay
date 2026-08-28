@@ -1,8 +1,14 @@
 # SentinelPay - Advanced Model Evaluation (XGBoost vs. Baseline vs. SMOTE)
 
+> ### 📊 Data Sources & Provenance
+> - **Credit Card Fraud Detection Dataset (284,807 tx):** [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+> - **Entity Linkage & Graph Dataset (75,000 tx):** [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection)
+
+---
+
 ## 1. Executive Summary & Benchmark Comparison
 
-We evaluated three architectures on the identical held-out test split of **42,722 transactions** (74 fraud cases, 42,648 legitimate cases).
+We evaluated three architectures on the identical held-out test split of **42,722 transactions** (74 fraud cases, 42,648 legitimate cases) from [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud).
 
 ### A. Threshold-Independent Global Performance Metrics
 | Model | PR-AUC (Primary Metric) | ROC-AUC (Comparative) | Status |

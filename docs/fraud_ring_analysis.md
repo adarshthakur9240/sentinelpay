@@ -4,6 +4,10 @@
 > **Empirical Real-Data Verification Notice**:
 > This analysis is evaluated on **real entity linkage telemetry** from the Kaggle IEEE-CIS Fraud Detection dataset (`train_transaction` + `train_identity`), connecting transactions across real hardware devices (`DeviceInfo`, `id_30`, `id_31`), card fingerprint clusters (`card1` - `card6`), and location hashes (`addr1`, `addr2`, `P_emaildomain`).
 
+> ### 📊 Data Sources & Provenance
+> - **Credit Card Fraud Detection Dataset (284,807 tx):** [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+> - **Entity Linkage & Graph Dataset (75,000 tx):** [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection)
+
 ---
 
 ## 1. Executive Summary & Empirical Lift Metrics

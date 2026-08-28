@@ -54,14 +54,14 @@
 
 | Evaluation Dimension | Challenge Standard | SentinelPay Implementation | Verification & Reference Docs |
 | :--- | :--- | :--- | :--- |
-| **Class Imbalance Rigor** | Prevent misleading accuracy metrics on extreme sparse labels | Trained on 284,807 transactions (only 492 / 0.17% fraud). Optimized strictly on PR-AUC. | `0.8424` PR-AUC ([`docs/xgboost_results.md`](docs/xgboost_results.md)) |
+| **Class Imbalance Rigor** | Prevent misleading accuracy metrics on extreme sparse labels | Trained on 284,807 transactions (only 492 / 0.17% fraud) from [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud). Optimized strictly on PR-AUC. | `0.8424` PR-AUC ([`docs/xgboost_results.md`](docs/xgboost_results.md)) |
 | **Empirical Discipline** | Establish clear classical baselines before introducing complex models | Evaluated Logistic Regression baseline first (6.73% precision, 901 false positives). | [`docs/baseline_results.md`](docs/baseline_results.md) |
 | **Model Architecture** | Cost-weighted gradient boosting tailored to class distribution | XGBoost with exact class ratio (`scale_pos_weight=578.55`), outperforming SMOTE. | 79.75% precision / 85.14% recall |
 | **Cost-Sensitive Decisioning** | Reject arbitrary 0.50 decision thresholds in favor of financial risk | Parametric threshold sweep balancing $5 FP review friction vs $122.21 FN chargeback loss. | Optimal $t=0.10$ ([`docs/cost_analysis.md`](docs/cost_analysis.md)) |
 | **Auditability & Explainability** | Transparent, tamper-evident mathematical attributions | Native `shap.TreeExplainer` providing mathematical attribution without fictional PCA labels. | [`docs/explainability_sample_evidence.md`](docs/explainability_sample_evidence.md) |
 | **Real-Time Streaming** | Stateful velocity anomaly detection across rapid micro-auths | In-memory 5-minute sliding window consumer with 1.15x risk ensemble boost & WebSockets. | [`docs/streaming_architecture.md`](docs/streaming_architecture.md) |
-| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & PageRank on Kaggle IEEE-CIS card and device linkage attributes (1.54x lift). | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
-| **Scientific Honesty** | Disclose negative findings & empirical lift openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark evaluated on the industry-standard Kaggle credit-card-fraud and IEEE-CIS datasets. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
+| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & PageRank on [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) card and device linkage attributes (1.54x lift). | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
+| **Scientific Honesty** | Disclose negative findings & empirical lift openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) datasets. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
 | **Low-Latency Production API** | Real-time transaction decisioning (<50ms SLA) | Asynchronous FastAPI service delivering sub-10ms tree scoring and SHAP generation. | [`serving/app/main.py`](serving/app/main.py) + OpenAPI docs |
 | **Defense-Only Scope** | Zero offensive or autonomous blocking capability | Strictly advisory intelligence layer: scoring risk and generating dispute defense dossiers. | Architecture & track compliance |
 
@@ -92,7 +92,7 @@ The backend is a fully documented async FastAPI microservice. The `/evidence/pdf
 
 ## 3. The Core Insight: Why Accuracy is the Wrong Metric
 
-In credit card fraud detection, fraudulent transactions account for only **492 out of 284,807 total transactions (0.17%)**. A naive model that blindly approves every single transaction achieves **99.83% accuracy** while catching exactly zero fraud attacks, leaking $100\%$ of chargeback losses.
+In credit card fraud detection ([Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)), fraudulent transactions account for only **492 out of 284,807 total transactions (0.17%)**. A naive model that blindly approves every single transaction achieves **99.83% accuracy** while catching exactly zero fraud attacks, leaking $100\%$ of chargeback losses.
 
 ```mermaid
 flowchart LR
@@ -116,6 +116,8 @@ Because class imbalance is extreme (578 legitimate charges for every single frau
 ---
 
 ## 4. End-to-End System Architecture
+
+Trained on [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and evaluated on [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection):
 
 ```mermaid
 flowchart TD
@@ -231,7 +233,7 @@ sequenceDiagram
 
 ## 7. Coordinated Fraud Ring Detection & Risk Diffusion
 
-> **Dataset Evaluation**: Evaluated on the industry-standard Kaggle credit-card-fraud and IEEE-CIS datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+> **Dataset Evaluation**: Evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ```mermaid
 flowchart TD
@@ -293,7 +295,7 @@ flowchart LR
 
 ## 9. GraphSAGE GNN vs. Classical Graph Benchmark Study
 
-> **Dataset Structure**: The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+> **Dataset Structure**: The node features are from the real [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 > 📖 **Read my Engineering Deep-Dive on Medium:** "I actually wrote a Medium article about this specific engineering decision because I realized how easy it is for developers to fall into the AI hype trap. I wanted to share why choosing the simpler, faster algorithm is often the better business choice." [Read the full story here ➔](https://medium.com/@singhadadarsh9240/i-built-a-complex-graph-neural-network-for-fraud-detection-and-then-deleted-it-bf647a022d3b)
 
@@ -323,7 +325,7 @@ flowchart TD
 
 ## 10. Key Results: Baseline vs. SMOTE vs. XGBoost
 
-Evaluated on the identical held-out test split of **42,722 transactions** (74 fraud cases, 42,648 legitimate cases):
+Evaluated on the identical held-out test split of **42,722 transactions** (74 fraud cases, 42,648 legitimate cases) from [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud):
 
 ![Precision-Recall Curve Comparison](./docs/pr_curve_comparison.png)
 
@@ -346,7 +348,7 @@ $$\text{Total Operational Cost} = (\text{FN} \times \$122.21) + (\text{FP} \time
 ![Cost Tradeoff Analysis](./docs/cost_tradeoff_curve.png)
 
 | Operating Threshold | Recall (% Fraud Caught) | Precision | False Positives / 10k | FP Count | FN Count | Fraud Losses (FN) | Friction Cost (FP) | Total Estimated Cost |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`0.10` (Optimal)** | **`85.14%` (63/74)** | **`79.75%`** | **`3.7`** | **`16`** | **`11`** | **$1,344.31** | **$80.00** | **`$1,424.31`** |
 | `0.20` | `82.43%` (61/74) | `83.56%` | `2.8` | `12` | `13` | $1,588.73 | $60.00 | `$1,648.73` |
 | `0.30` | `82.43%` (61/74) | `87.14%` | `2.1` | `9` | `13` | $1,588.73 | $45.00 | `$1,633.73` |
@@ -383,9 +385,9 @@ This transaction was flagged with a **99.98% estimated fraud risk score** exceed
 
 ---
 
-## 13. Coordinated Fraud Ring Telemetry Sample (Kaggle IEEE-CIS)
+## 13. Coordinated Fraud Ring Telemetry Sample ([Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection))
 
-> **Dataset Evaluation**: Evaluated on the industry-standard Kaggle credit-card-fraud and IEEE-CIS datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+> **Dataset Evaluation**: Evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ```json
 {
