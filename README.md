@@ -60,8 +60,8 @@
 | **Cost-Sensitive Decisioning** | Reject arbitrary 0.50 decision thresholds in favor of financial risk | Parametric threshold sweep balancing $5 FP review friction vs $122.21 FN chargeback loss. | Optimal $t=0.10$ ([`docs/cost_analysis.md`](docs/cost_analysis.md)) |
 | **Auditability & Explainability** | Transparent, tamper-evident mathematical attributions | Native `shap.TreeExplainer` providing mathematical attribution without fictional PCA labels. | [`docs/explainability_sample_evidence.md`](docs/explainability_sample_evidence.md) |
 | **Real-Time Streaming** | Stateful velocity anomaly detection across rapid micro-auths | In-memory 5-minute sliding window consumer with 1.15x risk ensemble boost & WebSockets. | [`docs/streaming_architecture.md`](docs/streaming_architecture.md) |
-| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & PageRank on [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) card and device linkage attributes (1.54x lift). | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
-| **Scientific Honesty** | Disclose negative findings & empirical lift openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) datasets. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
+| **Network Intelligence** | Coordinated multi-account abuse ring detection | NetworkX connected components & PageRank on [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset) card and device linkage attributes (1.54x lift). | [`docs/fraud_ring_analysis.md`](docs/fraud_ring_analysis.md) |
+| **Scientific Honesty** | Disclose negative findings & empirical lift openly | Isotonic calibration study (ECE $0.04\% \to 0.01\%$) & GraphSAGE vs Classical Graph benchmark evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset) datasets. | [`docs/gnn_vs_classical_graph.md`](docs/gnn_vs_classical_graph.md) |
 | **Low-Latency Production API** | Real-time transaction decisioning (<50ms SLA) | Asynchronous FastAPI service delivering sub-10ms tree scoring and SHAP generation. | [`serving/app/main.py`](serving/app/main.py) + OpenAPI docs |
 | **Defense-Only Scope** | Zero offensive or autonomous blocking capability | Strictly advisory intelligence layer: scoring risk and generating dispute defense dossiers. | Architecture & track compliance |
 
@@ -117,7 +117,7 @@ Because class imbalance is extreme (578 legitimate charges for every single frau
 
 ## 4. End-to-End System Architecture
 
-Trained on [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and evaluated on [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection):
+Trained on [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and evaluated on [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset):
 
 ```mermaid
 flowchart TD
@@ -233,7 +233,7 @@ sequenceDiagram
 
 ## 7. Coordinated Fraud Ring Detection & Risk Diffusion
 
-> **Dataset Evaluation**: Evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+> **Dataset Evaluation**: Evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset) datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ```mermaid
 flowchart TD
@@ -295,7 +295,7 @@ flowchart LR
 
 ## 9. GraphSAGE GNN vs. Classical Graph Benchmark Study
 
-> **Dataset Structure**: The node features are from the real [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+> **Dataset Structure**: The node features are from the real [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset) dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 > 📖 **Read my Engineering Deep-Dive on Medium:** "I actually wrote a Medium article about this specific engineering decision because I realized how easy it is for developers to fall into the AI hype trap. I wanted to share why choosing the simpler, faster algorithm is often the better business choice." [Read the full story here ➔](https://medium.com/@singhadadarsh9240/i-built-a-complex-graph-neural-network-for-fraud-detection-and-then-deleted-it-bf647a022d3b)
 
@@ -385,9 +385,9 @@ This transaction was flagged with a **99.98% estimated fraud risk score** exceed
 
 ---
 
-## 13. Coordinated Fraud Ring Telemetry Sample ([Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection))
+## 13. Coordinated Fraud Ring Telemetry Sample ([Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset))
 
-> **Dataset Evaluation**: Evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection) datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
+> **Dataset Evaluation**: Evaluated on the industry-standard [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset) datasets. The node features are from the real IEEE-CIS dataset, while the graph edges were synthetically constructed to evaluate entity linkage and ring detection.
 
 ```json
 {

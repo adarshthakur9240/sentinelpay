@@ -2,7 +2,7 @@
 
 > ### 📊 Data Sources & Provenance
 > - **Credit Card Fraud Detection Dataset (284,807 tx):** [Kaggle: Credit Card Fraud Detection (mlg-ulb)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
-> - **Entity Linkage & Graph Dataset (75,000 tx):** [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/c/ieee-fraud-detection)
+> - **Entity Linkage & Graph Dataset (75,000 tx):** [Kaggle: IEEE-CIS Fraud Detection](https://www.kaggle.com/datasets/rizalkurnia198/ieee-cis-fraud-detection-memory-optimized-dataset)
 
 ---
 
